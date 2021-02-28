@@ -1,6 +1,26 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
 
+  def login
+    @email = params[:address]
+    @password = params[:password]
+    if User.find_by(email: @email, password_digest:@password) != nil 
+      redirect_to "http://www.google.com"
+    end
+  end
+
+  def signup
+    @email = params[:address]
+    @password = params[:password]
+    if User.find_by(email: @email) != nil
+      flash[:registered] = "This email has been registered."
+    else
+      @new_user = User.create(email: @email, password_digest: @password)
+      @new_user.save()
+      redirect_to "http://www.google.com"
+    end
+  end
+
   # GET /users or /users.json
   def index
     @users = User.all
