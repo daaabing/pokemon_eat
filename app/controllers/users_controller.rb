@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   def login
     @email = params[:address]
     @password = params[:password]
-    if User.find_by(email: @email, password_digest:@password) != nil 
+    if User.find_by(email: @email, password_digest: @password) != nil 
       redirect_to "http://www.google.com"
     end
   end
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def signup
     @email = params[:address]
     @password = params[:password]
-    if User.find_by(email: @email) != nil
+    if User.find_by(email: @email) != nil #buggy!!!
       flash[:registered] = "This email has been registered."
     else
       @new_user = User.create(email: @email, password_digest: @password)
