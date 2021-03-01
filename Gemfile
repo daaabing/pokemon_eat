@@ -19,7 +19,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-
+# Use http for sending requests from our server to Yelp API endpoints
+gem "http" 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

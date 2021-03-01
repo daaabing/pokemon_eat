@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root "pages#welcome"
   post "/login", to: "users#login"
   post "/signup", to: "users#signup"
+  get "/search", to: "users#search"
 end
