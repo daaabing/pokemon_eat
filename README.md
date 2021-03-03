@@ -7,17 +7,19 @@
   4. yarn --version == 1.22.10
   5. Check out https://guides.rubyonrails.org/getting_started.html#creating-the-blog-application for package installation
 
-## To run this app locally and test it on Heroku (will update with more deployment instructions):
-  1. Fork this repo
-  2. run rails server
-
 ## Branches Management
-  1. Chuan Zheng and Yunong He will be in "recommendation" branch for basic service development and recommendation module
-  2. Ruicheng Zhou and Han Wang will be in "search" branch for searching service development 
+  1. master -> The main branch.
+  2. layout -> ONLY for editing erb files in /app/views.
+  3. test -> ONLY for building up TDD/BDD test cases.
    
-## Database migration
+## Initialize this project locally
+  1. clone this project
+  2. run `rails db:migrate` -> This will init the database
+  3. run `rake db:seed` -> This will insert four user accounts
 
 ## Test suite configuration
+
+## Deployment on Heroku
 
 ## Style Guide
    1. https://github.com/JuanitoFatas/ruby-style-guide/blob/master/README-zhCN.md  
