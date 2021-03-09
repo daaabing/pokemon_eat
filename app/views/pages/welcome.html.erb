@@ -1,4 +1,6 @@
 <h1>LogIn</h1>
+
+
 <%= form_with url: "/login", method: :post do |form| %>
     <%= form.label :email, "Email:" %>
     <%= form.email_field :email %>
@@ -35,7 +37,7 @@
     </ul>
 <% end %>
 
-
+<%= link_to "Question Page", question_path %>
 
 
 
