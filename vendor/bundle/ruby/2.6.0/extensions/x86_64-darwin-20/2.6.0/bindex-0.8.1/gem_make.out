@@ -1,0 +1,15 @@
+current directory: /Users/hyn/Documents/pokemon_eat/vendor/bundle/ruby/2.6.0/gems/bindex-0.8.1/ext/skiptrace
+/Users/hyn/.rbenv/versions/2.6.6/bin/ruby -I /Users/hyn/.rbenv/versions/2.6.6/lib/ruby/site_ruby/2.6.0 -r ./siteconf20210308-26918-x53zdq.rb extconf.rb
+creating Makefile
+
+current directory: /Users/hyn/Documents/pokemon_eat/vendor/bundle/ruby/2.6.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= clean
+
+current directory: /Users/hyn/Documents/pokemon_eat/vendor/bundle/ruby/2.6.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\=
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+current directory: /Users/hyn/Documents/pokemon_eat/vendor/bundle/ruby/2.6.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 cruby.bundle ./.gem.20210308-26918-o239st/skiptrace/internal
