@@ -1,5 +1,5 @@
 <h1>Search</h1>
-<%= form_with url: "/search", method: :get do |form| %>
+<%= form_with(url: "/search", method: :get, local: true) do |form| %>
     <%= form.label :term, "Term:" %>
     <%= form.text_field :term %>
     <%= form.label :location, "Location:" %>
@@ -8,8 +8,8 @@
 <% end %>
 
 <h1>Searching Results</h1>
-<p> <%= @user.email %> </p>
-<p> Total <%= @businesses.length() %> results below.</p>
+
+<p> Total <%= @businesses.size %> results below.</p>
 <ul>
     <% @businesses.each do |business| %>
         <li> <%= business["name"] %></li>
