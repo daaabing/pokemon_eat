@@ -13,18 +13,24 @@ class UsersController < ApplicationController
 
   #GET /search
   def search
-    if params.has_key?("commit") == true
-      render "search"
-    end
+    # if params.has_key?("commit") == true
+    #   render "search"
+    # end
 
-    @TERM = "dinner"
+    @TERM = "chinese"
     if params[:term] != nil
       @TERM = params[:term]
+      puts "*******"
+      puts @TERM
+      puts "*******"
     end
 
     @LOCATION = "San Francisco, CA"
     if params[:location] != nil
       @LOCATION = params[:location]
+      puts "*******"
+      puts @LOCATION
+      puts "*******"
     end
 
     @url = "#{@@API_HOST}#{@@SEARCH_PATH}"
@@ -33,12 +39,14 @@ class UsersController < ApplicationController
       location: @LOCATION,
       limit: 5
     }
+    puts "*******"
+    puts @params
+    puts "*******"
     @response = HTTP.auth("Bearer #{@@API_KEY}").get(@url, params: @params)
     @response_body_hash = JSON.parse(@response.body)
     @businesses = @response_body_hash["businesses"]
     puts "------------"
-    puts "is hash"
-    puts @businesses[0].is_a? Hash
+    puts @businesses[0]
     puts "------------"
     render "search"
   end
