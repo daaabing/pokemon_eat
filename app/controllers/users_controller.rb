@@ -13,41 +13,50 @@ class UsersController < ApplicationController
 
   #GET /search
   def search
-    # if params.has_key?("commit") == true
-    #   render "search"
-    # end
+    puts params
+    @from_other_page = !params[:commit].present?
 
-    @TERM = "chinese"
+    @TERM = ""
     if params[:term] != nil
       @TERM = params[:term]
-      puts "*******"
-      puts @TERM
-      puts "*******"
+      # puts "*******"
+      # puts @TERM
+      # puts "*******"
     end
 
-    @LOCATION = "San Francisco, CA"
-    if params[:location] != nil
+    @LOCATION = ""
+    @search_error = nil
+    puts "search error"
+    puts @search_error
+    if params[:location].present?
       @LOCATION = params[:location]
-      puts "*******"
-      puts @LOCATION
-      puts "*******"
+      # puts "*******"
+      # puts @LOCATION
+      # puts "*******"
+    else
+      @search_error = "location can not be empty!"
     end
 
-    @url = "#{@@API_HOST}#{@@SEARCH_PATH}"
-    @params = {
-      term: @TERM,
-      location: @LOCATION,
-      limit: 5
-    }
-    puts "*******"
-    puts @params
-    puts "*******"
-    @response = HTTP.auth("Bearer #{@@API_KEY}").get(@url, params: @params)
-    @response_body_hash = JSON.parse(@response.body)
-    @businesses = @response_body_hash["businesses"]
-    puts "------------"
-    puts @businesses[0]
-    puts "------------"
+    @businesses = []
+    if @search_error == nil
+      url = "#{@@API_HOST}#{@@SEARCH_PATH}"
+      params = {
+        term: @TERM,
+        location: @LOCATION,
+        limit: 5
+      }
+      # puts "*******"
+      # puts params
+      # puts "*******"
+      response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
+      response_body_hash = JSON.parse(response.body)
+      @businesses = response_body_hash["businesses"]
+      # puts "------------"
+      # puts @businesses
+      # puts "------------"
+    else
+
+    end
     render "search"
   end
 
