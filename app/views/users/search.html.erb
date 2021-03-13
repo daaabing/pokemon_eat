@@ -7,11 +7,17 @@
     <%= form.submit "Search" %>
 <% end %>
 
-<h1>Searching Results</h1>
+<% if @from_other_page %>
+    <p>please input your term and location</p>
+<% elsif @search_error != nil %>
+    <p><%= @search_error %></p>
+<% elsif @businesses.empty? == false%>
+    <h1>Searching Results</h1>
+    <p> Total <%= @businesses.size %> results below.</p>
+    <ul>
+        <% @businesses.each do |business| %>
+            <li class="business"> <%= business["name"] %></li>
+        <% end %>
+    </ul>
+<% end %>
 
-<p> Total <%= @businesses.size %> results below.</p>
-<ul>
-    <% @businesses.each do |business| %>
-        <li> <%= business["name"] %></li>
-    <% end %>
-</ul>

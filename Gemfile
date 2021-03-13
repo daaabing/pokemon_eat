@@ -28,6 +28,11 @@ gem 'wdm', '~> 0.1.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
+<<<<<<< HEAD
+=======
+  gem 'rspec-rails', '~> 4.0.0'
+  # gem 'capybara', '>= 2.15'
+>>>>>>> 35c08d899723f96ff24de21a2ed4fd531bc257cb
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '~> 1.4'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -47,6 +52,11 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
+<<<<<<< HEAD
+=======
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+>>>>>>> 35c08d899723f96ff24de21a2ed4fd531bc257cb
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   gem 'cucumber-rails', require: false

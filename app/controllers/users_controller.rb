@@ -13,41 +13,49 @@ class UsersController < ApplicationController
 
   #GET /search
   def search
-    # if params.has_key?("commit") == true
-    #   render "search"
-    # end
+    puts params
+    @from_other_page = !params[:commit].present?
 
-    @TERM = "chinese"
+    @TERM = ""
     if params[:term] != nil
       @TERM = params[:term]
-      puts "*******"
-      puts @TERM
-      puts "*******"
+      # puts "*******"
+      # puts @TERM
+      # puts "*******"
     end
 
-    @LOCATION = "San Francisco, CA"
-    if params[:location] != nil
+    @LOCATION = ""
+    @search_error = nil
+    puts "search error"
+    puts @search_error
+    if params[:location].present?
       @LOCATION = params[:location]
-      puts "*******"
-      puts @LOCATION
-      puts "*******"
+      # puts "*******"
+      # puts @LOCATION
+      # puts "*******"
+    else
+      @search_error = "location can not be empty!"
     end
 
-    @url = "#{@@API_HOST}#{@@SEARCH_PATH}"
-    @params = {
-      term: @TERM,
-      location: @LOCATION,
-      limit: 5
-    }
-    puts "*******"
-    puts @params
-    puts "*******"
-    @response = HTTP.auth("Bearer #{@@API_KEY}").get(@url, params: @params)
-    @response_body_hash = JSON.parse(@response.body)
-    @businesses = @response_body_hash["businesses"]
-    puts "------------"
-    puts @businesses[0]
-    puts "------------"
+    @businesses = []
+    if @search_error == nil
+      url = "#{@@API_HOST}#{@@SEARCH_PATH}"
+      params = {
+        term: @TERM,
+        location: @LOCATION,
+        limit: 5
+      }
+      # puts "*******"
+      # puts params
+      # puts "*******"
+      response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
+      response_body_hash = JSON.parse(response.body)
+      @businesses = response_body_hash["businesses"]
+      # puts "------------"
+      # puts @businesses
+      # puts "------------"
+    else
+    end
     render "search"
   end
 
@@ -58,21 +66,25 @@ class UsersController < ApplicationController
     @email = params[:email]
     @password = params[:password]
     @user = User.find_by(email: @email)
-    flash[:login_error] = []
+    @login_errors = []
     if @email == ""
-      flash[:login_error].push("Empyt email!")
-    end
-    if @password == ""
-      flash[:login_error].push("Empty password!")
-    elsif @password != @user.password_digest
-      flash[:login_error].push("Invalid password!")
+      @login_errors.push("email is empty")
+    elsif @user == nil
+      @login_errors.push("user does not exist, please register first")
     end
 
-    if flash[:login_error].length() > 0
-      puts flash[:login_error]
-      render"pages/welcome"
+    if @password == ""
+      @login_errors.push("password is empty")
+    elsif @user != nil and @password != @user.password_digest
+      @login_errors.push("password is not correct")
+    end
+
+    if @login_errors.empty?
+      redirect_to action: "show", id:@user.id      
     else
-      redirect_to action: "show", id:@user.id
+      puts @login_errors.size()
+      puts @login_errors
+      render "welcome"
     end
   end
 
@@ -82,32 +94,36 @@ class UsersController < ApplicationController
     @email = params[:email]
     @password = params[:password]
     @re_password = params[:re_password]
-    flash[:signup_error] = []
+    @signup_errors = []
+
     if @email == ""
-      flash[:signup_error].push("Empyt email!")
-      # puts "Empyt email!"
-    end
-    if @password == "" or @re_password == ""
-      flash[:signup_error].push("Empty password or re-password!")
-      # puts "Empty password or re-password!"
-    end
-    if @password != @re_password
-      flash[:signup_error].push("Password and Re-password do not match!")
-      # puts "Password and Re-password do not match!"
-    end
-    if User.find_by(email: @email) != nil
-      flash[:signup_error].push("This email has been registered!")
-      # puts "This email has been registered!"
+      @signup_errors.push("email is empty")      # puts "Empyt email!"
     end
 
-    if flash[:signup_error].length() > 0
-      puts flash[:signup_error]
-      render"pages/welcome"
+    if @password == "" or @re_password == ""
+      @signup_errors.push("Password or re-password is empty!")
+    end
+
+    if @password != @re_password
+      @signup_errors.push("Password and Re-password do not match!")
+    end
+
+    if User.find_by(email: @email) != nil
+      @signup_errors.push("This email has been registered!")
+    end
+
+    if @signup_errors.length() > 0
+      puts @signup_errors
+      render "welcome"
     else
       @new_user = User.create(email: @email, password_digest: @password)
-      @new_user.save()
-      flash[:signup_error] = nil
-      redirect_to action: "show", id:@new_user.id
+      if @new_user.save()
+        flash[:signup_success] = "You have successfully registered!"
+        redirect_to action: "show", id:@new_user.id
+      else
+        @signup_errors.push("Sorry, signing up failed somehow, please try again.")
+        render "welcome"
+      end
     end
   end
 

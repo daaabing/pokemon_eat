@@ -1,3 +1,4 @@
+<<<<<<< HEAD:app/views/pages/welcome.html.erb
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -111,6 +112,48 @@
 
 
 
+=======
+<h1>Hi Welcome to Pokemon Eat</h1>
+<h1>LogIn</h1>
+<%= form_with(url: "/login", method: :post, local: true) do |form| %>
+    <%= form.label :email, "Email:" %>
+    <%= form.email_field :email %>
+    <%= form.label :password, "Password:" %>
+    <%= form.password_field :password %>
+    <%= form.submit "LogIn" %>
+<% end %>
+
+<% if @login_errors != nil and @login_errors.empty? == false%>
+    <ul>
+        <% @login_errors.each do |error|%>
+            <li class="login_error"> <%= error%></li>
+        <% end%>
+    </ul>
+<% end %>
+
+
+
+
+<h1>SignUp</h1>
+<%= form_with(url: "/signup", method: :post, local: true) do |form| %>
+    <%= form.label :email, "Email:" %>
+    <%= form.email_field :email %>
+    <%= form.label :password, "Password:" %>
+    <%= form.password_field :password %>
+    <%= form.label :re_password, "Re-Password:" %>
+    <%= form.password_field :re_password %>
+    <%= form.submit "SignUp" %>
+<% end %>
+
+
+<% if @signup_errors != nil and @signup_errors.empty? == false%>
+    <ul>
+        <% @signup_errors.each do |error|%>
+            <li class="login_error"> <%= error%></li>
+        <% end%>
+    </ul>
+<% end %>
+>>>>>>> 35c08d899723f96ff24de21a2ed4fd531bc257cb:app/views/users/welcome.html.erb
 
 
 
