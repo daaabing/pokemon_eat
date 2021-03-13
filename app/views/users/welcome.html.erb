@@ -1,18 +1,18 @@
+<h1>Hi Welcome to Pokemon Eat</h1>
 <h1>LogIn</h1>
-
-
-<%= form_with url: "/login", method: :post do |form| %>
+<%= form_with(url: "/login", method: :post, local: true) do |form| %>
     <%= form.label :email, "Email:" %>
     <%= form.email_field :email %>
     <%= form.label :password, "Password:" %>
     <%= form.password_field :password %>
     <%= form.submit "LogIn" %>
 <% end %>
-<% if flash.now[:login_error] != nil %>
+
+<% if @login_errors != nil and @login_errors.empty? == false%>
     <ul>
-        <% flash.now[:login_error].each do |error| %>
-            <li> <%= error %></li>
-        <% end %>
+        <% @login_errors.each do |error|%>
+            <li class="login_error"> <%= error%></li>
+        <% end%>
     </ul>
 <% end %>
 
@@ -20,7 +20,7 @@
 
 
 <h1>SignUp</h1>
-<%= form_with url: "/signup", method: :post do |form| %>
+<%= form_with(url: "/signup", method: :post, local: true) do |form| %>
     <%= form.label :email, "Email:" %>
     <%= form.email_field :email %>
     <%= form.label :password, "Password:" %>
@@ -29,15 +29,16 @@
     <%= form.password_field :re_password %>
     <%= form.submit "SignUp" %>
 <% end %>
-<% if flash[:signup_error] != nil %>
+
+
+<% if @signup_errors != nil and @signup_errors.empty? == false%>
     <ul>
-        <% flash[:signup_error].each do |error| %>
-            <li> <%= error %></li>
-        <% end %>
+        <% @signup_errors.each do |error|%>
+            <li class="login_error"> <%= error%></li>
+        <% end%>
     </ul>
 <% end %>
 
-<%= link_to "Question Page", question_path %>
 
 
 
