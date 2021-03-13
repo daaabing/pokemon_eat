@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6aaf8e77-5856-4e3e-afe3-360006363d36" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/cucumber.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/search.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/step_definitions/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/step_definitions/search_steps.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/support/env.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/tasks/cucumber.rake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/cucumber" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/users_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/users_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/users/search.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/users/search.html.erb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,6 +156,7 @@
       <workItem from="1615292484472" duration="2163000" />
       <workItem from="1615302107012" duration="1052000" />
       <workItem from="1615345180248" duration="1306000" />
+      <workItem from="1615614616241" duration="761000" />
     </task>
     <servers />
   </component>

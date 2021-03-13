@@ -112,6 +112,12 @@ GEM
       cucumber-core (~> 8.0, >= 8.0.1)
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
+    database_cleaner (2.0.1)
+      database_cleaner-active_record (~> 2.0.0)
+    database_cleaner-active_record (2.0.0)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0.0)
+    database_cleaner-core (2.0.1)
     diff-lcs (1.4.4)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -166,7 +172,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.11.1-x86_64-darwin)
       racc (~> 1.4)
-    pg (1.2.3)
     protobuf-cucumber (3.10.8)
       activesupport (>= 3.2)
       middleware
@@ -214,6 +219,10 @@ GEM
     regexp_parser (2.0.3)
     rerun (0.13.1)
       listen (~> 3.0)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -275,6 +284,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unf_ext (0.0.7.7-x64-mingw32)
+    wdm (0.1.1)
     web-console (4.1.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -306,13 +316,14 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   cucumber-rails
+  database_cleaner
   http
   jbuilder (~> 2.7)
   listen (~> 3.2)
-  pg
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.5)
   rerun
+  rspec
   rspec-rails (~> 4.0.0)
   sass-rails (>= 6)
   selenium-webdriver
@@ -321,6 +332,7 @@ DEPENDENCIES
   sqlite3 (~> 1.4)
   turbolinks (~> 5)
   tzinfo-data
+  wdm (~> 0.1.0)
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)
