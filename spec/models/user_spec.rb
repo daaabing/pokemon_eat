@@ -19,8 +19,5 @@ RSpec.describe User, type: :model do
       expect(user).to eq(true)
     end
 
-    context 'scope test' do
-
-    end
   end
 end

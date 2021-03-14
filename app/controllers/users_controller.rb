@@ -11,28 +11,18 @@ class UsersController < ApplicationController
   @@BUSINESS_PATH = "/v3/businesses/"  # trailing / because we append the business id to the path
   @@DEFAULT_BUSINESS_ID = "yelp-san-francisco"
 
-  #GET /search
   def search
-    puts params
     @from_other_page = !params[:commit].present?
 
     @TERM = ""
     if params[:term] != nil
       @TERM = params[:term]
-      # puts "*******"
-      # puts @TERM
-      # puts "*******"
     end
 
     @LOCATION = ""
     @search_error = nil
-    puts "search error"
-    puts @search_error
     if params[:location].present?
       @LOCATION = params[:location]
-      # puts "*******"
-      # puts @LOCATION
-      # puts "*******"
     else
       @search_error = "location can not be empty!"
     end
@@ -45,19 +35,16 @@ class UsersController < ApplicationController
         location: @LOCATION,
         limit: 5
       }
-      # puts "*******"
-      # puts params
-      # puts "*******"
       response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
       response_body_hash = JSON.parse(response.body)
       @businesses = response_body_hash["businesses"]
-      # puts "------------"
-      # puts @businesses
-      # puts "------------"
     else
     end
     render "search"
   end
+
+
+
 
   def login
     @email = params[:email]
@@ -79,11 +66,11 @@ class UsersController < ApplicationController
     if @login_errors.empty?
       redirect_to action: "show", id:@user.id      
     else
-      puts @login_errors.size()
-      puts @login_errors
       render "welcome"
     end
   end
+
+
 
   def signup
     @email = params[:email]
@@ -92,7 +79,7 @@ class UsersController < ApplicationController
     @signup_errors = []
 
     if @email == ""
-      @signup_errors.push("email is empty")      # puts "Empyt email!"
+      @signup_errors.push("email is empty")
     end
 
     if @password == "" or @re_password == ""
@@ -108,7 +95,6 @@ class UsersController < ApplicationController
     end
 
     if @signup_errors.length() > 0
-      puts @signup_errors
       render "welcome"
     else
       @new_user = User.create(email: @email, password_digest: @password)
@@ -140,81 +126,31 @@ class UsersController < ApplicationController
 
 
   # GET /users or /users.json
-  def index
-    @users = User.all
-  end
 
   # GET /users/1 or /users/1.json
   def show      
   end
 
-  # GET /users/new
-  def new
-    @user = User.new
-  end
 
-  # GET /users/1/edit
-  def edit
-  end
 
-  # POST /users or /users.json
-  def create
-    @user = User.new(user_params)
-    
-    respond_to do |format|
-      if @user.save
-        store_cookie(@user.id, @user.email, @user.password_digest)
-        if @user.food_preference.nil?
-          format.html{ redirect_to question_path }
-        else
-          format.html { redirect_to @user, notice: "User was successfully created." }
-          format.json { render :show, status: :created, location: @user }
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
-  # PATCH/PUT /users/1 or /users/1.json
-  def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
-  # DELETE /users/1 or /users/1.json
-  def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
-  def question
-    # @user = load_cookie
-  end
-
-  def question_update
-    @user = load_cookie
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def question
+  #   # @user = load_cookie
+  # end
+  #
+  # def question_update
+  #   @user = load_cookie
+  #   respond_to do |format|
+  #     if @user.update(user_params)
+  #       format.html { redirect_to @user, notice: "User was successfully updated." }
+  #       format.json { render :show, status: :ok, location: @user }
+  #     else
+  #       format.html { render :edit, status: :unprocessable_entity }
+  #       format.json { render json: @user.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -223,17 +159,17 @@ class UsersController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def user_params
-      params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
-    end
-
-    def store_cookie(id, email, password)
-      session[:user_id] = id
-      session[:user_email] = email
-      session[:user_password] = password
-    end
-
-    def load_cookie
-      return User.find_by({id:session[:user_id],email:session[:user_email],password_digest:session[:user_password]})     
-    end
+    # def user_params
+    #   params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
+    # end
+    #
+    # def store_cookie(id, email, password)
+    #   session[:user_id] = id
+    #   session[:user_email] = email
+    #   session[:user_password] = password
+    # end
+    #
+    # def load_cookie
+    #   return User.find_by({id:session[:user_id],email:session[:user_email],password_digest:session[:user_password]})
+    # end
 end
