@@ -59,9 +59,6 @@ class UsersController < ApplicationController
     render "search"
   end
 
-
-
-
   def login
     @email = params[:email]
     @password = params[:password]
@@ -87,8 +84,6 @@ class UsersController < ApplicationController
       render "welcome"
     end
   end
-
-
 
   def signup
     @email = params[:email]

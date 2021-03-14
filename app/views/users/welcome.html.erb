@@ -1,4 +1,4 @@
-<<<<<<< HEAD:app/views/pages/welcome.html.erb
+
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -6,16 +6,19 @@
 </head>
 <body>
 <div>
+  <h1>
+    Welcome to Pokemon Eat!
+  </h1>
   <!--  <div class="guideline">-->
   <!--    <div class="row align-items-center justify-content-center">Welcome to Pokemon Eat</div>-->
   <!--    <div class="row align-items-center justify-content-center">Don't know what to eat?</div>-->
   <!--    <div class="row align-items-center justify-content-center">Let us smoothen your daily food decisions!</div>-->
   <!--  </div>-->
-  <div class="row justify-content-center">
-    <div class="col-lg-6">
-      <!--      <%#= image_tag("picture1.png") %>>-->
+  <div class="row">
+    <div class="col-lg-8">
+      <%= image_tag("picture1.png", width: '90%') %>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-4">
       <div class="col-lg-12">
         <ul class="nav nav-tabs" id="myTab" data-tabs="tabs col-lg-6">
           <li class="active col-lg-2 col-form-label col-form-label-lg">
@@ -32,36 +35,36 @@
       </div>
       <div class="tab-content">
         <div class="tab-pane  active" id="login">
-          <%= form_with url: "/login", method: :post do |form| %>
+          <%= form_with(url: "/login", method: :post, local: true) do |form| %>
             <div class="col-lg-12">
-              <%= form.label :email, "Email:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
-              <%= form.email_field :email, :class=>"form-control" %>
+              <%= form.label :login_email, "Email:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
+              <%= form.email_field :login_email, :class=>"form-control" %>
             </div>
             <div class="col-lg-12">
-              <%= form.label :password, "Password:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
-              <%= form.password_field :password, :class=>"form-control" %>
+              <%= form.label :login_password, "Password:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
+              <%= form.password_field :login_password, :class=>"form-control" %>
             </div>
             <div class="col-lg-12">
               <%= form.submit "Login", :class=>"btn btn-primary" %>
             </div>
           <% end %>
-          <% if flash.now[:login_error] != nil %>
+          <% if @login_errors != nil and @login_errors.empty? == false%>
             <ul>
-              <% flash.now[:login_error].each do |error| %>
-                <li class="col-lg-12 col-form-label-lg"> <%= error %></li>
+              <% @login_errors.each do |error|%>
+                <li class="col-lg-12 col-form-label-lg error"> <%= error %></li>
               <% end %>
             </ul>
           <% end %>
         </div>
         <div class="tab-pane" id="signUp">
-          <%= form_with url: "/signup", method: :post do |form| %>
+          <%= form_with(url: "/signup", method: :post, local: true) do |form| %>
             <div class="col-lg-12">
-              <%= form.label :email, "Email:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
-              <%= form.email_field :email, :class=>"form-control" %>
+              <%= form.label :signup_email, "Email:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
+              <%= form.email_field :signup_email, :class=>"form-control" %>
             </div>
             <div class="col-lg-12">
-              <%= form.label :password, "Password:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
-              <%= form.password_field :password, :class=>"form-control" %>
+              <%= form.label :signup_password, "Password:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
+              <%= form.password_field :signup_password, :class=>"form-control" %>
             </div>
             <div class="col-lg-12">
               <%= form.label :re_password, "Re_Password:", :class=>"col-lg-2 col-form-label col-form-label-lg" %>
@@ -71,10 +74,10 @@
               <%= form.submit "SignUp", :class=>"btn btn-primary" %>
             </div>
           <% end %>
-          <% if flash[:signup_error] != nil %>
+          <% if @signup_errors != nil and @signup_errors.empty? == false%>
             <ul>
-              <% flash[:signup_error].each do |error| %>
-                <li class="col-lg-12 col-form-label-lg"> <%= error %></li>
+              <% @signup_errors.each do |error|%>
+                <li class="col-lg-12 col-form-label-lg error"> <%= error %></li>
               <% end %>
             </ul>
           <% end %>
@@ -108,52 +111,13 @@
     .btn{
         margin-top: 15px;
     }
+    .error{
+        padding-left: 0;
+        padding-bottom: 0;
+    }
 </style>
 
 
-
-=======
-<h1>Hi Welcome to Pokemon Eat</h1>
-<h1>LogIn</h1>
-<%= form_with(url: "/login", method: :post, local: true) do |form| %>
-    <%= form.label :email, "Email:" %>
-    <%= form.email_field :email %>
-    <%= form.label :password, "Password:" %>
-    <%= form.password_field :password %>
-    <%= form.submit "LogIn" %>
-<% end %>
-
-<% if @login_errors != nil and @login_errors.empty? == false%>
-    <ul>
-        <% @login_errors.each do |error|%>
-            <li class="login_error"> <%= error%></li>
-        <% end%>
-    </ul>
-<% end %>
-
-
-
-
-<h1>SignUp</h1>
-<%= form_with(url: "/signup", method: :post, local: true) do |form| %>
-    <%= form.label :email, "Email:" %>
-    <%= form.email_field :email %>
-    <%= form.label :password, "Password:" %>
-    <%= form.password_field :password %>
-    <%= form.label :re_password, "Re-Password:" %>
-    <%= form.password_field :re_password %>
-    <%= form.submit "SignUp" %>
-<% end %>
-
-
-<% if @signup_errors != nil and @signup_errors.empty? == false%>
-    <ul>
-        <% @signup_errors.each do |error|%>
-            <li class="login_error"> <%= error%></li>
-        <% end%>
-    </ul>
-<% end %>
->>>>>>> 35c08d899723f96ff24de21a2ed4fd531bc257cb:app/views/users/welcome.html.erb
 
 
 
