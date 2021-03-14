@@ -1,7 +1,11 @@
 
 
 Given /^I am on "(.*)" page$/ do |page_name|
+  if page_name == "Search"
     visit '/search'
+  else
+    visit '/'
+  end
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
@@ -16,9 +20,6 @@ end
 When /^(?:|I )press "(.*)"$/ do |button|
     click_button(button)
 end
-
-
-
 
 
 Then /^(?:|I )should see "(.*)"$/ do |text|

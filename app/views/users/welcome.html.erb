@@ -2,9 +2,9 @@
 <h1>LogIn</h1>
 <%= form_with(url: "/login", method: :post, local: true) do |form| %>
     <%= form.label :email, "Email:" %>
-    <%= form.email_field :email %>
+    <%= form.email_field :email, :id => 'login_email'%>
     <%= form.label :password, "Password:" %>
-    <%= form.password_field :password %>
+    <%= form.password_field :password, :id => 'login_password'%>
     <%= form.submit "LogIn" %>
 <% end %>
 
@@ -22,9 +22,9 @@
 <h1>SignUp</h1>
 <%= form_with(url: "/signup", method: :post, local: true) do |form| %>
     <%= form.label :email, "Email:" %>
-    <%= form.email_field :email %>
+    <%= form.email_field :email, :id => 'signup_email'%>
     <%= form.label :password, "Password:" %>
-    <%= form.password_field :password %>
+    <%= form.password_field :password, :id => 'signup_password' %>
     <%= form.label :re_password, "Re-Password:" %>
     <%= form.password_field :re_password %>
     <%= form.submit "SignUp" %>
