@@ -29,7 +29,7 @@ Then /^(?:|I )should not see "([^"]*)"$/ do |text|
 Then /^the food preference of "(.*)" should be "(.*)"$/ do |email_name, food|
     user = User.find_by_email(email_name)
     pre = user.food_preference
-    if pre == ""
+    if pre == "" || pre.nil?
        expect("empty").to eq food
     else
         expect(pre).to eq food
