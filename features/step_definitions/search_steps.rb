@@ -1,20 +1,26 @@
-
-
 Given /^I am on "(.*)" page$/ do |page_name|
+  if page_name == "Search"
     visit '/search'
+  else
+    visit '/'
+  end
 end
 
-When(/^I fill in "([^"]*)" with "([^"]*)"$/) do |field|
-    fill_in(field)
+When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
+  fill_in(field, :with => value)
 end
 
 
-And(/^I press "([^"]*)"$/) do |link|
+When /^(?:|I )follow "([^"]*)"$/ do |link|
   click_link(link)
 end
 
+When /^(?:|I )press "(.*)"$/ do |button|
+  click_button(button)
+end
 
-Then(/^I should see "([^"]*)"$/) do |text|
+
+Then /^(?:|I )should see "(.*)"$/ do |text|
   if page.respond_to? :should
     page.should have_content(text)
   else
@@ -22,7 +28,7 @@ Then(/^I should see "([^"]*)"$/) do |text|
   end
 end
 
-Then(/^I should see the number of restaurants is "([^"]*)"$/) do |assumed_num|
+Then /^(?:|I )should see the number of restaurants is "(.*)"$/ do |assumed_num|
   actual_num = page.all(:css, 'li.business').size()
   expect(actual_num).to eq assumed_num.to_i
 end
