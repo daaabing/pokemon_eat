@@ -1,24 +1,47 @@
-<h1>Search</h1>
-<%= form_with(url: "/search", method: :get, local: true) do |form| %>
-    <%= form.label :term, "Term:" %>
-    <%= form.text_field :term %>
-    <%= form.label :location, "Location:" %>
-    <%= form.text_field :location %>
-    <%= form.submit "Search" %>
-<% end %>
+<h1>Search what you want here:</h1>
+<div class="col-lg-3 padding">
+  <%= form_with(url: "/search", method: :get, local: true) do |form| %>
+    <%= form.label :term, "Term:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+    <%= form.text_field :term, :class=>"form-control" %>
+    <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+    <%= form.text_field :location, :class=>"form-control" %>
+    <%= form.submit "Search" , :class=>"btn btn-primary btn-block" %>
+  <% end %>
+</div>
 
-<% if @from_other_page %>
-    <p>please input your term and location</p>
-<% elsif @search_error != nil %>
+<div class="col-lg-3 padding">
+  <% if @from_other_page %>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      please input your term and location
+    </div>
+  <% elsif @search_error != nil %>
     <p><%= @search_error %></p>
-<% elsif @businesses.empty? == false%>
+  <% elsif @businesses.empty? == false%>
     <h1>Searching Results</h1>
     <p> Total <%= @businesses.size %> results below.</p>
     <ul>
-        <% @businesses.each do |business| %>
-            <li class="business"> <%= business["name"] %></li>
-        <% end %>
+      <% @businesses.each do |business| %>
+        <li class="business"> <%= business["name"] %></li>
+      <% end %>
     </ul>
-<% end %>
+  <% end %>
+</div>
 
 
+<div class="col-lg-12 col-form-label col-form-label-lg padding">
+  Click <%= link_to 'here', '/users/'+session[:id].to_s, :class => "color" %> and go back to your profile
+</div>
+
+
+<style>
+  .padding{
+      padding-left: 0;
+  }
+  .btn-block{
+      margin-top: 15px;
+  }
+  .color{
+      color: #17a2b8;
+      font-weight:bold;
+  }
+</style>

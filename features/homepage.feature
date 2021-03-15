@@ -26,6 +26,8 @@ Scenario: Log in successfully
     And I fill in "Password" for login with "test33"
     Then I press "Login"
     And the food preference of "test@33.com" should be "empty"
+    Then I follow "Log out"
+    Then I should see "Welcome to Pokemon Eat!"
 
 Scenario: Log in successfully
     Given I am on "Home" page
@@ -34,3 +36,5 @@ Scenario: Log in successfully
     And I fill in "Password" for login with "123"
     Then I press "Login"
     And the food preference of "123@columbia.edu" should be "empty"
+    Then I follow "here"
+    Then I should see "Search"

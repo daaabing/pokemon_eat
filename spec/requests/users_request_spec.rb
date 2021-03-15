@@ -39,8 +39,11 @@ end
 RSpec.describe "check Signup function", type: :request do
   it "check signup successfully" do
     get '/'
+    @user_new = User.create(email: 'testsignup0@gmail.com', password_digest: '1')
     post signup_path, :params => {:email => 'testsignup0@gmail.com', :password =>'1', :re_password => '1' }
-    expect(response).to have_http_status(302)
+    @user_new.save
+    get '/users/' + @user_new.id.to_s
+    expect(response.body).to include "Confirmed"
   end
 
   it "check when email is empty" do

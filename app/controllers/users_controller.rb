@@ -64,6 +64,7 @@ class UsersController < ApplicationController
     end
 
     if @login_errors.empty?
+      session[:id] = @user.id
       redirect_to action: "show", id:@user.id      
     else
       render "welcome"
@@ -100,6 +101,7 @@ class UsersController < ApplicationController
       @new_user = User.create(email: @email, password_digest: @password)
       if @new_user.save()
         flash[:signup_success] = "You have successfully registered!"
+        session[:id] = @new_user.id
         redirect_to action: "show", id:@new_user.id
       else
         @signup_errors.push("Sorry, signing up failed somehow, please try again.")
