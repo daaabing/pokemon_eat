@@ -62,9 +62,7 @@ class UsersController < ApplicationController
     elsif @user != nil and @password != @user.password_digest
       @login_errors.push("password is not correct")
     end
-
     if @login_errors.empty?
-      session[:id] = @user.id
       redirect_to action: "show", id:@user.id      
     else
       render "welcome"
@@ -100,8 +98,6 @@ class UsersController < ApplicationController
     else
       @new_user = User.create(email: @email, password_digest: @password)
       if @new_user.save()
-        flash[:signup_success] = "You have successfully registered!"
-        session[:id] = @new_user.id
         redirect_to action: "show", id:@new_user.id
       else
         @signup_errors.push("Sorry, signing up failed somehow, please try again.")
@@ -130,7 +126,7 @@ class UsersController < ApplicationController
   # GET /users or /users.json
 
   # GET /users/1 or /users/1.json
-  def show      
+  def show    
   end
 
 
