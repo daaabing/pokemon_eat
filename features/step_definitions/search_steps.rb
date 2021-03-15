@@ -1,6 +1,6 @@
 Given /^I am on "(.*)" page$/ do |page_name|
   if page_name == "Search"
-    visit '/search'
+    visit '/search/1'
   else
     visit '/'
   end
