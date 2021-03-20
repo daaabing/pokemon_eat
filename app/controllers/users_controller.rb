@@ -40,6 +40,9 @@ class UsersController < ApplicationController
       @businesses = response_body_hash["businesses"]
     else
     end
+    puts "**************"
+    puts @businesses[0]
+    puts "**************"
     render "search"
   end
 
@@ -63,7 +66,7 @@ class UsersController < ApplicationController
       @login_errors.push("password is not correct")
     end
     if @login_errors.empty?
-      redirect_to action: "show", id:@user.id      
+      redirect_to action: "home", id:@user.id      
     else
       render "welcome"
     end
@@ -98,7 +101,7 @@ class UsersController < ApplicationController
     else
       @new_user = User.create(email: @email, password_digest: @password)
       if @new_user.save()
-        redirect_to action: "show", id:@new_user.id
+        redirect_to action: "home", id:@new_user.id
       else
         @signup_errors.push("Sorry, signing up failed somehow, please try again.")
         render "welcome"
@@ -123,10 +126,41 @@ class UsersController < ApplicationController
 
 
 
-  # GET /users or /users.json
 
-  # GET /users/1 or /users/1.json
   def show    
+  end
+
+  def home
+    # @TERM = ""
+    # if params[:term] != nil
+    #   @TERM = params[:term]
+    # end
+
+    # @LOCATION = "New York"
+    # @search_error = nil
+    # if params[:location].present?
+    #   @LOCATION = params[:location]
+    # else
+    #   @search_error = "location can not be empty!"
+    # end
+
+    @businesses = []
+    if @search_error == nil
+      url = "#{@@API_HOST}#{@@SEARCH_PATH}"
+      params = {
+        term: @TERM,
+        location: "New York",
+        limit: 10
+      }
+      response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
+      response_body_hash = JSON.parse(response.body)
+      @businesses = response_body_hash["businesses"]
+    else
+    end
+    puts "**************"
+    puts @businesses[0]
+    puts "**************"
+    render "home"
   end
 
 

@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get "/question", to: "users#question", as: "question"
   post "/question_update", to: "users#question_update"
   post "/update", to: "users#update"
+  get "/home/:id", to:"users#home"
 end

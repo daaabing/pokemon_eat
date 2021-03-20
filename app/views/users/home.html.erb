@@ -1,0 +1,155 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <%# <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-top"> %>
+      妙蛙种子
+    </a>
+  </div>
+</nav>
+
+
+<div style="margin:0px; padding:0px;">
+  <div class="row" >
+    <div class="vw-50" style="width:50%; color:">
+      <div class="card text-center" style="height: 300px;">
+        <div class="card-body">
+          <h5 class="card-title">Let us guess</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#recommendModal">
+            Recommend
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="vw-50" style="width:50%;">
+      <div class="card text-center" style="height: 300px;">
+        <div class="card-body">
+          <h5 class="card-title">Search for yourself!</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row justify-content-evenly">
+      <% if @from_other_page %>
+        <div>
+          please input your term and location
+        </div>
+      <% elsif @search_error != nil %>
+        <p><%= @search_error %></p>
+      <% elsif @businesses.empty? == false%>   
+        <% @businesses.each do |business| %>
+          <div class="col-4"> 
+            <div class="card mb-3" >
+              <img src=<%= business["image_url"]%> class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title business"><%= business["name"] %></h5>
+                <div>
+                  <% business["categories"].each do |e| %>
+                    <p class="card-text" style="display:inline;">    
+                      <%= e["title"] %>              
+                    </p>
+                  <% end %>
+                </div>
+                <div>
+                  <% business["location"]["display_address"].each do |e| %>
+                    <p class="card-text" style="display:inline;">    
+                      <%= e %>              
+                    </p>
+                  <% end %>
+                </div>
+                <p class="card-text"><%= business["display_phone"] %></p>
+                <p class="card-text"><%= business["rating"] %></p>
+                <%# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+  </div>
+</div>
+
+
+
+
+<!-- Button to Open the Modal -->
+
+
+<!-- The Modal -->
+<div class="modal fade" id="searchModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Search</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <%= form.label :term, "Term:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :term, :class=>"form-control" %>
+          <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :location, :class=>"form-control" %>
+          <%= form.submit "Search" , :class=>"btn btn-primary btn-block" %>
+        <% end %>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- The Modal -->
+<div class="modal fade" id="recommendModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Recommend</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        put rails recommend here 
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
