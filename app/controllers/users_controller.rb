@@ -101,7 +101,7 @@ class UsersController < ApplicationController
     else
       @new_user = User.create(email: @email, password_digest: @password)
       if @new_user.save()
-        redirect_to action: "home", id:@new_user.id
+        redirect_to action: "question", id:@new_user.id
       else
         @signup_errors.push("Sorry, signing up failed somehow, please try again.")
         render "welcome"
@@ -167,22 +167,22 @@ class UsersController < ApplicationController
 
 
 
-  # def question
-  #   # @user = load_cookie
-  # end
-  #
-  # def question_update
-  #   @user = load_cookie
-  #   respond_to do |format|
-  #     if @user.update(user_params)
-  #       format.html { redirect_to @user, notice: "User was successfully updated." }
-  #       format.json { render :show, status: :ok, location: @user }
-  #     else
-  #       format.html { render :edit, status: :unprocessable_entity }
-  #       format.json { render json: @user.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  def question
+    # @user = User.find(params[:id])
+  end
+  
+  def question_update
+    @user = User.find(params[:id])
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to action: "home", id:@user.id, notice: "User was successfully updated." }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -191,9 +191,9 @@ class UsersController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    # def user_params
-    #   params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
-    # end
+    def user_params
+      params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
+    end
     #
     # def store_cookie(id, email, password)
     #   session[:user_id] = id
