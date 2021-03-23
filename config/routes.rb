@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post "/login", to: "users#login"
   post "/signup", to: "users#signup"
   get "/search/:id", to: "users#search"
-  get "/question", to: "users#question", as: "question"
+  get "/question", to: "users#question"
   post "/question_update", to: "users#question_update"
   post "/update", to: "users#update"
   get "/home/:id", to:"users#home"
