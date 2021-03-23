@@ -46,7 +46,31 @@ class UsersController < ApplicationController
     render "search"
   end
 
+  def recommend
+    @response = Question.generate_response(session[:question_id], params[:choice]).to_s
+    @question = Question.generate_question
+    @options = []
+    for o in @question.options do
+      @options.append(o.option)
+    end
 
+    @LOCATION = ""
+    @recommend_error = nil
+    if params[:location].present?
+      @LOCATION = params[:location]
+    else
+      @recommend_error = "location can not be empty!"
+    end
+
+    @businesses = []
+    if @recommend_error == nil
+      @businesses = User.get_recommend @LOCATION
+    end
+    puts "**************"
+    puts @businesses[0]
+    puts "**************"
+    render "recommend"
+  end
 
 
   def login
@@ -143,7 +167,12 @@ class UsersController < ApplicationController
     # else
     #   @search_error = "location can not be empty!"
     # end
-
+    @question = Question.generate_question
+    session[:question_id] = @question.id
+    @options = []
+    for o in @question.options do
+      @options.append(o["option"])
+    end
     @businesses = []
     if @search_error == nil
       url = "#{@@API_HOST}#{@@SEARCH_PATH}"
@@ -160,7 +189,13 @@ class UsersController < ApplicationController
     puts "**************"
     puts @businesses[0]
     puts "**************"
-    render "home"
+
+    # @latitude = params[:latitude]
+    # @longitude = params[:longitude]
+    # reverse_geocoded_by :latitude, :longitude, 
+    #                     :address => :location
+    # after_validation :reverse_geocode    
+    # render "home"
   end
 
 

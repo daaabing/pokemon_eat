@@ -1,0 +1,9 @@
+<% if @recommend_error != nil %>
+    <p><%= @recommend_error %></p>
+<% elsif @businesses.empty? == false%>
+    <h2><%= @response %></h2>
+    <% @businesses.each do |business| %>
+        <p class="business"> <%= business["name"] %></p>
+    <% end %>
+<% end %>
+
