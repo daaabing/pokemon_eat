@@ -30,6 +30,23 @@ ActiveRecord::Schema.define(version: 2021_03_21_203218) do
     t.string "user_id"
     t.string "business_id"
     t.text "review"
+
+    
+ActiveRecord::Schema.define(version: 2021_03_20_155950) do
+
+  create_table "options", force: :cascade do |t|
+    t.text "option"
+    t.string "choice"
+    t.integer "question_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.text "question"
+    t.text "answer"
+    t.string "question_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

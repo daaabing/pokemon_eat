@@ -83,6 +83,7 @@
                 <p class="card-text">
                   <%=link_to("Detail", '/business/' + business["id"] ) %>
                 </p>
+                <%# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>#</p> %>
               </div>
             </div>
           </div>
@@ -143,7 +144,24 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        put rails recommend here 
+      <p><%= @question.question %><p>
+      <% if @question.question_type == 'choose' then%>
+        <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <%= form.label :choice, "Select your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.select :choice, @options, {}, :class=>"form-control" %>
+          <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :location, :class=>"form-control" %>
+          <%= form.submit "Recommend!" , :class=>"btn btn-primary btn-block" %>
+        <% end %>
+      <% elsif @question.question_type == 'fill' %>
+        <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <%= form.label :choice, "Input your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :choice, :class=>"form-control" %>
+          <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :location, :class=>"form-control" %>
+          <%= form.submit "Recommend!" , :class=>"btn btn-primary btn-block" %>
+          <% end %>
+      <% end %>
       </div>
 
       <!-- Modal footer -->
@@ -184,8 +202,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 

@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   @@DEFAULT_BUSINESS_ID = "yelp-san-francisco"
   @@EVENT_PATH = "/v3/events"
 
-  
+
   def search
     load_user
     @from_other_page = !params[:commit].present?
@@ -59,6 +59,31 @@ class UsersController < ApplicationController
     puts @events[0]
     puts "**************"
     render "event"
+    
+  def recommend
+    @response = Question.generate_response(session[:question_id], params[:choice]).to_s
+    @question = Question.generate_question
+    @options = []
+    for o in @question.options do
+      @options.append(o.option)
+    end
+
+    @LOCATION = ""
+    @recommend_error = nil
+    if params[:location].present?
+      @LOCATION = params[:location]
+    else
+      @recommend_error = "location can not be empty!"
+    end
+
+    @businesses = []
+    if @recommend_error == nil
+      @businesses = User.get_recommend @LOCATION
+    end
+    puts "**************"
+    puts @businesses[0]
+    puts "**************"
+    render "recommend"
   end
 
 
@@ -146,6 +171,24 @@ class UsersController < ApplicationController
 
   def home
     @user = load_user()
+    # @TERM = ""
+    # if params[:term] != nil
+    #   @TERM = params[:term]
+    # end
+
+    # @LOCATION = "New York"
+    # @search_error = nil
+    # if params[:location].present?
+    #   @LOCATION = params[:location]
+    # else
+    #   @search_error = "location can not be empty!"
+    # end
+    @question = Question.generate_question
+    session[:question_id] = @question.id
+    @options = []
+    for o in @question.options do
+      @options.append(o["option"])
+    end
     @businesses = []
     if @search_error == nil
       @businesses = yelp_business_search("", "New York")
@@ -162,7 +205,6 @@ class UsersController < ApplicationController
   def question
     # @user = User.find(params[:id])
   end
-
   def question_update
     @user = User.find(params[:id])
     respond_to do |format|
@@ -175,7 +217,6 @@ class UsersController < ApplicationController
       end
     end
   end
-
 
   private
     # Use callbacks to share common setup or constraints between actions.
