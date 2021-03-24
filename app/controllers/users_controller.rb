@@ -10,8 +10,11 @@ class UsersController < ApplicationController
   @@SEARCH_PATH = "/v3/businesses/search"
   @@BUSINESS_PATH = "/v3/businesses/"  # trailing / because we append the business id to the path
   @@DEFAULT_BUSINESS_ID = "yelp-san-francisco"
+  @@EVENT_PATH = "/v3/events"
 
+  
   def search
+    load_user
     @from_other_page = !params[:commit].present?
 
     @TERM = ""
@@ -29,24 +32,34 @@ class UsersController < ApplicationController
 
     @businesses = []
     if @search_error == nil
-      url = "#{@@API_HOST}#{@@SEARCH_PATH}"
-      params = {
-        term: @TERM,
-        location: @LOCATION,
-        limit: 5
-      }
-      response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
-      response_body_hash = JSON.parse(response.body)
-      @businesses = response_body_hash["businesses"]
-    else
+      @businesses = yelp_business_search(@TERM, @LOCATION)
     end
-    puts "**************"
-    puts @businesses[0]
-    puts "**************"
+    
     render "search"
   end
 
+  def event
+    @LOCATION = ""
+    if params[:location].present?
+      @LOCATION = params[:location]
+    else
+      @LOCATION = "New York"
+    end
 
+    @events = []
+    url = "#{@@API_HOST}#{@@EVENT_PATH}"
+    params = {
+      location: @LOCATION,
+      limit: 10
+    }
+    response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
+    response_body_hash = JSON.parse(response.body)
+    @events = response_body_hash["events"]
+    puts "**************"
+    puts @events[0]
+    puts "**************"
+    render "event"
+  end
 
 
   def login
@@ -66,7 +79,8 @@ class UsersController < ApplicationController
       @login_errors.push("password is not correct")
     end
     if @login_errors.empty?
-      redirect_to action: "home", id:@user.id      
+      store_user(@user.id)
+      redirect_to action: "home"   
     else
       render "welcome"
     end
@@ -79,7 +93,6 @@ class UsersController < ApplicationController
     @password = params[:password]
     @re_password = params[:re_password]
     @signup_errors = []
-
     if @email == ""
       @signup_errors.push("email is empty")
     end
@@ -101,7 +114,8 @@ class UsersController < ApplicationController
     else
       @new_user = User.create(email: @email, password_digest: @password)
       if @new_user.save()
-        redirect_to action: "home", id:@new_user.id
+        store_user(@new_user.id)
+        redirect_to action: "question", id:@new_user.id
       else
         @signup_errors.push("Sorry, signing up failed somehow, please try again.")
         render "welcome"
@@ -131,35 +145,13 @@ class UsersController < ApplicationController
   end
 
   def home
-    # @TERM = ""
-    # if params[:term] != nil
-    #   @TERM = params[:term]
-    # end
-
-    # @LOCATION = "New York"
-    # @search_error = nil
-    # if params[:location].present?
-    #   @LOCATION = params[:location]
-    # else
-    #   @search_error = "location can not be empty!"
-    # end
-
+    @user = load_user()
     @businesses = []
     if @search_error == nil
-      url = "#{@@API_HOST}#{@@SEARCH_PATH}"
-      params = {
-        term: @TERM,
-        location: "New York",
-        limit: 10
-      }
-      response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
-      response_body_hash = JSON.parse(response.body)
-      @businesses = response_body_hash["businesses"]
+      @businesses = yelp_business_search("", "New York")
     else
     end
-    puts "**************"
-    puts @businesses[0]
-    puts "**************"
+    
     render "home"
   end
 
@@ -167,22 +159,23 @@ class UsersController < ApplicationController
 
 
 
-  # def question
-  #   # @user = load_cookie
-  # end
-  #
-  # def question_update
-  #   @user = load_cookie
-  #   respond_to do |format|
-  #     if @user.update(user_params)
-  #       format.html { redirect_to @user, notice: "User was successfully updated." }
-  #       format.json { render :show, status: :ok, location: @user }
-  #     else
-  #       format.html { render :edit, status: :unprocessable_entity }
-  #       format.json { render json: @user.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  def question
+    # @user = User.find(params[:id])
+  end
+
+  def question_update
+    @user = User.find(params[:id])
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to action: "home", id:@user.id, notice: "User was successfully updated." }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -190,18 +183,34 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    # def user_params
-    #   params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
-    # end
-    #
-    # def store_cookie(id, email, password)
-    #   session[:user_id] = id
-    #   session[:user_email] = email
-    #   session[:user_password] = password
-    # end
-    #
-    # def load_cookie
-    #   return User.find_by({id:session[:user_id],email:session[:user_email],password_digest:session[:user_password]})
-    # end
+    #Only allow a list of trusted parameters through.
+    def user_params
+      params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
+    end
+    
+    def store_user(id)
+      session[:user_id] = id
+    end
+    
+    def load_user
+      return User.find_by({id:session[:user_id]})
+    end
+
+    def yelp_business_search(term, location)
+      url = "#{@@API_HOST}#{@@SEARCH_PATH}"
+      params = {
+        term: term,
+        location: location,
+        limit: 15
+      }
+      response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
+      response_body_hash = JSON.parse(response.body)
+      businesses = response_body_hash["businesses"]
+      puts "********"
+      puts businesses.is_a? Array
+      puts "********"
+      return businesses
+    end
+
+
 end

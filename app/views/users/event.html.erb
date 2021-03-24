@@ -1,0 +1,6 @@
+<h2>Event Nearby! </h2>
+<% @events.each do |event| %>
+    <h5 class="card-title event"><%= event["name"] %></h5>
+    <h5 class="card-title event"><%= event["location"]["address1"] %></h5>
+    <img src=<%= event["image_url"]%>>
+<% end %>

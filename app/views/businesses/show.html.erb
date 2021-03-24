@@ -1,0 +1,24 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <%# <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-top"> %>
+      <%= @user.email%>
+    </a>
+  </div>
+</nav>
+
+
+<button type="button" class="btn btn-primary">
+  <%= link_to "Write a Review", "/business/" + @business["id"] + "/review"%>
+</button>
+
+
+
+
+<% if @reviews.empty? == false%>   
+  <% @reviews.each do |r| %>
+    <p><%= r.review %></p>
+  <% end %>
+<% end%>
+
+

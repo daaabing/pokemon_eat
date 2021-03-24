@@ -1,0 +1,28 @@
+<h1>You are in Review</h1>
+
+
+
+
+<div class="banner">
+    <%= image_tag("test.jpeg", width: '100%')%>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-8">
+        <h1>Write Your Review</h1>
+        <%= form_with(url: "/business/" + params[:business_id] + "/review", method: :get, local: true) do |form| %>
+            <%= form.label :review, "For " + @business[:alias].to_s, :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+            <%= form.text_area :review, size: "20x20", :class=>"form-control" %>
+            <%= form.submit "Post" , :class=>"btn btn-primary" %>
+        <% end %>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+</div>
+
+
+
+
