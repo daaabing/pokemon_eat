@@ -4,7 +4,7 @@ require "optparse"
 
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  # before_action :set_user, only: %i[ show edit update destroy ]
   @@API_KEY = "cOvuE6J1hqqbEn_ByZMHUqXod80KtPv55iLvQ6G9zoiFtbYvLNtpzUrHE9cFnP4-jTl-5ha99bTNYQ7LAtCWJ2FerNpFlRF9KVBgFmNyXQ9YxPBkNj_DLElVq1M-YHYx"
   @@API_HOST = "https://api.yelp.com"
   @@SEARCH_PATH = "/v3/businesses/search"
@@ -43,8 +43,6 @@ class UsersController < ApplicationController
 
 
 
-
-
   def event
     @LOCATION = ""
     if params[:location].present?
@@ -67,6 +65,8 @@ class UsersController < ApplicationController
     puts "**************"
     render "event"
   end
+
+
 
   
   def recommend
@@ -96,6 +96,8 @@ class UsersController < ApplicationController
   end
 
 
+
+
   def login
     @email = params[:email]
     @password = params[:password]
@@ -119,6 +121,7 @@ class UsersController < ApplicationController
       render "welcome"
     end
   end
+
 
 
 
@@ -160,38 +163,17 @@ class UsersController < ApplicationController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  def show    
+  def show   
+    @user = load_user 
+    render "show"
   end
+
+
+
+
 
   def home
     @user = load_user()
-    # @TERM = ""
-    # if params[:term] != nil
-    #   @TERM = params[:term]
-    # end
-
-    # @LOCATION = "New York"
-    # @search_error = nil
-    # if params[:location].present?
-    #   @LOCATION = params[:location]
-    # else
-    #   @search_error = "location can not be empty!"
-    # end
     @question = Question.generate_question
     session[:question_id] = @question.id
     @options = []
@@ -201,9 +183,7 @@ class UsersController < ApplicationController
     @businesses = []
     if @search_error == nil
       @businesses = yelp_business_search("", "New York")
-    else
     end
-    
     render "home"
   end
 
@@ -214,6 +194,11 @@ class UsersController < ApplicationController
   def question
     # @user = User.find(params[:id])
   end
+
+
+
+
+
   def question_update
     @user = User.find(params[:id])
     respond_to do |format|
@@ -227,11 +212,13 @@ class UsersController < ApplicationController
     end
   end
 
+
+
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
     #Only allow a list of trusted parameters through.
     def user_params
@@ -261,6 +248,4 @@ class UsersController < ApplicationController
       puts "********"
       return businesses
     end
-
-
 end

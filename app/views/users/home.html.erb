@@ -1,9 +1,12 @@
-<nav class="navbar navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <%# <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-top"> %>
-      <%= @user.email%>
-    </a>
+<nav class="navbar " style="background: rgba(0,0,0,0);">
+  <div class="container-fluid" >
+    <div class="navbar-brand" style="display:flex; align-items:center;">
+      <%= image_tag("superball.png", width: '50px') %>
+      <strong style="padding-left:5px;">Pokemon Eat</strong>
+    </div>
+    <span class="navbar-text">
+      <%= link_to @user.email, "/user" %>
+    </span>
   </div>
 </nav>
 
@@ -61,7 +64,7 @@
         <% @businesses.each do |business| %>
           <div class="col-4"> 
             <div class="card mb-3" >
-              <img src=<%= business["image_url"]%> class="card-img-top" alt="...">
+              <img src=<%= business["image_url"]%> class="card-img-top">
               <div class="card-body">
                 <h5 class="card-title business"><%= business["name"] %></h5>
                 <div>
