@@ -5,7 +5,16 @@
       <strong style="padding-left:5px;">Pokemon Eat</strong>
     </div>
     <span class="navbar-text">
-      <%= link_to @user.email, "/user" %>
+      <% if @user == nil %>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Log In", "/" %>
+        </button>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Sign Up", "/" %>
+        </button>
+      <% else %>
+        <%= link_to @user.email, "/user" %>
+      <% end%>
     </span>
   </div>
 </nav>
@@ -118,8 +127,8 @@
           <%= form.label :term, "Term:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
           <%= form.text_field :term, :class=>"form-control" %>
           <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
-          <%= form.text_field :location, :class=>"form-control" %>
-          <%= form.submit "Search" , :class=>"btn btn-primary btn-block" %>
+          <%= form.text_field :location, :class=>"form-control insert-location" %>
+          <%= form.submit "Search" , :class=>"btn btn-primary" %>
         <% end %>
       </div>
 
@@ -185,8 +194,8 @@
       <div class="modal-body">
         <%= form_with(url: "/event/" + params[:id].to_s, method: :get, local: true) do |form| %>
           <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
-          <%= form.text_field :location, :class=>"form-control" %>
-          <%= form.submit "Find" , :class=>"btn btn-primary btn-block" %>
+          <%= form.text_field :location, :class=>"form-control insert-location" %>
+          <%= form.submit "Find" , :class=>"btn btn-primary" %>
         <% end %>
       </div>
 

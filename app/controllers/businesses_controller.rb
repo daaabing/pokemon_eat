@@ -4,19 +4,18 @@ class BusinessesController < ApplicationController
   @@SEARCH_PATH = "/v3/businesses/"
 
 
+  
 
   def show
     @user = load_user()
     @business_id = params[:business_id]
     @business = yelp_business_detail(@business_id)
-    # puts "***************"
-    # puts @business
-    # puts "***************"
     @reviews = Review.where(business_id:@business_id)
-    # puts "************"
-    # puts @reviews
-    # puts "************"
   end
+
+
+
+
 
   def review
     @user_id =  session[:user_id]
@@ -28,9 +27,9 @@ class BusinessesController < ApplicationController
     puts "*************"
     if params[:commit] == "Post"
       review = params[:review]
-      new_review = Review.create({user_id: user_id, business_id: business_id, review: review})
+      new_review = Review.create({user_id: @user_id, business_id: @business_id, review: review})
       new_review.save
-      redirect_to "/business/" + business_id
+      redirect_to "/business/" + @business_id
     end
   end
 

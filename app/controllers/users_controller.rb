@@ -34,7 +34,7 @@ class UsersController < ApplicationController
 
     @businesses = []
     if @search_error == nil
-      @businesses = yelp_business_search(@TERM, @LOCATION)
+      @businesses = yelp_business_search(@TERM, @LOCATION, 15)
     end
     
     render "search"
@@ -182,7 +182,7 @@ class UsersController < ApplicationController
     end
     @businesses = []
     if @search_error == nil
-      @businesses = yelp_business_search("", "New York")
+      @businesses = yelp_business_search("", "New York", 9)
     end
     render "home"
   end
@@ -233,12 +233,12 @@ class UsersController < ApplicationController
       return User.find_by({id:session[:user_id]})
     end
 
-    def yelp_business_search(term, location)
+    def yelp_business_search(term, location, limit)
       url = "#{@@API_HOST}#{@@SEARCH_PATH}"
       params = {
         term: term,
         location: location,
-        limit: 15
+        limit: limit
       }
       response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
       response_body_hash = JSON.parse(response.body)

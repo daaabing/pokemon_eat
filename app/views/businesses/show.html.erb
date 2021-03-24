@@ -1,16 +1,25 @@
-<nav class="navbar navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <%# <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-top"> %>
-      <%= @user.email%>
-    </a>
+<nav class="navbar " style="background: rgba(0,0,0,0);">
+  <div class="container-fluid" >
+    <div class="navbar-brand" style="display:flex; align-items:center;">
+      <%= image_tag("superball.png", width: '50px') %>
+      <strong style="padding-left:5px;">Pokemon Eat</strong>
+    </div>
+    <span class="navbar-text">
+      <% if @user == nil %>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Log In", "/" %>
+        </button>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Sign Up", "/" %>
+        </button>
+      <% else %>
+        <%= link_to @user.email, "/user" %>
+      <% end%>
+    </span>
   </div>
 </nav>
 
 
-<button type="button" class="btn btn-primary">
-  <%= link_to "Write a Review", "/business/" + @business["id"] + "/review"%>
-</button>
 
 
 
@@ -20,5 +29,11 @@
     <p><%= r.review %></p>
   <% end %>
 <% end%>
+
+
+
+<button type="button" class="btn btn-primary">
+  <%= link_to "Write a Review", "/business/" + @business["id"] + "/review"%>
+</button>
 
 
