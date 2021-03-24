@@ -26,14 +26,6 @@ ActiveRecord::Schema.define(version: 2021_03_21_203218) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "reviews", force: :cascade do |t|
-    t.string "user_id"
-    t.string "business_id"
-    t.text "review"
-
-    
-ActiveRecord::Schema.define(version: 2021_03_20_155950) do
-
   create_table "options", force: :cascade do |t|
     t.text "option"
     t.string "choice"
@@ -47,6 +39,14 @@ ActiveRecord::Schema.define(version: 2021_03_20_155950) do
     t.text "question"
     t.text "answer"
     t.string "question_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "user_id"
+    t.string "business_id"
+    t.text "review"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -13,6 +13,8 @@ class UsersController < ApplicationController
   @@EVENT_PATH = "/v3/events"
 
 
+
+
   def search
     load_user
     @from_other_page = !params[:commit].present?
@@ -38,6 +40,11 @@ class UsersController < ApplicationController
     render "search"
   end
 
+
+
+
+
+
   def event
     @LOCATION = ""
     if params[:location].present?
@@ -59,7 +66,9 @@ class UsersController < ApplicationController
     puts @events[0]
     puts "**************"
     render "event"
-    
+  end
+
+  
   def recommend
     @response = Question.generate_response(session[:question_id], params[:choice]).to_s
     @question = Question.generate_question
