@@ -11,6 +11,7 @@ class BusinessesController < ApplicationController
     @business_id = params[:business_id]
     @business = yelp_business_detail(@business_id)
     @reviews = Review.where(business_id:@business_id)
+    
   end
 
 
