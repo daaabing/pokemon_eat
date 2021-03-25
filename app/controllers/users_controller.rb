@@ -169,6 +169,26 @@ class UsersController < ApplicationController
   end
 
 
+  def edit
+    if params[:commit] == "Change my profile"
+      @user = load_user
+      puts "******"
+      puts @user.email
+      puts "******"
+      @user.first_name = params[:first_name]
+      @user.last_name = params[:last_name]
+      @user.nick_name = params[:nick_name]
+      @user.gender = params[:gender]
+      @user.age = params[:age]
+      @user.save
+      redirect_to "/user"
+    else
+      render "edit"
+    end
+
+  end
+
+
 
 
 

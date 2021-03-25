@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   get "/event", to:"users#event"
   get "/recommend", to: "users#recommend"
   get '/user', to: "users#show"
+  get '/edit_profile', to:"users#edit"
 end

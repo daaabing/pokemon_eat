@@ -3,6 +3,42 @@
   User  Profile
 </h1>
 <p>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">First Name:</div>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding">
+  <%= @user.first_name %>
+  </div>
+</p>
+<p>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Last Name:</div>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding">
+  <%= @user.last_name %>
+  </div>
+</p>
+<p>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Nick Name:</div>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding">
+  <%= @user.nick_name %>
+  </div>
+</p>
+<p>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Gender:</div>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding">
+  <%= @user.gender %>
+  </div>
+</p>
+<p>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Age:</div>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding">
+  <%= @user.age %>
+  </div>
+</p>
+<p>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Food preference:</div>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding">
+  <%= @user.food_preference %>
+  </div>
+</p>
+<p>
   <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Email:</div>
   <div class="col-lg-12 col-form-label col-form-label-lg padding">
     <%= @user.email %>
@@ -10,25 +46,24 @@
 </p>
 
 <p>
-  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Confirmed:</div>
+  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Is emai confirmed:</div>
   <div class="col-lg-12 col-form-label col-form-label-lg padding">
   <%= @user.confirmed %>
   </div>
 </p>
 
-<p>
-  <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Food preference:</div>
-  <div class="col-lg-12 col-form-label col-form-label-lg padding">
-  <%= @user.food_preference %>
-  </div>
-</p>
+
 
 
 <div>
   <strong class = 'reminder class="col-lg-12 col-form-label col-form-label-lg padding"'>
-    Wanna search something? Click <%= link_to 'here', '/search/' + params[:id].to_s%>
+    <%= link_to 'Edit my profile', '/edit_profile' %>
   </strong>
 </div>
+
+
+
+
 <div>
   <strong class = 'reminder class="col-lg-12 col-form-label col-form-label-lg padding"'>
     <%= link_to 'Log out', '/' %>
