@@ -22,20 +22,97 @@
 
 
 
+<div class="container" >
+  <h1>
+    Restaurant Details
+  </h1>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Image:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <img src=<%= @business["image_url"]%> style="width:200px;">
+    </div>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Name:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <p><%= @business["name"]%></p>
+    </div>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Closed:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <p><%= @business["is_closed"]%></p>
+    </div>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Phone:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <p><%= @business["display_phone"]%></p>
+    </div>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Location:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <p><%= @business["location"]["address1"]%></p>
+    </div>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Price:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <p><%= @business["price"]%></p>
+    </div>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Rating:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <p><%= @business["rating"]%></p>
+    </div>
+  </div>
+</div>
+
+
+
 
 
 <% if @reviews.empty? == false%>   
-  <% @reviews.each do |r| %>
-    <p><%= r.user_id%></p>
-    <p><%= r.review %></p>
-
-  <% end %>
+  <div class="container" >
+    <h3>Users' Reviews</h3>
+    <div class="row justify-content-evenly">
+      <ul class="list-group list-group-flush">
+        <% @reviews.each do |r|%>
+          <li class="list-group-item">
+            <p>From user:<%= r.user_id%></p>
+            <p><%= r.review%></p> 
+            <p><%= r.updated_at%></p>
+          </li>
+        <% end %>
+      </ul>
+    </div> 
+  </div>
 <% end%>
 
+<div class="container" >
+  <div class="row justify-content-evenly">
+    <button type="button" class="btn btn-primary">
+      <%= link_to "Write a Review", "/business/" + @business["id"] + "/review"%>
+    </button> 
+    <button type="button" class="btn btn-primary" style="margin-left:10px;">
+      <%= link_to "Back to home page", "/home"%>
+    </button> 
+  </div>
+
+  
+</div>
 
 
-<button type="button" class="btn btn-primary">
-  <%= link_to "Write a Review", "/business/" + @business["id"] + "/review"%>
-</button>
+
+
 
 

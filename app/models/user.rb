@@ -53,4 +53,7 @@ class User < ApplicationRecord
     @businesses
   end
 
+
+
+
 end

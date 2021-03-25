@@ -69,6 +69,7 @@ class UsersController < ApplicationController
 
 
   
+
   def recommend
     @response = Question.generate_response(session[:question_id], params[:choice]).to_s
     @question = Question.generate_question
@@ -98,6 +99,7 @@ class UsersController < ApplicationController
 
 
 
+
   def login
     @email = params[:email]
     @password = params[:password]
@@ -121,6 +123,7 @@ class UsersController < ApplicationController
       render "welcome"
     end
   end
+
 
 
 
@@ -169,6 +172,8 @@ class UsersController < ApplicationController
   end
 
 
+
+
   def edit
     if params[:commit] == "Change my profile"
       @user = load_user
@@ -185,7 +190,6 @@ class UsersController < ApplicationController
     else
       render "edit"
     end
-
   end
 
 
@@ -200,10 +204,11 @@ class UsersController < ApplicationController
     for o in @question.options do
       @options.append(o["option"])
     end
-    @businesses = []
-    if @search_error == nil
-      @businesses = yelp_business_search("", "New York", 9)
-    end
+    @businesses = yelp_business_search("", "New York", 9)
+    @user_reviews = get_user_reviews(@user.id)
+    # puts "*******"
+    # puts @user_reviews
+    # puts "********"
     render "home"
   end
 
@@ -214,6 +219,8 @@ class UsersController < ApplicationController
   def question
     # @user = User.find(params[:id])
   end
+
+  
 
 
 
@@ -236,11 +243,14 @@ class UsersController < ApplicationController
 
 
 
+  def get_user_reviews(user_id)
+    return Review.get_user_reviews(user_id)
+  end
+
+
+
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-
-    #Only allow a list of trusted parameters through.
     def user_params
       params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
     end
@@ -263,9 +273,6 @@ class UsersController < ApplicationController
       response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
       response_body_hash = JSON.parse(response.body)
       businesses = response_body_hash["businesses"]
-      puts "********"
-      puts businesses.is_a? Array
-      puts "********"
       return businesses
     end
 end

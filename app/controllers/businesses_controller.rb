@@ -11,7 +11,9 @@ class BusinessesController < ApplicationController
     @business_id = params[:business_id]
     @business = yelp_business_detail(@business_id)
     @reviews = Review.where(business_id:@business_id)
-    
+    puts "*********"
+    puts @business
+    puts "*********"
   end
 
 
@@ -23,9 +25,6 @@ class BusinessesController < ApplicationController
     @business_id = params[:business_id]
     puts @business_id
     @business = yelp_business_detail(@business_id)
-    puts "*************"
-    puts @business
-    puts "*************"
     if params[:commit] == "Post"
       review = params[:review]
       new_review = Review.create({user_id: @user_id, business_id: @business_id, review: review})
