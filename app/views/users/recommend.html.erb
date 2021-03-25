@@ -1,9 +1,63 @@
+<nav class="navbar " style="background: rgba(0,0,0,0);">
+  <div class="container-fluid" >
+    <div class="navbar-brand" style="display:flex; align-items:center;">
+      <%= image_tag("superball.png", width: '50px') %>
+      <strong style="padding-left:5px;">Pokemon Eat</strong>
+    </div>
+    <span class="navbar-text">
+      <% if @user == nil %>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Log In", "/" %>
+        </button>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Sign Up", "/" %>
+        </button>
+      <% else %>
+        <%= link_to @user.email, "/user" %>
+      <% end%>
+    </span>
+  </div>
+</nav>
+
+
 <% if @recommend_error != nil %>
     <p><%= @recommend_error %></p>
 <% elsif @businesses.empty? == false%>
-    <h2><%= @response %></h2>
-    <% @businesses.each do |business| %>
-        <p class="business"> <%= business["name"] %></p>
-    <% end %>
+    <div class="container" >
+        <div class="row justify-content-evenly">
+          <h2><%= @response %></h2>
+        </div>
+        <div class="row justify-content-evenly" style="margin-top:50px;">
+          <h4>Recommendation</h2>
+        </div>
+    </div>
+    <div class="container" >
+        <div class="row justify-content-evenly">
+          <ul class="list-group list-group-flush">
+            <% @businesses.each do |b| %>
+              <li class="list-group-item">
+                <h5><%= b["name"]%></h5>
+                <img src=<%= b["image_url"]%> style="width:300px;">
+                <p>Closed <%= b["is_closed"]%></p>
+                <p>Call <%= b["display_phone"]%></p>
+                <p><%= link_to "visit here", b["url"]%></p>
+              </li>
+            <%end%>
+          </ul>
+        </div> 
+    </div>
 <% end %>
+
+
+
+
+<div class="container" >
+  <div class="row justify-content-evenly">
+    <button type="button" class="btn btn-primary" style="margin-left:10px;">
+      <%= link_to "Back to home page", "/home"%>
+    </button> 
+  </div>
+</div>
+
+
 

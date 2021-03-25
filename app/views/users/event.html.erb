@@ -1,6 +1,53 @@
-<h2>Event Nearby! </h2>
-<% @events.each do |event| %>
-    <h5 class="card-title event"><%= event["name"] %></h5>
-    <h5 class="card-title event"><%= event["location"]["address1"] %></h5>
-    <img src=<%= event["image_url"]%>>
+<nav class="navbar " style="background: rgba(0,0,0,0);">
+  <div class="container-fluid" >
+    <div class="navbar-brand" style="display:flex; align-items:center;">
+      <%= image_tag("superball.png", width: '50px') %>
+      <strong style="padding-left:5px;">Pokemon Eat</strong>
+    </div>
+    <span class="navbar-text">
+      <% if @user == nil %>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Log In", "/" %>
+        </button>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Sign Up", "/" %>
+        </button>
+      <% else %>
+        <%= link_to @user.email, "/user" %>
+      <% end%>
+    </span>
+  </div>
+</nav>
+
+
+
+<% if @events.empty? == false%>
+    <div class="container" >
+      <div class="row justify-content-evenly" style="margin-top:10px;">
+        <h4>Events Around You</h4>
+      </div>
+    </div>
+    <div class="container" >
+      <div class="row justify-content-evenly">
+        <ul class="list-group list-group-flush">
+          <% @events.each do |e|%>
+            <li class="list-group-item">
+              <h5><%= e["name"]%></h5>
+              <img src=<%= e["image_url"]%> style="width:300px;">
+              <p><%= e["location"]["address1"] %></p>
+            </li>
+          <%end%>
+        </ul>
+      </div> 
+    </div>
 <% end %>
+
+
+
+<div class="container" >
+  <div class="row justify-content-evenly">
+    <button type="button" class="btn btn-primary" style="margin-left:10px;">
+      <%= link_to "Back to home page", "/home"%>
+    </button> 
+  </div>
+</div>

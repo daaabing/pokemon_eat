@@ -1,4 +1,23 @@
-<h1>Editing User</h1>
+<nav class="navbar " style="background: rgba(0,0,0,0);">
+  <div class="container-fluid" >
+    <div class="navbar-brand" style="display:flex; align-items:center;">
+      <%= image_tag("superball.png", width: '50px') %>
+      <strong style="padding-left:5px;">Pokemon Eat</strong>
+    </div>
+    <span class="navbar-text">
+      <% if @user == nil %>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Log In", "/" %>
+        </button>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Sign Up", "/" %>
+        </button>
+      <% else %>
+        <%= link_to @user.email, "/user" %>
+      <% end%>
+    </span>
+  </div>
+</nav>
 
 
 <%= form_with(url: "/edit_profile", method: :get, local: true) do |form| %>
@@ -17,7 +36,8 @@
     <%= form.label :age, "Age:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
     <%= form.text_field :age, :class=>"form-control" %>
 
-    
+    <%= form.label :food_preference, "Food Preference:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+    <%= form.text_field :food_preference, :class=>"form-control" %>
 
     <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
     <%= form.text_field :location, :class=>"form-control insert-location" %>

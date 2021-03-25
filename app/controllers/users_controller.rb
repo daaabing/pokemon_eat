@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
 
   def search
-    load_user
+    @user = load_user
     @from_other_page = !params[:commit].present?
 
     @TERM = ""
@@ -35,9 +35,10 @@ class UsersController < ApplicationController
     @businesses = []
     if @search_error == nil
       @businesses = yelp_business_search(@TERM, @LOCATION, 15)
+      render "search"
+    else
+      home()
     end
-    
-    render "search"
   end
 
 
@@ -71,6 +72,7 @@ class UsersController < ApplicationController
   
 
   def recommend
+    @user = load_user
     @response = Question.generate_response(session[:question_id], params[:choice]).to_s
     @question = Question.generate_question
     @options = []
@@ -175,6 +177,7 @@ class UsersController < ApplicationController
 
 
   def edit
+    @user = load_user
     if params[:commit] == "Change my profile"
       @user = load_user
       puts "******"
@@ -185,6 +188,7 @@ class UsersController < ApplicationController
       @user.nick_name = params[:nick_name]
       @user.gender = params[:gender]
       @user.age = params[:age]
+      @user.food_preference = params[:food_preference]
       @user.save
       redirect_to "/user"
     else
