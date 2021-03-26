@@ -12,8 +12,6 @@ class UsersController < ApplicationController
   @@DEFAULT_BUSINESS_ID = "yelp-san-francisco"
 
 
-
-
   def search
     @user = load_user
     @from_other_page = !params[:commit].present?
@@ -183,14 +181,6 @@ class UsersController < ApplicationController
 
 
 
-  def question
-    # @user = User.find(params[:id])
-  end
-
-  
-
-
-
 
 
   def question_update
@@ -228,6 +218,10 @@ class UsersController < ApplicationController
     
     def load_user
       return User.find_by({id:session[:user_id]})
+    end
+
+    def store_question(question_id)
+      session[:question_id] = question_id
     end
 
     def yelp_business_search(term, location, limit)

@@ -5,9 +5,6 @@ class BusinessesController < ApplicationController
   @@EVENT_PATH = "/v3/events"
 
 
-
-  
-
   def show
     @user = load_user()
     @business_id = params[:business_id]
@@ -17,12 +14,9 @@ class BusinessesController < ApplicationController
 
 
 
-
-
   def review
     @user_id = session[:user_id]
     @business_id = params[:business_id]
-    puts @business_id
     @business = yelp_business_detail(@business_id)
     if params[:commit] == "Post"
       review = params[:review]
@@ -31,8 +25,6 @@ class BusinessesController < ApplicationController
       redirect_to "/business/" + @business_id
     end
   end
-
-
 
 
 
@@ -50,16 +42,12 @@ class BusinessesController < ApplicationController
 
 
 
-
-
   def get_event
     @user = load_user
     @event_id = params[:id]
     @event = yelp_event_lookup(@event_id)
     render "event"
   end
-
-
 
 
 
@@ -77,8 +65,6 @@ class BusinessesController < ApplicationController
 
     def yelp_event_search(location)
       url = "#{@@API_HOST}#{@@EVENT_PATH}"
-      puts "url"
-      puts url
       params = {
         location: location,
         limit: 10
@@ -94,28 +80,14 @@ class BusinessesController < ApplicationController
 
     def yelp_event_lookup(event_id)
       url = "#{@@API_HOST}#{@@EVENT_PATH}/#{event_id}"
-      puts "url"
-      puts url
       response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
       event = JSON.parse(response.body)
-      puts "**************"
-      puts event
-      puts "**************"
       return event
     end
-
-
-
-
-
-    def store_user(id)
-      session[:user_id] = id
-    end
     
-
-
-
+    
     def load_user
       return User.find_by({id:session[:user_id]})
     end
+
 end
