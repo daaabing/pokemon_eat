@@ -2,7 +2,7 @@
   <div class="container-fluid" >
     <div class="navbar-brand" style="display:flex; align-items:center;">
       <%= image_tag("superball.png", width: '50px') %>
-      <strong style="padding-left:5px;">Pokemon Eat</strong>
+      <h1 style="padding-left:5px;">Pokemon Eat</h1>
     </div>
     <span class="navbar-text">
       <% if @user == nil %>
@@ -21,95 +21,67 @@
 
 
 
-
 <div class="container" >
   <h1>
-    Restaurant Details
+    Event Details
   </h1>
 
   <div class="row justify-content-evenly">
     <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Image:</div>
     <div class="col-lg-12 col-form-label col-form-label-lg padding">
-      <img src=<%= @business["image_url"]%> style="width:200px;">
+      <img src=<%= @event["image_url"]%> style="width:200px;">
     </div>
   </div>
 
   <div class="row justify-content-evenly">
     <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Name:</div>
     <div class="col-lg-12 col-form-label col-form-label-lg padding">
-      <p><%= @business["name"]%></p>
+      <p><%= @event["name"]%></p>
     </div>
   </div>
 
   <div class="row justify-content-evenly">
-    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Closed:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Free:</div>
     <div class="col-lg-12 col-form-label col-form-label-lg padding">
-      <p><%= @business["is_closed"]%></p>
+      <p><%= @event["is_free"]%></p>
     </div>
   </div>
 
   <div class="row justify-content-evenly">
-    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Phone:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Category:</div>
     <div class="col-lg-12 col-form-label col-form-label-lg padding">
-      <p><%= @business["display_phone"]%></p>
+      <p><%= @event["category"]%></p>
+    </div>
+  </div>
+
+  <div class="row justify-content-evenly">
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Description:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding">
+      <p><%= @event["description"]%></p>
     </div>
   </div>
 
   <div class="row justify-content-evenly">
     <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Location:</div>
     <div class="col-lg-12 col-form-label col-form-label-lg padding">
-      <p><%= @business["location"]["address1"]%></p>
+      <p><%= @event["display_address"]%></p>
     </div>
   </div>
 
   <div class="row justify-content-evenly">
-    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Price:</div>
+    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Visit Site:</div>
     <div class="col-lg-12 col-form-label col-form-label-lg padding">
-      <p><%= @business["price"]%></p>
+      <p><%= link_to "click here", @event["event_site_url"]%></p>
     </div>
   </div>
 
   <div class="row justify-content-evenly">
-    <div class="col-lg-12 col-form-label col-form-label-lg padding weight">Rating:</div>
-    <div class="col-lg-12 col-form-label col-form-label-lg padding">
-      <p><%= @business["rating"]%></p>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-<% if @reviews.empty? == false%>   
-  <div class="container" >
-    <h1>Users' Reviews</h1>
-    <div class="row justify-content-evenly">
-      <ul class="list-group list-group-flush">
-        <% @reviews.each do |r|%>
-          <li class="list-group-item">
-            <p>From user:<%= r.user_id%></p>
-            <p><%= r.review%></p> 
-            <p><%= r.updated_at%></p>
-          </li>
-        <% end %>
-      </ul>
-    </div> 
-  </div>
-<% end%>
-
-<div class="container" >
-  <div class="row justify-content-evenly">
-    <button type="button" class="btn btn-primary">
-      <%= link_to "Write a Review", "/business/" + @business["id"] + "/review"%>
-    </button> 
     <button type="button" class="btn btn-primary" style="margin-left:10px;">
       <%= link_to "Back to home page", "/home"%>
     </button> 
   </div>
+
 </div>
-
-
 
 
 

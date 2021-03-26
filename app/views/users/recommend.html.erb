@@ -40,7 +40,7 @@
                 <img src=<%= b["image_url"]%> style="width:300px;">
                 <p>Closed <%= b["is_closed"]%></p>
                 <p>Call <%= b["display_phone"]%></p>
-                <p><%= link_to "visit here", b["url"]%></p>
+                <p><%= link_to "detail", "/business/" + b["id"].to_s%></p>
               </li>
             <%end%>
           </ul>

@@ -35,6 +35,7 @@
               <h5><%= e["name"]%></h5>
               <img src=<%= e["image_url"]%> style="width:300px;">
               <p><%= e["location"]["address1"] %></p>
+              <p><%= link_to("detail", "/event/" + e["id"].to_s)%></p>
             </li>
           <%end%>
         </ul>

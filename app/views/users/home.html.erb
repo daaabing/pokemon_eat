@@ -62,7 +62,7 @@
         <div class="card-body">
           <h3 class="card-title">EVENT</h3>
           <h4 class="card-text">Find out events on around you!</h4>
-          <%= form_with(url: "/event/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <%= form_with(url: "/events/" + params[:id].to_s, method: :get, local: true) do |form| %>
             <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
             <%= form.text_field :location, :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
             <%= form.submit "Find" , :class=>"btn btn-primary" %>

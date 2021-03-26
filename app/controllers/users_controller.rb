@@ -10,7 +10,6 @@ class UsersController < ApplicationController
   @@SEARCH_PATH = "/v3/businesses/search"
   @@BUSINESS_PATH = "/v3/businesses/"  # trailing / because we append the business id to the path
   @@DEFAULT_BUSINESS_ID = "yelp-san-francisco"
-  @@EVENT_PATH = "/v3/events"
 
 
 
@@ -44,33 +43,6 @@ class UsersController < ApplicationController
 
 
 
-  def event
-    @LOCATION = ""
-    if params[:location].present?
-      @LOCATION = params[:location]
-    else
-      @LOCATION = "New York"
-    end
-
-    @events = []
-    url = "#{@@API_HOST}#{@@EVENT_PATH}"
-    params = {
-      location: @LOCATION,
-      limit: 10
-    }
-    response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
-    response_body_hash = JSON.parse(response.body)
-    @events = response_body_hash["events"]
-    puts "**************"
-    puts @events[0]
-    puts "**************"
-    render "event"
-  end
-
-
-
-  
-
   def recommend
     @user = load_user
     @response = Question.generate_response(session[:question_id], params[:choice]).to_s
@@ -92,9 +64,6 @@ class UsersController < ApplicationController
     if @recommend_error == nil
       @businesses = User.get_recommend @LOCATION
     end
-    puts "**************"
-    puts @businesses[0]
-    puts "**************"
     render "recommend"
   end
 
@@ -180,9 +149,6 @@ class UsersController < ApplicationController
     @user = load_user
     if params[:commit] == "Change my profile"
       @user = load_user
-      puts "******"
-      puts @user.email
-      puts "******"
       @user.first_name = params[:first_name]
       @user.last_name = params[:last_name]
       @user.nick_name = params[:nick_name]
@@ -210,9 +176,6 @@ class UsersController < ApplicationController
     end
     @businesses = yelp_business_search("", "New York", 9)
     @user_reviews = get_user_reviews(@user.id)
-    # puts "*******"
-    # puts @user_reviews
-    # puts "********"
     render "home"
   end
 
