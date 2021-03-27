@@ -1,13 +1,21 @@
 Given /^I am on "(.*)" page$/ do |page_name|
   if page_name == "Search"
-    visit '/search/1'
+    visit '/search'
   else
     visit '/'
   end
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  fill_in(field, :with => value)
+  if field == "Category"
+    fill_in(:with => value, id: "search_term")
+  elsif field == "Nearby"
+      fill_in(:with => value, id: "search_location")
+  elsif field == "Location:"
+      fill_in(:with => value, id: "event_location")
+  else
+      fill_in(field, :with => value)
+  end
 end
 
 

@@ -4,28 +4,19 @@ Feature: homepage for users
 
 Background: users in database
   Given the following users exist:
-  | email            | password_digest | confirmed  | food_preference |
-  | abc@111.com      | abc111          | abc111     | chinese         |
-  | edf@222.com      | edf222          | edf222     | french          |
-  | test@33.com      | test33          | test33     |                 |
-  
-#Scenario: user homepage
-#  When I am on the page of "users"
-#  Then I should see "abc@111.com"
-#  But I should not see "test@gamil.com"
-#  And the food preference of "abc@111.com" should be "chinese"
-#
-#Scenario: user homepage
-#  When I am on the page of "users"
-#  Then I should see "test@33.com"
-#  And the food preference of "test@33.com" should be "empty"
-
-Scenario: Log in successfully
+  | email                        | password_digest | confirmed      | food_preference |
+  | zhengchuan000@gmail.com      | 1               | 1              | chinese         |
+  | 807442894@qq.com             | 1               | 1              | french          |
+  | hzwang@ucdavis.edu           | 1               | 1              | korean          |
+  | heyunong1223@gmail.com       | 1               | 1              |                 |
+      
+Scenario: Log in and Log out successfully
     Given I am on "Home" page
-    And I fill in "Email" for login with "test@33.com"
-    And I fill in "Password" for login with "test33"
+    And I fill in "Email" for login with "zhengchuan000@gmail.com"
+    And I fill in "Password" for login with "1"
     Then I press "Login"
-    And the food preference of "test@33.com" should be "empty"
+    And the food preference of "zhengchuan000@gmail.com" should be "empty"
+    Then I follow "zhengchuan000@gmail.com"
     Then I follow "Log out"
     Then I should see "Welcome to Pokemon Eat!"
 
@@ -36,5 +27,15 @@ Scenario: Log in successfully
     And I fill in "Password" for login with "123"
     Then I press "Login"
     And the food preference of "123@columbia.edu" should be "empty"
-    Then I follow "here"
-    Then I should see "Search"
+    Then I follow "123@columbia.edu"
+    Then I should see "User Profile"
+
+Scenario: Log in successfully
+    Given I am on "Home" page
+    And I fill in "Email" for login with "hzwang@ucdavis.edu"
+    And I fill in "Password" for login with "1"
+    Then I press "Login"
+    And the food preference of "hzwang@ucdavis.edu" should be "empty"
+    Then I follow "hzwang@ucdavis.edu"
+    Then I follow "Back to home page"
+    Then I should see "Get restaurant based on your preference!"

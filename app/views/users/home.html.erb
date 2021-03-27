@@ -29,17 +29,17 @@
           <h4 class="card-text">Hunting for good for yourself!</h4>
           <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
             <div>
-              <%= form.label :term, "Find", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;" %>
-              <%= form.text_field :term, :class=>"form-control", :style=>"display:inline; width:50%;"%>
+              <%= form.label :term, "Category", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;" %>
+              <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:50%;"%>
             </div>
             <div>
-              <%= form.label :location, "Near", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
-              <%= form.text_field :location, :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
+              <%= form.label :location, "Nearby", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
+              <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
             </div>
             <% if @search_error != nil%>
             <p><%= @search_error%></p>
             <% end%>
-            <%= form.submit "Search" , :class=>"btn btn-primary" %>
+            <%= form.submit "Go" , :class=>"btn btn-primary" %>
           <% end %>
         </div>
       </div>
@@ -64,8 +64,8 @@
           <h4 class="card-text">Find out events on around you!</h4>
           <%= form_with(url: "/events/" + params[:id].to_s, method: :get, local: true) do |form| %>
             <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
-            <%= form.text_field :location, :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
-            <%= form.submit "Find" , :class=>"btn btn-primary" %>
+            <%= form.text_field :location, :id => 'event_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
+            <%= form.submit "Look" , :class=>"btn btn-primary" %>
           <% end %>
         </div>
       </div>

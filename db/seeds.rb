@@ -9,9 +9,9 @@ case Rails.env
 
 when "development"
     users = User.create([
-        {email: "zhengchuan000@gmail.com", password_digest: "1"},
-        {email: "807442894@qq.com", password_digest: "1"},
-        {email: "hzwang@ucdavis.edu", password_digest: "1"},
+        {email: "zhengchuan000@gmail.com", password_digest: "1", food_preference: "chinese"},
+        {email: "807442894@qq.com", password_digest: "1", food_preference: "french"},
+        {email: "hzwang@ucdavis.edu", password_digest: "1", food_preference: "korean"},
         {email: "heyunong1223@gmail.com", password_digest: "1"},
     ])
     
@@ -104,9 +104,9 @@ when "development"
     ])
 when "test"
     users = User.create([
-        {email: "zhengchuan000@gmail.com", password_digest: "1"},
-        {email: "807442894@qq.com", password_digest: "1"},
-        {email: "hzwang@ucdavis.edu", password_digest: "1"},
+        {email: "zhengchuan000@gmail.com", password_digest: "1", food_preference: "chinese"},
+        {email: "807442894@qq.com", password_digest: "1", food_preference: "french"},
+        {email: "hzwang@ucdavis.edu", password_digest: "1", food_preference: "korean"},
         {email: "heyunong1223@gmail.com", password_digest: "1"},
     ])
     

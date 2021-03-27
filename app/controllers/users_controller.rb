@@ -164,10 +164,24 @@ class UsersController < ApplicationController
 
 
 
+  # def home
+  #   @user = load_user()
+  #   @question = Question.generate_question
+  #   session[:question_id] = @question.id
+  #   @options = []
+  #   for o in @question.options do
+  #     @options.append(o["option"])
+  #   end
+  #   @businesses = yelp_business_search("", "New York", 9)
+  #   @user_reviews = get_user_reviews(@user.id)
+  #   render "home"
+  # end
+
   def home
     @user = load_user()
-    @question = Question.generate_question
-    session[:question_id] = @question.id
+    @@QUESTION_ID = Question.generate_question.id
+    @question = load_question(@@QUESTION_ID)
+    # session[:question_id] = @question.id
     @options = []
     for o in @question.options do
       @options.append(o["option"])
@@ -176,8 +190,6 @@ class UsersController < ApplicationController
     @user_reviews = get_user_reviews(@user.id)
     render "home"
   end
-
-
 
 
 
@@ -218,6 +230,10 @@ class UsersController < ApplicationController
     
     def load_user
       return User.find_by({id:session[:user_id]})
+    end
+
+    def load_question(question_id)
+      return Question.find_by({id:@@QUESTION_ID})
     end
 
     def store_question(question_id)
