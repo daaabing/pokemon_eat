@@ -97,6 +97,6 @@ RSpec.configure do |config|
 end
 
 
-def session
-  last_request.env['rack.session']
-end
+# def session
+#   last_request.env['rack.session']
+# end

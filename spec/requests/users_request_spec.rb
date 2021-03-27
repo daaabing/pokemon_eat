@@ -72,12 +72,11 @@ RSpec.describe "check Signup function", type: :request do
     expect(response.body).to include "This email has been registered!"
   end
 
-  it "check can't match the db" do
-    get '/'
-    post signup_path, :params => {:email => '807442894@qq.com' }
-    expect(response.body).to include "Sorry, signing up failed somehow, please try again."
-    puts response.body
-  end
+  # it "check can't match the db" do
+  #   get '/'
+  #   post signup_path, :params => {:email => '807442894@qq.com' }
+  #   expect(response.body).to include "Sorry, signing up failed somehow, please try again."
+  # end
 
   it "check when password or re-password is empty" do
     get '/'
@@ -90,36 +89,55 @@ end
 
 
 
-# RSpec.describe "check search function", type: :request do
-#   before(:each) do
-#     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
-#   end
+RSpec.describe "check search function", type: :request do
+  before(:each) do
+    @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
+    post "/login", :params => {:email => 'test122@gmail.com', :password =>'test' }
+    get '/home'
+  end
 
-#   it "get on search page" do
-#     get '/search/' + @user_new.id.to_s
-#     expect(response).to have_http_status(200)
-#     expect(response.body).to include "please input your term and location"
-#   end
+  it "search with term and location" do
+    get '/search/?term=seafood&location=New+York&commit=Search'
+    expect(response.body).to include "Searching Restaurants"
+  end
 
-#   it "search with term and location" do
-#     get '/search/' + @user_new.id.to_s + '?term=seafood&location=New+York&commit=Search'
-#     expect(response.body).to include "Searching Results"
-#   end
+  it "search with only term" do
+    get '/search/?term=seafood&location=&commit=Search'
+    expect(response).to have_http_status(200)
+    expect(response.body).to include "location can not be empty!"
+  end
 
-#   it "search with only term" do
-#     get '/search/' + @user_new.id.to_s + '?term=seafood&location=&commit=Search'
-#     expect(response).to have_http_status(200)
-#     expect(response.body).to include "location can not be empty!"
-#   end
+  it "seaech with only loaction" do
+    get '/search/?term=&location=New+York&commit=Search'
+    expect(response.body).to include "Searching Restaurants"
+  end
 
-#   it "seaech with only loaction" do
-#     get '/search/' + @user_new.id.to_s + '?term=&location=New+York&commit=Search'
-#     expect(response.body).to include "Searching Results"
-#   end
+  it "search with blank inputs" do
+    get '/search/?term=&location=&commit=Search'
+    expect(response).to have_http_status(200)
+    expect(response.body).to include "location can not be empty!"
+  end
+end
 
-#   it "search with blank inputs" do
-#     get '/search/' + @user_new.id.to_s + '?term=&location=&commit=Search'
-#     expect(response).to have_http_status(200)
-#     expect(response.body).to include "location can not be empty!"
-#   end
-# end
+
+
+
+RSpec.describe "check recommend function", type: :request do
+  before(:each) do
+    @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
+    post "/login", :params => {:email => 'test122@gmail.com', :password =>'test' }
+    get '/home'
+  end
+
+  it "recommend with user input location" do
+    get '/recommend/?choice=cat+person%21&location=New+York&commit=Recommend%21'
+    expect(response.body).to include "Recommendation"
+  end
+
+  it "recommend with autocomplete location" do
+    get '/recommend/?choice=Summer&location=50+W+108th+St%2C+New+York%2C+NY+10025-3243%2C+United+States&commit=Recommend%21'
+    expect(response.body).to include "Recommendation"
+  end
+
+  
+end

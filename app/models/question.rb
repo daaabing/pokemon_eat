@@ -2,7 +2,7 @@ class Question < ApplicationRecord
     has_many :options, dependent: :destroy, inverse_of: :question
 
     def self.generate_question
-        question = Question.find_by_id(rand(Question.count))
+        question = Question.find_by_id(rand(1..Question.count))
     end
 
     def self.generate_response(ques_id, user_choice)

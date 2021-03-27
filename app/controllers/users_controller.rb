@@ -43,12 +43,12 @@ class UsersController < ApplicationController
 
   def recommend
     @user = load_user
-    @response = Question.generate_response(session[:question_id], params[:choice]).to_s
-    @question = Question.generate_question
-    @options = []
-    for o in @question.options do
-      @options.append(o.option)
-    end
+    @response = Question.generate_response(@@QUESTION_ID, params[:choice]).to_s
+    # @question = Question.generate_question
+    # @options = []
+    # for o in @question.options do
+    #   @options.append(o.option)
+    # end
 
     @LOCATION = ""
     @recommend_error = nil
@@ -166,8 +166,9 @@ class UsersController < ApplicationController
 
   def home
     @user = load_user()
-    @question = Question.generate_question
-    session[:question_id] = @question.id
+    @@QUESTION_ID = Question.generate_question.id
+    @question = load_question(@@QUESTION_ID)
+    # session[:question_id] = @question.id
     @options = []
     for o in @question.options do
       @options.append(o["option"])
@@ -198,8 +199,6 @@ class UsersController < ApplicationController
 
 
 
-
-
   def get_user_reviews(user_id)
     return Review.get_user_reviews(user_id)
   end
@@ -220,8 +219,8 @@ class UsersController < ApplicationController
       return User.find_by({id:session[:user_id]})
     end
 
-    def store_question(question_id)
-      session[:question_id] = question_id
+    def load_question(question_id)
+      return Question.find_by({id:@@QUESTION_ID})
     end
 
     def yelp_business_search(term, location, limit)
