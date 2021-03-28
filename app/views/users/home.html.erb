@@ -29,11 +29,11 @@
           <h4 class="card-text">Hunting for good for yourself!</h4>
           <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
             <div>
-              <%= form.label :term, "Category", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;" %>
+              <%= form.label :term, "Cuisine", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;" %>
               <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:50%;"%>
             </div>
             <div>
-              <%= form.label :location, "Nearby", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
+              <%= form.label :location, "Around", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
               <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
             </div>
             <% if @search_error != nil%>
@@ -61,7 +61,7 @@
       <div class="card text-center" style="height: 300px;">
         <div class="card-body">
           <h3 class="card-title">EVENT</h3>
-          <h4 class="card-text">Find out events around you!</h4>
+          <h4 class="card-text">Find out events near you!</h4>
           <%= form_with(url: "/events/" + params[:id].to_s, method: :get, local: true) do |form| %>
             <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
             <%= form.text_field :location, :id => 'event_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
