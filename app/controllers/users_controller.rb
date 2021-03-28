@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   @@API_HOST = "https://api.yelp.com"
   @@SEARCH_PATH = "/v3/businesses/search"
   @@BUSINESS_PATH = "/v3/businesses/"  # trailing / because we append the business id to the path
-  @@QUESTION_ID = Question.generate_question.id
+  
 
   def search
     @user = load_user
@@ -59,28 +59,6 @@ class UsersController < ApplicationController
     render "recommend"
   end
 
-  def event
-    @LOCATION = ""
-    if params[:location].present?
-      @LOCATION = params[:location]
-    else
-      @LOCATION = "New York"
-    end
-
-    @events = []
-    url = "#{@@API_HOST}#{@@EVENT_PATH}"
-    params = {
-      location: @LOCATION,
-      limit: 10
-    }
-    response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
-    response_body_hash = JSON.parse(response.body)
-    @events = response_body_hash["events"]
-    puts "**************"
-    puts @events[0]
-    puts "**************"
-    render "event"
-  end
 
 
 
@@ -137,13 +115,9 @@ class UsersController < ApplicationController
       render "welcome"
     else
       @new_user = User.create(email: @email, password_digest: @password)
-      if @new_user.save()
-        store_user(@new_user.id)
-        redirect_to action: "question", id:@new_user.id
-      else
-        @signup_errors.push("Sorry, signing up failed somehow, please try again.")
-        render "welcome"
-      end
+      @new_user.save()
+      store_user(@new_user.id)
+      redirect_to action: "question", id:@new_user.id
     end
   end
 
@@ -181,6 +155,10 @@ class UsersController < ApplicationController
 
   def home
     @user = load_user()
+    @@QUESTION_ID = Question.generate_question.id
+    puts "*******"
+    puts @@QUESTION_ID
+    puts "*******"
     @question = load_question(@@QUESTION_ID)
     @options = []
     for o in @question.options do

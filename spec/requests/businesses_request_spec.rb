@@ -34,9 +34,6 @@ RSpec.describe "Businesses", type: :request do
     it "check get on restaurant review page and write a review successfully" do 
         get '/business/JV5oa5-KGdiWnqrKPoxSug/review?review=this+restaurant+is+great%21&commit=Post'
         expect(response).to have_http_status(302)
-        # get '/business/JV5oa5-KGdiWnqrKPoxSug/review'
-        # expect(response).to have_http_status(200)
-        # expect(response.body).to include "this restaurant is great!"
     end
     
 end

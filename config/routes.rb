@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   get "/question", to: "users#question"
   post "/question_update", to: "users#question_update"
   post "/update", to: "users#update"
-<<<<<<< HEAD
   get "/home", to:"users#home"
   get "/business/:business_id", to:"businesses#show"
   get "/business/:business_id/review", to:"businesses#review"
@@ -17,8 +16,4 @@ Rails.application.routes.draw do
   get "/recommend", to: "users#recommend"
   get '/user', to: "users#show"
   get '/edit_profile', to:"users#edit"
-=======
-  get "/home/:id", to:"users#home"
-  get "/event/:id", to:"users#event"
->>>>>>> origin/event
 end

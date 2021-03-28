@@ -38,6 +38,8 @@ end
 
 
 
+
+
 RSpec.describe "check Signup function", type: :request do
   it "check signup successfully" do
     get '/'
@@ -112,6 +114,9 @@ RSpec.describe "check search function", type: :request do
   end
 end
 
+
+
+
 RSpec.describe "check home page information is correct", type: :request do
   it "check home page has user's previous reviews successfully" do
     get '/'
@@ -130,9 +135,9 @@ RSpec.describe "check home page information is correct", type: :request do
     get '/home'
     expect(response.body).to include "No reviews currently."
   end
-
-  
 end
+
+
 
 
 RSpec.describe "check recommend function", type: :request do
