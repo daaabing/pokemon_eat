@@ -10,13 +10,21 @@ Background: users in database
   | hzwang@ucdavis.edu           | 1               | 1              | korean          |
   | heyunong1223@gmail.com       | 1               | 1              |                 |
 
-    Scenario: Recommend with term and location
+    Scenario: Recommend with fun question and location
         Given I am on "Home" page
         And I fill in "Email" for login with "zhengchuan000@gmail.com"
         And I fill in "Password" for login with "1"
-        Then I press "Login"
-        Then I press "Recommend"
-        Then I should see "Recommend"
-        And I fill in "Location" with ""
+        And I press "Login"
+        And I press "Recommend"
+        And I fill in "Place:" with "50 W 108th St, New York, NY 10025-3243, United States"
+        Then I press "Recommend:"
+        Then I should see "Recommendation"
 
-    
+    Scenario: Recommend without location
+        Given I am on "Home" page
+        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        And I fill in "Password" for login with "1"
+        And I press "Login"
+        And I press "Recommend"
+        Then I press "Recommend:"
+        Then I should see "location can not be empty!"

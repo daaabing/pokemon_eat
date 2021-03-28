@@ -83,7 +83,7 @@
             <div class="card mb-3" >
               <img src=<%= business["image_url"]%> class="card-img-top">
               <div class="card-body">
-                <h5 class="card-title business"><%= business["name"] %></h5>
+                <h5 class="card-title business"><%=link_to(business["name"], '/business/' + business["id"] ) %></h5>
                 <div>
                   <% business["categories"].each do |e| %>
                     <p class="card-text" style="display:inline;">    
@@ -181,17 +181,17 @@
         <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
           <%= form.label :choice, "Select your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
           <%= form.select :choice, @options, {}, :class=>"form-control" %>
-          <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
-          <%= form.text_field :location, :class=>"form-control insert-location" %>
-          <%= form.submit "Recommend!" , :class=>"btn btn-primary" %>
+          <%= form.label :location, "Place:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :location, :id => 'recommend_location',:class=>"form-control insert-location" %>
+          <%= form.submit "Recommend:" , :class=>"btn btn-primary" %>
         <% end %>
       <% elsif @question.question_type == 'fill' %>
         <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
           <%= form.label :choice, "Input your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
           <%= form.text_field :choice, :class=>"form-control" %>
-          <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.label :location, "Place:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
           <%= form.text_field :location, :class=>"form-control insert-location" %>
-          <%= form.submit "Recommend!" , :class=>"btn btn-primary" %>
+          <%= form.submit "Recommend:" , :class=>"btn btn-primary" %>
         <% end %>
       <% end %>
       </div>

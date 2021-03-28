@@ -18,6 +18,14 @@ When /^(?:|I )fill in "([^"]*)" for login with "([^"]*)"$/ do |field, value|
     end
 end
 
+
+
+When /^(?:|I )fill in "([^"]*)" for recommend with "([^"]*)"$/ do |field, value|    
+    fill_in(field, :with => value, id: "recommend_location")
+end
+
+
+
 Given /^I am a valid user$/ do
     User.create(email: "123@columbia.edu", password_digest: "123")
 end

@@ -13,6 +13,8 @@ When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
       fill_in(:with => value, id: "search_location")
   elsif field == "Location:"
       fill_in(:with => value, id: "event_location")
+  elsif field == "Place:"
+      fill_in(:with => value, id: "recommend_location")
   else
       fill_in(field, :with => value)
   end
