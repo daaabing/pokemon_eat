@@ -9,8 +9,7 @@ class UsersController < ApplicationController
   @@API_HOST = "https://api.yelp.com"
   @@SEARCH_PATH = "/v3/businesses/search"
   @@BUSINESS_PATH = "/v3/businesses/"  # trailing / because we append the business id to the path
-  @@DEFAULT_BUSINESS_ID = "yelp-san-francisco"
-
+  @@QUESTION_ID = Question.generate_question.id
 
   def search
     @user = load_user
@@ -44,11 +43,6 @@ class UsersController < ApplicationController
   def recommend
     @user = load_user
     @response = Question.generate_response(@@QUESTION_ID, params[:choice]).to_s
-    # @question = Question.generate_question
-    # @options = []
-    # for o in @question.options do
-    #   @options.append(o.option)
-    # end
 
     @LOCATION = ""
     @recommend_error = nil
@@ -60,7 +54,7 @@ class UsersController < ApplicationController
 
     @businesses = []
     if @recommend_error == nil
-      @businesses = User.get_recommend @LOCATION
+      @businesses = get_recommend(@LOCATION)
     end
     render "recommend"
   end
@@ -166,15 +160,13 @@ class UsersController < ApplicationController
 
   def home
     @user = load_user()
-    @@QUESTION_ID = Question.generate_question.id
     @question = load_question(@@QUESTION_ID)
-    # session[:question_id] = @question.id
     @options = []
     for o in @question.options do
       @options.append(o["option"])
     end
     @businesses = yelp_business_search("", "New York", 9)
-    @user_reviews = get_user_reviews(@user.id)
+    @user_reviews = Review.get_user_reviews(@user.id)
     render "home"
   end
 
@@ -186,30 +178,17 @@ class UsersController < ApplicationController
 
   def question_update
     @user = User.find(params[:id])
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to action: "home", id:@user.id, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    @user.food_preference = params[:food_preference]
+    @user.save
+    redirect_to "/home"
   end
 
-
-
-  def get_user_reviews(user_id)
-    return Review.get_user_reviews(user_id)
-  end
 
 
 
 
   private
-    def user_params
-      params.permit(:email, :password, :password_confirmation, :confirmed, :food_preference)
-    end
+   
     
     def store_user(id)
       session[:user_id] = id
@@ -221,6 +200,14 @@ class UsersController < ApplicationController
 
     def load_question(question_id)
       return Question.find_by({id:@@QUESTION_ID})
+    end
+
+    def get_recommend(location)
+      user = load_user
+      preference = User.find_by_id(user.id).food_preference
+      businesses = []
+      businesses = yelp_business_search(preference, location, 10)
+      return businesses
     end
 
     def yelp_business_search(term, location, limit)

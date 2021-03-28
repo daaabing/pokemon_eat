@@ -1,7 +1,7 @@
 <h2>New User Questionnaire </h2>
 <%= form_with url: "/question_update", method: :post do |form| %>
   <%= form.hidden_field :id, :value => params[:id] %>
-  <%= form.label :food_preference, "What type of restaurants do you enjoy? " %>
+  <%= form.label :food_preference, "What type of restaurants do you enjoy?" %>
   <%= form.text_field :food_preference %>
   <%= form.label :restriction, "Do you have any dietary restrictions?" %>
   <%= form.text_field :restriction %>
