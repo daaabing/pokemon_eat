@@ -28,4 +28,4 @@ Scenario: Log in successfully
     And I fill in "Email" for login with "123@columbia.edu"
     And I fill in "Password" for login with "123"
     Then I press "Login"
-    Then I should see "Confirmed"
+    Then I should see "Pokemon Eat"

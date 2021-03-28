@@ -1,31 +1,48 @@
-
 Feature: Search restaurant with/without terms and locations
     As a user
     I want to search restaurants with/without terms
 
 Background: users in database
   Given the following users exist:
-  |id | email            | password_digest | confirmed  | food_preference |
-  |1  | abc@111.com      | abc111          | abc111     | chinese         |
-  |2  | edf@222.com      | edf222          | edf222     | french          |
-  |3  | test@33.com      | test33          | test33     |                 |
+  | email                        | password_digest | confirmed      | food_preference |
+  | zhengchuan000@gmail.com      | 1               | 1              | chinese         |
+  | 807442894@qq.com             | 1               | 1              | french          |
+  | hzwang@ucdavis.edu           | 1               | 1              | korean          |
+  | heyunong1223@gmail.com       | 1               | 1              |                 |
 
     Scenario: Search with term and location
-        Given I am on "Search" page
-        When I fill in "term" with "seafood"
-        And I fill in "location" with "NewYork"
-        And I press "Search"
-        Then I should see the number of restaurants is "5"
+        Given I am on "Home" page
+        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        And I fill in "Password" for login with "1"
+        Then I press "Login"
+        And I fill in "Category" with "chinese"
+        And I fill in "Nearby" with "New York"
+        And I press "Go"
+        Then I should see "Searching Restaurants"
 
     Scenario: Search without location
-        Given I am on "Search" page
-        When I fill in "term" with "seafood"
-        And I press "Search"
-        Then I should see the number of restaurants is "0"
+        Given I am on "Home" page
+        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        And I fill in "Password" for login with "1"
+        Then I press "Login"
+        And I fill in "Category" with "chinese"
+        And I press "Go"
         Then I should see "location can not be empty"
 
     Scenario: Search without term
-        Given I am on "Search" page
-        When I fill in "location" with "NewYork"
-        And I press "Search"
-        Then I should see the number of restaurants is "5"
+        Given I am on "Home" page
+        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        And I fill in "Password" for login with "1"
+        Then I press "Login"
+        And I fill in "Nearby" with "New York"
+        And I press "Go"
+        Then I should see "Searching Restaurants"
+
+    Scenario: Search event
+        Given I am on "Home" page
+        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        And I fill in "Password" for login with "1"
+        Then I press "Login"
+        And I fill in "Location:" with "New York"
+        And I press "Look"
+        Then I should see "Events Around You"
