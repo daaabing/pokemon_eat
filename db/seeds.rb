@@ -41,12 +41,12 @@ when "development"
         {question: "What is your favorite season?", answer: 
             "These restaurants would be a good place to go in the []. Certainly in other seasons as well.", question_type: "choose"},
         
-        {question: "Who is your favorite fictional character?", answer: 
-            "I heard that [] secretly visited these restaurants a few days ago.", question_type: "fill"},
-        {question: "Who is your dating type?", answer: 
-            "[] would like to invite you to these restaurants!", question_type: "fill"},
-        {question: "Please enter your best friend's name", answer: 
-            "[] sneaks up on you and says he wants to go to these restaurants.", question_type: "fill"},
+        # {question: "Who is your favorite fictional character?", answer: 
+        #     "I heard that [] secretly visited these restaurants a few days ago.", question_type: "fill"},
+        # {question: "Who is your dating type?", answer: 
+        #     "[] would like to invite you to these restaurants!", question_type: "fill"},
+        # {question: "Please enter your best friend's name", answer: 
+        #     "[] sneaks up on you and says he wants to go to these restaurants.", question_type: "fill"},
     ]
     
     questions = Question.create!(questions_list)
@@ -102,6 +102,8 @@ when "development"
         {option: "Autumn", choice: "autumn", question: Question.find(12)},
         {option: "Winter", choice: "winter", question: Question.find(12)},
     ])
+
+
 when "test"
     users = User.create([
         {email: "zhengchuan000@gmail.com", password_digest: "1", food_preference: "chinese"},
@@ -136,12 +138,12 @@ when "test"
         {question: "What is your favorite season?", answer: 
             "These restaurants would be a good place to go in the []. Certainly in other seasons as well.", question_type: "choose"},
         
-        {question: "Who is your favorite fictional character?", answer: 
-            "I heard that [] secretly visited these restaurants a few days ago.", question_type: "fill"},
-        {question: "Who is your dating type?", answer: 
-            "[] would like to invite you to these restaurants!", question_type: "fill"},
-        {question: "Please enter your best friend's name", answer: 
-            "[] sneaks up on you and says he wants to go to these restaurants.", question_type: "fill"},
+        # {question: "Who is your favorite fictional character?", answer: 
+        #     "I heard that [] secretly visited these restaurants a few days ago.", question_type: "fill"},
+        # {question: "Who is your dating type?", answer: 
+        #     "[] would like to invite you to these restaurants!", question_type: "fill"},
+        # {question: "Please enter your best friend's name", answer: 
+        #     "[] sneaks up on you and says he wants to go to these restaurants.", question_type: "fill"},
     ]
     
     questions = Question.create!(questions_list)
