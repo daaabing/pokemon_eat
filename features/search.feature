@@ -15,8 +15,8 @@ Background: users in database
         And I fill in "Email" for login with "zhengchuan000@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
-        And I fill in "Cuisine" with "chinese"
-        And I fill in "Around" with "New York"
+        And I fill in "Category" with "chinese"
+        And I fill in "Nearby" with "New York"
         And I press "Go"
         Then I should see "Searching Restaurants"
 
@@ -25,7 +25,7 @@ Background: users in database
         And I fill in "Email" for login with "zhengchuan000@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
-        And I fill in "Cuisine" with "chinese"
+        And I fill in "Category" with "chinese"
         And I press "Go"
         Then I should see "location can not be empty"
 
@@ -34,7 +34,7 @@ Background: users in database
         And I fill in "Email" for login with "zhengchuan000@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
-        And I fill in "Around" with "New York"
+        And I fill in "Nearby" with "New York"
         And I press "Go"
         Then I should see "Searching Restaurants"
 
@@ -43,6 +43,6 @@ Background: users in database
         And I fill in "Email" for login with "zhengchuan000@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
-        And I fill in "Around:" with "New York"
+        And I fill in "Nearby" with "New York"
         And I press "Look"
         Then I should see "Events Around You"
