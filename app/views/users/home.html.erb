@@ -22,7 +22,11 @@
 
 <div style="margin:0px; padding:0px;">
   <div class="row" >
+<<<<<<< HEAD
     <div class="vw-33" style="width:33%;">
+=======
+    <div class="vw-33" style="width:33%; color:">
+>>>>>>> origin/event
       <div class="card text-center" style="height: 300px;">
         <div class="card-body">
           <h3 class="card-title">SEARCH</h3>
@@ -67,6 +71,19 @@
             <%= form.text_field :location, :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
             <%= form.submit "Find" , :class=>"btn btn-primary" %>
           <% end %>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="vw-33" style="width:33%;">
+      <div class="card text-center" style="height: 300px;">
+        <div class="card-body">
+          <h5 class="card-title">Event around you!</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal">
+            Event
+          </button>
         </div>
       </div>
     </div>

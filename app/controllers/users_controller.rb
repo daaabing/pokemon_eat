@@ -59,7 +59,28 @@ class UsersController < ApplicationController
     render "recommend"
   end
 
+  def event
+    @LOCATION = ""
+    if params[:location].present?
+      @LOCATION = params[:location]
+    else
+      @LOCATION = "New York"
+    end
 
+    @events = []
+    url = "#{@@API_HOST}#{@@EVENT_PATH}"
+    params = {
+      location: @LOCATION,
+      limit: 10
+    }
+    response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
+    response_body_hash = JSON.parse(response.body)
+    @events = response_body_hash["events"]
+    puts "**************"
+    puts @events[0]
+    puts "**************"
+    render "event"
+  end
 
 
 
