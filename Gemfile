@@ -23,6 +23,8 @@ gem "http"
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 # gem 'wdm', '~> 0.1.0'
+gem 'sqlite3', '~> 1.4'
+
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -57,7 +59,7 @@ group :test do
 end
 
 group :production do
-  # gem 'pg'
+  gem 'pg'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 
+
 RSpec.describe "check login function", type: :request do
+
   it "check login successfully" do
     get '/'
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
@@ -41,6 +43,7 @@ end
 
 
 RSpec.describe "check Signup function", type: :request do
+
   it "check signup successfully" do
     get '/'
     post signup_path, :params => {:email => 'testsignup0@gmail.com', :password =>'1', :re_password => '1' }
@@ -84,7 +87,10 @@ end
 
 
 
+
+
 RSpec.describe "check search function", type: :request do
+
   before(:each) do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
     post "/login", :params => {:email => 'test122@gmail.com', :password =>'test' }
@@ -117,7 +123,9 @@ end
 
 
 
+
 RSpec.describe "check home page information is correct", type: :request do
+
   it "check home page has user's previous reviews successfully" do
     get '/'
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
@@ -140,7 +148,9 @@ end
 
 
 
+
 RSpec.describe "check recommend function", type: :request do
+
   before(:each) do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
     post "/login", :params => {:email => 'test122@gmail.com', :password =>'test' }
@@ -161,25 +171,28 @@ end
 
 
 
+
 RSpec.describe "check user profile function", type: :request do
+
   before(:each) do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
     post "/login", :params => {:email => 'test122@gmail.com', :password =>'test' }
     get '/home'
   end
 
-  it "check view user profile page" do
+  it "check user profile page shows user information" do
     get '/user'
-    expect(response.body).to include "User  Profile"
+    expect(response.body).to include "User Profile"
     expect(response.body).to include "test122@gmail.com"
   end
 
-  it "check edit user profile successfully" do
+  it "check edit user profile and it shows on user profile" do
     get '/edit_profile'
     get '/edit_profile?first_name=Chuan&last_name=Zhou&nick_name=Trible&gender=Male&age=24&food_preference=korean+food&location=New+York&commit=Change+my+profile'
     expect(response).to have_http_status(302)
+    get '/user'
+    expect(response.body).to include("Trible") #check if Nickname is updated, other information is exactly the same.
   end
-
 end
 
 

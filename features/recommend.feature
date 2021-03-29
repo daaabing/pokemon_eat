@@ -10,7 +10,7 @@ Background: users in database
   | hzwang@ucdavis.edu           | 1               | 1              | korean          |
   | heyunong1223@gmail.com       | 1               | 1              |                 |
 
-    Scenario: Recommend with fun question and location
+    Scenario: Recommend with fun question and location and he will get on restaurtant detail page
         Given I am on "Home" page
         And I fill in "Email" for login with "zhengchuan000@gmail.com"
         And I fill in "Password" for login with "1"
@@ -20,7 +20,7 @@ Background: users in database
         Then I press "Recommend:"
         Then I should see "Recommendation"
 
-    Scenario: Recommend without location
+    Scenario: Recommend without location and he will get error message
         Given I am on "Home" page
         And I fill in "Email" for login with "zhengchuan000@gmail.com"
         And I fill in "Password" for login with "1"

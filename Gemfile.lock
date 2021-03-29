@@ -173,6 +173,10 @@ GEM
       racc (~> 1.4)
     nokogiri (1.11.1-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.11.1-x86_64-linux)
+      racc (~> 1.4)
+    pg (1.2.3)
+    pg (1.2.3-x64-mingw32)
     protobuf-cucumber (3.10.8)
       activesupport (>= 3.2)
       middleware
@@ -315,6 +319,7 @@ PLATFORMS
   ruby
   x64-mingw32
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   bcrypt (~> 3.1.7)
@@ -326,6 +331,7 @@ DEPENDENCIES
   http
   jbuilder (~> 2.7)
   listen (~> 3.2)
+  pg
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.5)
   rerun

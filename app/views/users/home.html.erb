@@ -77,7 +77,7 @@
 <div class="container" style="padding-top:20px;">
   <h3>Trending Restaurants</h3>
   <div class="row justify-content-evenly">
-      <% if @businesses.empty? == false%>   
+      <% if @businesses != nil and @businesses.empty? == false%>   
         <% @businesses.each do |business| %>
           <div class="col-4"> 
             <div class="card mb-3" >

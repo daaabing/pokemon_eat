@@ -1,7 +1,3 @@
 class PagesController < ApplicationController
-
-   def home
-   end
-
-
+   #this controller will handle error pages in the future
 end

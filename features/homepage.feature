@@ -74,6 +74,8 @@ Scenario: Log in successfully
     Then I follow "123@columbia.edu"
     Then I should see "User Profile"
 
+#The scenarios above and below prove that our session works correctly
+
 Scenario: Log in successfully
     Given I am on "Home" page
     And I fill in "Email" for login with "hzwang@ucdavis.edu"
@@ -84,7 +86,7 @@ Scenario: Log in successfully
     Then I follow "Back to home page"
     Then I should see "Get restaurant based on your preference!"
 
-  Scenario: Go to detail page through restaurant name
+  Scenario: A user can go to restaurant detail page
     Given I am on "Home" page
     And I fill in "Email" for login with "hzwang@ucdavis.edu"
     And I fill in "Password" for login with "1"
@@ -94,7 +96,7 @@ Scenario: Log in successfully
     Then I should see "167 W 74th St"
     Then I should see "(917) 464-3769"
 
-  Scenario: Check review function
+  Scenario: A user can write a review for a restaurant and it shows on this restaurant detail page
     Given I am on "Home" page
     And I fill in "Email" for login with "hzwang@ucdavis.edu"
     And I fill in "Password" for login with "1"
@@ -111,14 +113,13 @@ Scenario: Log in successfully
     Then I should see "fantastic"
 
 
-  Scenario: Check back to home function
+  Scenario: A user can go back to home page at reataurant detail page 
     Given I am on "Home" page
     And I fill in "Email" for login with "hzwang@ucdavis.edu"
     And I fill in "Password" for login with "1"
     Then I press "Login"
     Then I should see "Trending Restaurants"
     When I follow "Levain Bakery"
-    Then I should see "Write a Review"
     Then I should see "Back to home page"
     Then I follow "Back to home page"
     Then I should see "Trending Restaurants"

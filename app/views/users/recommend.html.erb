@@ -22,7 +22,7 @@
 
 <% if @recommend_error != nil %>
     <p><%= @recommend_error %></p>
-<% elsif @businesses == nil or @businesses.empty? == false%>
+<% elsif @businesses != nil and @businesses.empty? == false%>
     <div class="container" >
         <div class="row justify-content-evenly">
           <h2><%= @response %></h2>
