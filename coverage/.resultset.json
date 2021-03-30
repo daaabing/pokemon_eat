@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/hyn/Documents/pokemon_eat/app/models/question.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/app/models/question.rb": {
         "lines": [
           1,
           1,
@@ -23,7 +23,7 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/spec/models/review_spec.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/spec/models/review_spec.rb": {
         "lines": [
           1,
           null,
@@ -32,7 +32,7 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/app/models/review.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/app/models/review.rb": {
         "lines": [
           1,
           1,
@@ -52,7 +52,7 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/spec/models/user_spec.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/spec/models/user_spec.rb": {
         "lines": [
           1,
           null,
@@ -79,7 +79,7 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/app/models/user.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/app/models/user.rb": {
         "lines": [
           1,
           1,
@@ -88,7 +88,7 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/spec/requests/businesses_request_spec.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/spec/requests/businesses_request_spec.rb": {
         "lines": [
           1,
           null,
@@ -131,7 +131,7 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/spec/requests/users_request_spec.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/spec/requests/users_request_spec.rb": {
         "lines": [
           1,
           null,
@@ -334,13 +334,13 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/app/controllers/application_controller.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/app/controllers/application_controller.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/app/controllers/users_controller.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/app/controllers/users_controller.rb": {
         "lines": [
           1,
           1,
@@ -370,7 +370,7 @@
           14,
           14,
           14,
-          69,
+          61,
           null,
           14,
           14,
@@ -596,7 +596,7 @@
           null
         ]
       },
-      "/Users/hyn/Documents/pokemon_eat/app/controllers/businesses_controller.rb": {
+      "/Users/chuanzheng/Documents/pokemon_eat/app/controllers/businesses_controller.rb": {
         "lines": [
           1,
           1,
@@ -691,6 +691,6 @@
         ]
       }
     },
-    "timestamp": 1617052170
+    "timestamp": 1617070113
   }
 }
