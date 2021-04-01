@@ -30,6 +30,11 @@ class UsersController < ApplicationController
     end
     @businesses = yelp_business_search("", "New York", 9)
     @user_reviews = Review.get_user_reviews(@user.id)
+    $redis.set("hello","world")
+    @world = $redis.get("hello")
+    puts "*********"
+    puts @world
+    puts "*********"
     render "home"
   end
 

@@ -26,6 +26,16 @@ gem "http"
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+
+#redis for recommendation
+gem 'redis'
+gem 'redis-namespace'
+gem 'redis-rails'
+gem 'redis-rack-cache'
+
+
+
+
 group :development, :test do
   gem 'rspec-rails', '~> 4.0.0'
   # gem 'capybara', '>= 2.15'
