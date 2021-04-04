@@ -95,6 +95,10 @@
             <p>From user:<%= r.user_id%></p>
             <p><%= r.review%></p> 
             <p><%= r.updated_at%></p>
+            <p><%= @user.id%></p>
+            <% if r.user_id.to_s != @user.id.to_s %>
+              <p><%= link_to "visit this user", "/other_user/" + r.user_id%></p>
+            <% end %>
           </li>
         <% end %>
       </ul>

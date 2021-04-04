@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   get '/edit_profile', to:"users#edit"
   get '/like/:business_id', to:"businesses#like_res"
   get '/book/:event_id', to:"businesses#book_event"
+  get '/other_user/:user_id', to:"users#other_user"
 end

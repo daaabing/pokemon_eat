@@ -1,0 +1,119 @@
+<nav class="navbar " style="background: rgba(0,0,0,0);">
+  <div class="container-fluid" >
+    <div class="navbar-brand" style="display:flex; align-items:center;">
+      <%= image_tag("superball.png", width: '50px') %>
+      <strong style="padding-left:5px;">Pokemon Eat</strong>
+    </div>
+    <span class="navbar-text">
+      <% if @other_user == nil %>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Log In", "/" %>
+        </button>
+        <button class="btn btn-outline-success" >
+          <%= link_to "Sign Up", "/" %>
+        </button>
+      <% else %>
+        <%= link_to @visitor.email, "/user" %>
+      <% end%>
+    </span>
+  </div>
+</nav>
+
+<h1>This is other user page</h1>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>
+        User Profile
+      </h1>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>First Name</h3> <h5><%= @other_user.first_name %></h5>
+    </div>
+    <div class="col">
+      <h3>Last Name</h3> <h5><%= @other_user.last_name %></h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Nick Name</h3> <h5><%= @other_user.nick_name %></h5>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Gender</h3> <h5><%= @other_user.gender %></h5>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Age</h3> <h5><%= @other_user.age %></h5>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Food Preference</h3> <h5><%= @other_user.food_preference %></h5>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Email</h3> <h5><%= @other_user.email %></h5>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Email is confirmed</h3> <h5><%= @other_user.confirmed %></h5>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+
+
+
+<div class="container" style="margin:0px;">
+  <div class="row">
+    <div class="col-2">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#"><%= link_to 'Edit my profile', '/edit_profile' %></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><%= link_to 'Back to home page', '/home' %></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><%= link_to 'Log out', '/' %></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#reviews">My reviews</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#friends">My friends</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<style>
+  .padding{
+      padding-left: 0;
+  }
+  .reminder{
+      margin-top: 10px;
+      margin-bottom: 10px;
+  }
+  .weight{
+      font-weight:bold;
+  }
+</style>

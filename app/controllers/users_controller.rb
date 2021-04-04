@@ -41,10 +41,6 @@ class UsersController < ApplicationController
     @user = load_user
     @liked_res = Like.get_user_res(@user.id)
     @booked_events = BookedEvent.get_user_events(@user.id) 
-    puts "*********"
-    puts @liked_res
-    puts @booked_events
-    puts "*********"
     render "show"
   end
 
@@ -217,6 +213,17 @@ class UsersController < ApplicationController
   # def show_liked_res
     
   # end
+
+  def other_user
+    @visitor = load_user
+    @other_user_id = params[:user_id]
+    @other_user = User.find_by_id(@other_user_id)
+    puts "********"
+    puts @other_user.id
+    puts @other_user.email
+    puts "********"
+    render "other_user"
+  end
 
 
 
