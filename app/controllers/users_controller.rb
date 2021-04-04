@@ -30,11 +30,6 @@ class UsersController < ApplicationController
     end
     @businesses = yelp_business_search("", "New York", 9)
     @user_reviews = Review.get_user_reviews(@user.id)
-    $redis.set("hello","world")
-    @world = $redis.get("hello")
-    puts "*********"
-    puts @world
-    puts "*********"
     render "home"
   end
 
@@ -43,7 +38,13 @@ class UsersController < ApplicationController
   def show   
     #Show user profile page, load user from session.
     #For editing user, we call edit method to do that.
-    @user = load_user 
+    @user = load_user
+    @liked_res = Like.get_user_res(@user.id)
+    @booked_events = BookedEvent.get_user_events(@user.id) 
+    puts "*********"
+    puts @liked_res
+    puts @booked_events
+    puts "*********"
     render "show"
   end
 
@@ -212,6 +213,10 @@ class UsersController < ApplicationController
     @user.save
     redirect_to "/home"
   end
+
+  # def show_liked_res
+    
+  # end
 
 
 

@@ -16,4 +16,6 @@ Rails.application.routes.draw do
   get "/recommend", to: "users#recommend"
   get '/user', to: "users#show"
   get '/edit_profile', to:"users#edit"
+  get '/like/:business_id', to:"businesses#like_res"
+  get '/book/:event_id', to:"businesses#book_event"
 end

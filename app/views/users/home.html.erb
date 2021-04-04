@@ -20,6 +20,9 @@
 </nav>
 
 
+<span class="likebtn-wrapper" data-theme="review" data-white_label="true" data-identifier="item_1"></span>
+
+
 <div style="margin:0px; padding:0px;">
   <div class="row" >
     <div class="vw-33" style="width:33%;">
@@ -221,9 +224,6 @@
           <%= form.submit "Find" , :class=>"btn btn-primary" %>
         <% end %>
       </div>
-
-     
-
     </div>
   </div>
 </div>
@@ -273,7 +273,18 @@
     $('.insert-location').val(loc);
     console.log("4");
   }
-
   getLocation(insertLocation);
+</script>
+
+<script>
+(function(d,e,s){
+  if(d.getElementById("likebtn_wjs"))return;
   
+  a=d.createElement(e);
+  m=d.getElementsByTagName(e)[0];
+  a.async=1;
+  a.id="likebtn_wjs";
+  a.src=s;
+  m.parentNode.insertBefore(a, m)
+})(document,"script","//w.likebtn.com/js/w/widget.js");
 </script>

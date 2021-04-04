@@ -10,6 +10,10 @@ class BusinessesController < ApplicationController
     @business_id = params[:business_id]
     @business = yelp_business_detail(@business_id)
     @reviews = Review.where(business_id:@business_id)
+    @categories = @business["categories"]
+    puts "*******"
+    puts @categories
+    puts "*******"
   end
 
   def review
@@ -46,8 +50,25 @@ class BusinessesController < ApplicationController
     #he will get the event detail on business/event.html.erb
     @user = load_user
     @event_id = params[:id]
+    puts "*******"
+    puts @event_id
+    puts "*******"
     @event = yelp_event_lookup(@event_id)
     render "event"
+  end
+
+  def like_res
+    @user = load_user
+    @business_id = params[:business_id]
+    Like.like_this_res(@business_id, @user.id)
+    redirect_to "/business/" + @business_id.to_s
+  end
+
+  def book_event
+    @user = load_user
+    @event_id = params[:event_id]
+    BookedEvent.book_this_event(@event_id, @user.id)
+    redirect_to "/event/" + @event_id
   end
 
 
