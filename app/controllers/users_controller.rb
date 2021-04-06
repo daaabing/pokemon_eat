@@ -12,6 +12,8 @@ class UsersController < ApplicationController
   
 
 
+  def landing
+  end
 
   def home
     #Collect all necessary data and show them on home page.
@@ -29,7 +31,10 @@ class UsersController < ApplicationController
       @options.append(o["option"])
     end
     @businesses = yelp_business_search("", "New York", 9)
-    @user_reviews = Review.get_user_reviews(@user.id)
+    @user_reviews = []
+    if @user != nil
+      @user_reviews = Review.get_user_reviews(@user.id)
+    end
     render "home"
   end
 
@@ -41,16 +46,19 @@ class UsersController < ApplicationController
     #For editing user, we call edit method to do that.
     #Basic Information
     @user = load_user
+    #User's reviews
+    @reviews = Review.get_user_reviews(@user.id)
     #Liked Restaurant panel
     @liked_res = Like.get_user_res(@user.id)
     #Booked Events panel
     @booked_events = BookedEvent.get_user_events(@user.id) 
-    #Food Preference panel
-    #get user's food preference hash and convert it to an array
+    #Food Preference panel -> get user's food preference hash and convert it to an array
     @food_list = $redis.hgetall(@user.id.to_s).to_a
-    puts "*************"
-    puts @food_list
-    puts "*************"
+    #Following panel
+    @following = Friend.get_following_all(@user.id)
+    puts "**********"
+    puts @following
+    puts "**********"
     render "show"
   end
 
@@ -222,11 +230,19 @@ class UsersController < ApplicationController
   # def show_liked_res
   # end
 
-  def other_user
+  def show_other_user
     @visitor = load_user
     @other_user_id = params[:user_id]
     @other_user = User.find_by_id(@other_user_id)
-    render "other_user"
+    render "show_other_user"
+  end
+
+
+  def follow_user
+    @user = load_user
+    @other_user_id = params[:id]
+    Friend.subscribe(@user.id, @other_user_id)
+    redirect_to '/other_user/' + @other_user_id.to_s
   end
 
 
@@ -270,4 +286,6 @@ class UsersController < ApplicationController
       businesses = response_body_hash["businesses"]
       return businesses
     end
+
+
 end

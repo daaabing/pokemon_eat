@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   resources :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root "users#welcome"
+  root "users#landing"
+  get '/welcome', to:"users#welcome"
   post "/login", to: "users#login"
   post "/signup", to: "users#signup"
   get "/search", to: "users#search"
@@ -18,5 +19,6 @@ Rails.application.routes.draw do
   get '/edit_profile', to:"users#edit"
   get '/like/:business_id', to:"businesses#like_res"
   get '/book/:event_id', to:"businesses#book_event"
-  get '/other_user/:user_id', to:"users#other_user"
+  get '/other_user/:user_id', to:"users#show_other_user"
+  get '/follow_user/:id', to:"users#follow_user"
 end

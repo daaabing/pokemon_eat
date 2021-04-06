@@ -20,6 +20,9 @@
 </nav>
 
 <h1>This is other user page</h1>
+<button type="button" class="btn btn-light">
+    <%= link_to "Follow this user", "/follow_user/" + @other_user_id.to_s%>
+  </button>
 <div class="container">
   <div class="row">
     <div class="col">
