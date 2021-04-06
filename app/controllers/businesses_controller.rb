@@ -115,9 +115,6 @@ class BusinessesController < ApplicationController
           $redis.hset(user_id, c["title"], "1")
         end
       end
-      puts "*****************"
-      puts $redis.hgetall(user_id)
-      puts "*****************"
     end
 
 end

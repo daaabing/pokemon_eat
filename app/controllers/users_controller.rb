@@ -47,7 +47,10 @@ class UsersController < ApplicationController
     @booked_events = BookedEvent.get_user_events(@user.id) 
     #Food Preference panel
     #get user's food preference hash and convert it to an array
-    # @food_pre = $redis.get()
+    @food_list = $redis.hgetall(@user.id.to_s).to_a
+    puts "*************"
+    puts @food_list
+    puts "*************"
     render "show"
   end
 

@@ -57,12 +57,7 @@
     </div>
     <div class="col"></div>
   </div>
-  <div class="row">
-    <div class="col">
-      <h3>Food Preference</h3> <h5><%= @user.food_preference %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
+ 
   <div class="row">
     <div class="col">
       <h3>Email</h3> <h5><%= @user.email %></h5>
@@ -96,7 +91,11 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade show active" id="preference">
-            <h4 class="mt-2">Food Preference</h4>
+            <h4 class="mt-2">
+              <% @food_list.each do |f|%>
+                <p><%= f[0]%>   <%= f[1]%></p>
+              <% end %>
+            </h4>
         </div>
         <div class="tab-pane fade show active" id="home">
             <h4 class="mt-2">Reviews</h4>
