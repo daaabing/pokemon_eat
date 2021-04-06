@@ -35,12 +35,19 @@ class UsersController < ApplicationController
 
 
 
+
   def show   
     #Show user profile page, load user from session.
     #For editing user, we call edit method to do that.
+    #Basic Information
     @user = load_user
+    #Liked Restaurant panel
     @liked_res = Like.get_user_res(@user.id)
+    #Booked Events panel
     @booked_events = BookedEvent.get_user_events(@user.id) 
+    #Food Preference panel
+    #get user's food preference hash and convert it to an array
+    # @food_pre = $redis.get()
     render "show"
   end
 
@@ -159,7 +166,6 @@ class UsersController < ApplicationController
 
 
 
-
   def signup
     #Signup function
     #We only need the user to enter an email and password and re-enter password.
@@ -211,17 +217,12 @@ class UsersController < ApplicationController
   end
 
   # def show_liked_res
-    
   # end
 
   def other_user
     @visitor = load_user
     @other_user_id = params[:user_id]
     @other_user = User.find_by_id(@other_user_id)
-    puts "********"
-    puts @other_user.id
-    puts @other_user.email
-    puts "********"
     render "other_user"
   end
 

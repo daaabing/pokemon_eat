@@ -11,9 +11,6 @@ class BusinessesController < ApplicationController
     @business = yelp_business_detail(@business_id)
     @reviews = Review.where(business_id:@business_id)
     @categories = @business["categories"]
-    puts "*******"
-    puts @categories
-    puts "*******"
   end
 
   def review
@@ -50,9 +47,6 @@ class BusinessesController < ApplicationController
     #he will get the event detail on business/event.html.erb
     @user = load_user
     @event_id = params[:id]
-    puts "*******"
-    puts @event_id
-    puts "*******"
     @event = yelp_event_lookup(@event_id)
     render "event"
   end
@@ -61,6 +55,9 @@ class BusinessesController < ApplicationController
     @user = load_user
     @business_id = params[:business_id]
     Like.like_this_res(@business_id, @user.id)
+    @business = yelp_business_detail(@business_id)
+    @categories = @business["categories"]
+    update_user_food_pre(@categories, @user.id.to_s)
     redirect_to "/business/" + @business_id.to_s
   end
 
@@ -106,6 +103,21 @@ class BusinessesController < ApplicationController
     
     def load_user
       return User.find_by({id:session[:user_id]})
+    end
+
+    def update_user_food_pre(categories, user_id)
+      categories.each do |c|
+        if $redis.hexists(user_id, c["title"])
+          cur_freq = $redis.hget(user_id, c["title"])
+          new_freq = (cur_freq.to_i + 1).to_s
+          $redis.hset(user_id, c["title"], new_freq)
+        else
+          $redis.hset(user_id, c["title"], "1")
+        end
+      end
+      puts "*****************"
+      puts $redis.hgetall(user_id)
+      puts "*****************"
     end
 
 end
