@@ -1,42 +1,42 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="">
-      <%= image_tag("superball.png", width:'50px') %>
-      <a class="navbar-brand" href="#" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
-      <div style="width:60%; margin-left:20%;">
-        <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
-          <div style="display:inline;">
-            <%= form.label :term, "Find", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;" %>
-            <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:20%;"%>
-          </div>
-          <div style="display:inline;">
-            <%= form.label :location, "Near", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;"%>
-            <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%;"%>
-          </div>
-          <% if @search_error != nil%>
-            <p><%= @search_error%></p>
-          <% end%>
-          <div style="display:inline;">
-            <%= form.submit "Go" , :class=>"btn", :style=>"color:white; font-size:1.25rem;" %>
-          </div>
-        <% end %>
+  <%= image_tag("superball.png", width:'50px') %>
+  <a class="navbar-brand" href="#" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
+  <div style="width:60%; margin-left:20%;">
+    <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
+      <div style="display:inline;">
+        <%= form.label :term, "Find", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;" %>
+        <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:20%;"%>
       </div>
-      <div class="col-2 collapse navbar-collapse" id="navbarResponsive">
-        <% if @user == nil %>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/welcome">Sign Up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/welcome">Log In</a>
-            </li>
-          </ul>
-        <% else %>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/user" style="font-size:1.25rem;">My Dashboard</a>
-            </li>
-          </ul>
-        <% end %>
+      <div style="display:inline;">
+        <%= form.label :location, "Near", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;"%>
+        <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%;"%>
       </div>
+      <% if @search_error != nil%>
+        <p><%= @search_error%></p>
+      <% end%>
+      <div style="display:inline;">
+        <%= form.submit "Go" , :class=>"btn", :style=>"color:white; font-size:1.25rem;" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-2 collapse navbar-collapse" id="navbarResponsive">
+    <% if @user == nil %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Log In</a>
+        </li>
+      </ul>
+    <% else %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/user" style="font-size:1.25rem;">My Dashboard</a>
+        </li>
+      </ul>
+    <% end %>
+  </div>
 </nav>
 
 

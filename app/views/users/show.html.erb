@@ -1,21 +1,41 @@
-<nav class="navbar " style="background: rgba(0,0,0,0);">
-  <div class="container-fluid" >
-    <div class="navbar-brand" style="display:flex; align-items:center;">
-      <%= image_tag("superball.png", width: '50px') %>
-      <strong style="padding-left:5px;">Pokemon Eat</strong>
-    </div>
-    <span class="navbar-text">
-      <% if @user == nil %>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Log In", "/" %>
-        </button>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Sign Up", "/" %>
-        </button>
-      <% else %>
-        <%= link_to @user.email, "/user" %>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom" style="">
+  <%= image_tag("superball.png", width:'50px') %>
+  <a class="navbar-brand" href="#" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
+  <div style="width:60%; margin-left:20%;">
+    <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
+      <div style="display:inline;">
+        <%= form.label :term, "Find", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;" %>
+        <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:20%;"%>
+      </div>
+      <div style="display:inline;">
+        <%= form.label :location, "Near", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;"%>
+        <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%;"%>
+      </div>
+      <% if @search_error != nil%>
+        <p><%= @search_error%></p>
       <% end%>
-    </span>
+      <div style="display:inline;">
+        <%= form.submit "Go" , :class=>"btn", :style=>"color:white; font-size:1.25rem;" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-2 collapse navbar-collapse" id="navbarResponsive">
+    <% if @user == nil %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Log In</a>
+        </li>
+      </ul>
+    <% else %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/user" style="font-size:1.25rem;">My Dashboard</a>
+        </li>
+      </ul>
+    <% end %>
   </div>
 </nav>
 
@@ -23,52 +43,16 @@
 
 
 <div class="container">
-  <div class="row">
-    <div class="col">
-      <h1>
-        User Profile
-      </h1>
-    </div>
-    <div class="col"></div>
+  <div class="row" style="margin:0px; width:100%; height:300px; overflow:hidden; background-image: url('/assets/user-background-1.jpeg'); background-size:cover;border-color:white; border-width: 20px;">
   </div>
   <div class="row">
-    <div class="col">
-      <h3>First Name</h3> <h5><%= @user.first_name %></h5>
+    <div class="col-4" style="top:-40px;">
+      <%= image_tag("bullbasaur.png", width:'300px') %>
     </div>
-    <div class="col">
-      <h3>Last Name</h3> <h5><%= @user.last_name %></h5>
+    <div class="col-8">
+      <h2><%= @user.nick_name %><h2>
+      <p>BIO bullbasaur</p>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Nick Name</h3> <h5><%= @user.nick_name %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Gender</h3> <h5><%= @user.gender %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Age</h3> <h5><%= @user.age %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
- 
-  <div class="row">
-    <div class="col">
-      <h3>Email</h3> <h5><%= @user.email %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Email is confirmed</h3> <h5><%= @user.confirmed %></h5>
-    </div>
-    <div class="col"></div>
   </div>
 </div>
 
@@ -77,10 +61,10 @@
   <div class="bs-example">
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
-            <a href="#preference" class="nav-link" data-toggle="tab">Food Preference</a>
+            <a href="#preference" class="nav-link active" data-toggle="tab">Food Preference</a>
         </li>
         <li class="nav-item">
-            <a href="#review" class="nav-link active" data-toggle="tab">My Reviews</a>
+            <a href="#review" class="nav-link" data-toggle="tab">My Reviews</a>
         </li>
         <li class="nav-item">
             <a href="#restaurants" class="nav-link" data-toggle="tab">Starred Restaurants</a>
@@ -110,7 +94,17 @@
         <div class="tab-pane fade" id="restaurants">
             <h4 class="mt-2">
               <% @liked_res.each do |l|%>
-                <p><%= l.business_id%></p>
+                <div class="row" style="margin-bottom:30px;">
+                  <div class="col-1" style="width:30px;"><%= image_tag("bullbasaur.png", width:'90px;') %></div>
+                  <div class="col-11">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <div style="display:flex;">
+                      <div style="width:20px;"></div>
+                      <a href="#" class="btn btn-primary" style="justify-content:flex-end;">Go somewhere</a>
+                    </div>
+                  </div>
+                </div>
               <% end %>
             </h4>
         </div>

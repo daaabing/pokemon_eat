@@ -1,6 +1,7 @@
 require "json"
 require "http"
 require "optparse"
+require "set"
 
 
 class UsersController < ApplicationController
@@ -55,7 +56,11 @@ class UsersController < ApplicationController
     #User's reviews
     @reviews = Review.get_user_reviews(@user.id)
     #Liked Restaurant panel
-    @liked_res = Like.get_user_res(@user.id)
+    @liked_res = Set.new(Like.get_user_res(@user.id)).to_a
+    puts "*******"
+    puts @liked_res
+    puts "********"
+
     #Booked Events panel
     @booked_events = BookedEvent.get_user_events(@user.id) 
     puts "**************"
@@ -66,11 +71,8 @@ class UsersController < ApplicationController
     @booked_events.each do |e|
       @events.append(yelp_event_lookup(e.event_id))
     end
-    puts "***********"
-    puts @events
-    puts "***********"
     #Food Preference panel -> get user's food preference hash and convert it to an array
-    @food_list = $redis.hgetall(@user.id.to_s).to_a
+    @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
     #Following panel
     @following = Friend.get_following_all(@user.id)
     render "show"
