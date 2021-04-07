@@ -37,15 +37,7 @@ class UsersController < ApplicationController
       @user_reviews = Review.get_user_reviews(@user.id)
     end
 
-    # @booked_events = BookedEvent.get_user_events(@user.id) 
-    # puts "**************"
-    # puts @booked_events
-    # puts "**************"
-
     @events = yelp_event_search("Seattle", 6)
-    # @booked_events.each do |e|
-    #   @events.append(yelp_event_lookup(e.event_id))
-    # end
     puts "***********"
     puts @events
     puts "***********"
@@ -209,6 +201,7 @@ class UsersController < ApplicationController
     @email = params[:email]
     @password = params[:password]
     @re_password = params[:re_password]
+    @nick_name = params[:nick_name]
     @signup_errors = []
     if @email == ""
       @signup_errors.push("Email is empty")
@@ -222,6 +215,10 @@ class UsersController < ApplicationController
       @signup_errors.push("Password and Re-password do not match")
     end
 
+    if @nick_name == ""
+      @signup_errors.push("Please pick up a cute Nick Name :-p")
+    end
+
     if User.find_by(email: @email) != nil
       @signup_errors.push("This email has been registered")
     end
@@ -232,7 +229,7 @@ class UsersController < ApplicationController
       @new_user = User.create(email: @email, password_digest: @password)
       @new_user.save()
       store_user(@new_user.id) # If he successfully signed up, and we store his user_id into session.
-      redirect_to action: "question", id:@new_user.id
+      home()
     end
   end
 
