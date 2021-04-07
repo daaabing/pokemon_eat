@@ -229,7 +229,7 @@ class UsersController < ApplicationController
       @new_user = User.create(email: @email, password_digest: @password)
       @new_user.save()
       store_user(@new_user.id) # If he successfully signed up, and we store his user_id into session.
-      home()
+      redirect_to "/home"
     end
   end
 

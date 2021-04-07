@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom " style="background-color:rgb(238 9 120)">
-      <%= image_tag("superball.png", width: '50px') %>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="">
+      <%= image_tag("superball.png", width:'50px') %>
       <a class="navbar-brand" href="#" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
       <div style="width:60%; margin-left:20%;">
         <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
@@ -42,8 +42,27 @@
 
 
 
-
-<div style="margin:0px; padding:0px; background-image:url('/assets/images/recommend-background.jpeg')">
+<div  style="margin:0px; width:100%; height:700px; overflow:hidden; background-image: url('/assets/1.jpeg'); background-size:cover;">
+    <div class="row" style="width:100%; margin:0px; margin-top:200px; padding:0px; color:white; display: flex; 
+              align-items: center; 
+              justify-content: center;">
+      <h1 class="">GUESS</h1>
+    </div>
+    <div class="row" style="width:100%; margin:0px; padding:0px; color:white; display: flex; 
+              align-items: center; 
+              justify-content: center;">
+      <h2 class="">Get restaurant based on your preference!</h2>
+    </div>
+    <div class="row" style="width:100%; margin:0px; padding:0px; color:white; display: flex; 
+              align-items: center; 
+              justify-content: center;">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#recommendModal" style="margin-top:200px;">
+        Recommend
+      </button>
+    </div>
+</div>
+<%# 
+<div style="margin:0px; padding:0px; background-image: url('/assets/recommend.jpeg');">
   <div class="row" >
     <div style="width:100%;">
       <div class="card text-center" style="height: 300px;">
@@ -56,10 +75,8 @@
         </div>
       </div>
     </div>
-
-    
   </div>
-</div>
+</div> %>
 
 
 <div class="container" style="margin-top:40px;">
@@ -294,6 +311,7 @@
 
 
 
+<%= stylesheet_link_tag "application", media: "all" %>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
