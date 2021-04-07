@@ -1,11 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom" style="background-color:rgb(238 9 120)">
-    <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom " style="background-color:rgb(238 9 120)">
       <%= image_tag("superball.png", width: '50px') %>
-      <a class="navbar-brand" href="#" style="margin-left:5px;">Pokemon Eat</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
+      <a class="navbar-brand" href="#" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
+      <div style="width:60%; margin-left:20%;">
+        <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <div style="display:inline;">
+            <%= form.label :term, "Find", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;" %>
+            <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:20%;"%>
+          </div>
+          <div style="display:inline;">
+            <%= form.label :location, "Near", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;"%>
+            <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%;"%>
+          </div>
+          <% if @search_error != nil%>
+            <p><%= @search_error%></p>
+          <% end%>
+          <div style="display:inline;">
+            <%= form.submit "Go" , :class=>"btn", :style=>"color:white; font-size:1.25rem;" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-2 collapse navbar-collapse" id="navbarResponsive">
         <% if @user == nil %>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -18,44 +32,20 @@
         <% else %>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/user">My Page</a>
+              <a class="nav-link" href="/user" style="font-size:1.25rem;">My Dashboard</a>
             </li>
           </ul>
         <% end %>
       </div>
-    </div>
-  </nav>
+</nav>
 
 
-<span class="likebtn-wrapper" data-theme="review" data-white_label="true" data-identifier="item_1"></span>
 
 
-<div style="margin:0px; padding:0px;">
+
+<div style="margin:0px; padding:0px; background-image:url('/assets/images/recommend-background.jpeg')">
   <div class="row" >
-    <div class="vw-33" style="width:33%;">
-      <div class="card text-center" style="height: 300px;">
-        <div class="card-body">
-          <h3 class="card-title">SEARCH</h3>
-          <h4 class="card-text">Hunting for good for yourself!</h4>
-          <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
-            <div>
-              <%= form.label :term, "Category", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;" %>
-              <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:50%;"%>
-            </div>
-            <div>
-              <%= form.label :location, "Nearby", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
-              <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
-            </div>
-            <% if @search_error != nil%>
-            <p><%= @search_error%></p>
-            <% end%>
-            <%= form.submit "Go" , :class=>"btn btn-primary" %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div class="vw-33" style="width:33%; color:">
+    <div style="width:100%;">
       <div class="card text-center" style="height: 300px;">
         <div class="card-body">
           <h3 class="card-title">GUESS</h3>
@@ -67,25 +57,17 @@
       </div>
     </div>
 
-    <div class="vw-33" style="width:33%;">
-      <div class="card text-center" style="height: 300px;">
-        <div class="card-body">
-          <h3 class="card-title">EVENT</h3>
-          <h4 class="card-text">Find out events near you!</h4>
-          <%= form_with(url: "/events/" + params[:id].to_s, method: :get, local: true) do |form| %>
-            <%= form.label :location, "Location:", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
-            <%= form.text_field :location, :id => 'event_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
-            <%= form.submit "Look" , :class=>"btn btn-primary" %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </div>
 
 
-<div class="container" style="padding-top:20px;">
-  <h3>Trending Restaurants</h3>
+<div class="container" style="margin-top:40px;">
+  <h1 style=" font-family: 'Times New Roman', Times, serif; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;">Trending Restaurants</h3>
+  <div style="margin-bottom:10px; height:1px; border-top: solid #ACC0D8 1px;"></div>
   <div class="row justify-content-evenly">
       <% if @businesses != nil and @businesses.empty? == false%>   
         <% @businesses.each do |business| %>
@@ -122,12 +104,75 @@
   </div>
 </div>
 
+<div class="container" style="margin-top:80px;">
+  <h1 style=" font-family: 'Times New Roman', Times, serif; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;">Booked Events</h3>
+  <div style="height:1px; border-top: solid #ACC0D8 1px;"></div>
+  <div class="vw-50" style="margin-top:5px; width:100%;">
+      <div class="card text-center" style="border:0px;">
+        <div class="card-body">
+          <h4 class="card-text">Find out events near you!</h4>
+          <%= form_with(url: "/events/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <div style="display:inline;">
+            <%= form.label :location, "Let's Go To", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline;"%>
+            <%= form.text_field :location, :id => 'event_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
+          </div>
+          <div style="display:inline;">
+            <%= form.submit "Go" , :class=>"btn btn-primary" %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <div class="row justify-content-evenly">
+      <% if @events != nil and @events.empty? == false%>   
+        <% @events.each do |event| %>
+          <div class="col-4"> 
+            <div class="card mb-3" >
+              <img src=<%= event["image_url"]%> class="card-img-top" style="overflow:hidden;">
+              <div class="card-body">
+                <h5 class="card-title business"><%=link_to(event["name"], '/event/' + event["id"].to_s ) %></h5>
+                <div>
+                  <p class="card-text" style="display:inline;">    
+                    <%= event["category"] %>              
+                  </p>
+                </div>
+                <div>
+                  <% event["location"]["display_address"].each do |e| %>
+                    <p class="card-text" style="display:inline;">    
+                      <%= e %>              
+                    </p>
+                  <% end %>
+                </div>
+                <p class="card-text"><%= event["display_phone"] %></p>
+                <p class="card-text">
+                  <%=link_to("Detail", '/event/' + event["id"] ) %>
+                </p>
+                <%# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>#</p> %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+  </div>
+</div>
+
 
 <div class="container" style="padding-top:20px;">
   <% if @user == nil%>
-    <h3>Please Log Ip or Sign Up first </h3>
+    <h1 style=" font-family: 'Times New Roman', Times, serif; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;">Please Log In or Sign Up to view Your Reviews</h3>
+    <div style="height:1px; border-top: solid #ACC0D8 1px;"></div>
   <% elsif @user_reviews != []%>
-    <h3>Your Recent Reviews</h3>
+    <h1 style=" font-family: 'Times New Roman', Times, serif; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;">My Reviews</h3>
+    <div style="height:1px; border-top: solid #ACC0D8 1px;"></div>
     <div class="row justify-content-evenly">
       <ul class="list-group list-group-flush" style="width:100%;">
         <% @user_reviews.each do |r|%>
@@ -141,7 +186,7 @@
     </div> 
   <% elsif @user_reviews == [] %>
      <div class="row justify-content-evenly">
-      <p>No reviews currently.</p>
+      <h3>No reviews currently.</h3>
      </div>
   <% end %>
 </div>
@@ -238,6 +283,7 @@
 </div>
 
 
+<span class="likebtn-wrapper" data-theme="review" data-white_label="true" data-identifier="item_1"></span>
 
 
 <footer class="py-5" style="margin-top:100px; background-color:rgb(238 9 120)">

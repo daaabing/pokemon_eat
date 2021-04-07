@@ -9,7 +9,8 @@ class UsersController < ApplicationController
   @@API_HOST = "https://api.yelp.com"
   @@SEARCH_PATH = "/v3/businesses/search"
   @@BUSINESS_PATH = "/v3/businesses/"  # trailing / because we append the business id to the path
-  
+  @@EVENT_PATH = "/v3/events"
+
 
 
   def landing
@@ -35,6 +36,19 @@ class UsersController < ApplicationController
     if @user != nil
       @user_reviews = Review.get_user_reviews(@user.id)
     end
+
+    # @booked_events = BookedEvent.get_user_events(@user.id) 
+    # puts "**************"
+    # puts @booked_events
+    # puts "**************"
+
+    @events = yelp_event_search("Seattle", 6)
+    # @booked_events.each do |e|
+    #   @events.append(yelp_event_lookup(e.event_id))
+    # end
+    puts "***********"
+    puts @events
+    puts "***********"
     render "home"
   end
 
@@ -52,13 +66,21 @@ class UsersController < ApplicationController
     @liked_res = Like.get_user_res(@user.id)
     #Booked Events panel
     @booked_events = BookedEvent.get_user_events(@user.id) 
+    puts "**************"
+    puts @booked_events
+    puts "**************"
+
+    @events = []
+    @booked_events.each do |e|
+      @events.append(yelp_event_lookup(e.event_id))
+    end
+    puts "***********"
+    puts @events
+    puts "***********"
     #Food Preference panel -> get user's food preference hash and convert it to an array
     @food_list = $redis.hgetall(@user.id.to_s).to_a
     #Following panel
     @following = Friend.get_following_all(@user.id)
-    puts "**********"
-    puts @following
-    puts "**********"
     render "show"
   end
 
@@ -156,15 +178,15 @@ class UsersController < ApplicationController
     @user = User.find_by(email: @email)
     @login_errors = []
     if @email == ""
-      @login_errors.push("email is empty")
+      @login_errors.push("Email is empty")
     elsif @user == nil
-      @login_errors.push("user does not exist, please register first")
+      @login_errors.push("User does not exist, please sign up first")
     end
 
     if @password == ""
-      @login_errors.push("password is empty")
+      @login_errors.push("Password is empty")
     elsif @user != nil and @password != @user.password_digest
-      @login_errors.push("password is not correct")
+      @login_errors.push("Password is not correct")
     end
     if @login_errors.empty?
       store_user(@user.id)  #if this user login successfully, we store his user_id into session. 
@@ -189,19 +211,19 @@ class UsersController < ApplicationController
     @re_password = params[:re_password]
     @signup_errors = []
     if @email == ""
-      @signup_errors.push("email is empty")
+      @signup_errors.push("Email is empty")
     end
 
     if @password == "" or @re_password == ""
-      @signup_errors.push("Password or re-password is empty!")
+      @signup_errors.push("Password or re-password is empty")
     end
 
     if @password != @re_password
-      @signup_errors.push("Password and Re-password do not match!")
+      @signup_errors.push("Password and Re-password do not match")
     end
 
     if User.find_by(email: @email) != nil
-      @signup_errors.push("This email has been registered!")
+      @signup_errors.push("This email has been registered")
     end
 
     if @signup_errors.length() > 0 # He failed to signup.
@@ -249,7 +271,6 @@ class UsersController < ApplicationController
 
 
   private
-    
     def store_user(id)
       session[:user_id] = id
     end
@@ -287,5 +308,24 @@ class UsersController < ApplicationController
       return businesses
     end
 
+    def yelp_event_lookup(event_id)
+      #Caling Yelp event look up end point.
+      url = "#{@@API_HOST}#{@@EVENT_PATH}/#{event_id}"
+      response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
+      event = JSON.parse(response.body)
+      return event
+    end
 
+    def yelp_event_search(location, num)
+      #Calling Yelp event search end point, get a list of events at one location.
+      url = "#{@@API_HOST}#{@@EVENT_PATH}"
+      params = {
+        location: location,
+        limit: num
+      }
+      response = HTTP.auth("Bearer #{@@API_KEY}").get(url, params: params)
+      response_body_hash = JSON.parse(response.body)
+      events = response_body_hash["events"]
+      return events
+    end
 end

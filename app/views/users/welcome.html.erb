@@ -52,13 +52,6 @@
               <%= form.submit "Login", :class=>"btn btn-primary btn-block" %>
             </div>
           <% end %>
-          <% if @login_errors != nil and @login_errors.empty? == false%>
-            <div class="list-group" style="width:33%; padding:15px;">
-              <% @login_errors.each do |error|%>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-danger" style="margin-top:4px;"><%= error%></a>
-              <% end %>
-            </div>
-          <% end %>
         </div>
         <div class="tab-pane" id="signUp">
           <%= form_with(url: "/signup", method: :post, local: true) do |form| %>
@@ -78,15 +71,26 @@
               <%= form.submit "SignUp", :class=>"btn btn-primary btn-block" %>
             </div>
           <% end %>
-          <% if @signup_errors != nil and @signup_errors.empty? == false%>
-            <div class="list-group" style="width:33%; padding:15px;">
-              <% @signup_errors.each do |error|%>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-danger"><%= error%></a>
-              <% end %>
+        </div>
+      </div>
+      <% if @login_errors != nil and @login_errors.empty? == false%>
+        <div class="list-group" style="width:33%; padding:15px;">
+          <% @login_errors.each do |error|%>
+            <div class="alert alert-danger" role="alert">
+              <%= error%>
             </div>
           <% end %>
         </div>
-      </div>
+      <% end %>
+      <% if @signup_errors != nil and @signup_errors.empty? == false%>
+        <div class="list-group" style="width:33%; padding:15px;">
+          <% @signup_errors.each do |error|%>
+            <div class="alert alert-danger" role="alert">
+              <%= error%>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
    
   </div>
 </div>
