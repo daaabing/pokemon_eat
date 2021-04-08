@@ -73,22 +73,45 @@ class BusinessesController < ApplicationController
 
 
   private
+    def redis_set_business(business_id, business)
+      $redis.set(business_id, business.to_json)
+    end
 
-    def yelp_business_detail(business_id)
+    def redis_get_business(business_id)
       if $redis.exists?(business_id)
         business_json = $redis.get(business_id)
         business = JSON.parse(business_json)
-        puts "**********"
-        puts business
-        puts "**********"
+        return business
+      else
+        return nil
+      end
+    end
+
+    def redis_set_event(event_id, event)
+      $redis.set(event_id, event.to_json)
+    end
+
+    def redis_get_event(event_id)
+      if $redis.exists?(event_id)
+        event_json = $redis.get(event_id)
+        event = JSON.parse(event_json)
+        return event
+      else
+        return nil
+      end
+    end
+
+    def yelp_business_detail(business_id)
+      business = redis_get_business(business_id)
+      if business != nil #This business_id was cached before.
+        return business
+      else
+        url = "#{@@API_HOST}#{@@SEARCH_PATH}#{business_id}"    #Calling Yelp business search end point
+        response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
+        business = JSON.parse(response.body)
+        redis_set_business(business_id, business)
         return business
       end
-      #Calling Yelp business search end point
-      url = "#{@@API_HOST}#{@@SEARCH_PATH}#{business_id}"
-      response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
-      business = JSON.parse(response.body)
-      $redis.set(business_id, business.to_json)
-      return business
     end
 
     def yelp_event_search(location)
@@ -105,11 +128,18 @@ class BusinessesController < ApplicationController
     end
 
     def yelp_event_lookup(event_id)
-      #Caling Yelp event look up end point.
-      url = "#{@@API_HOST}#{@@EVENT_PATH}/#{event_id}"
-      response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
-      event = JSON.parse(response.body)
-      return event
+      event = redis_get_event(event_id)
+      if event != nil
+        return event
+      else
+        url = "#{@@API_HOST}#{@@EVENT_PATH}/#{event_id}"         #Caling Yelp event look up end point.
+        response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
+        event = JSON.parse(response.body)
+        redis_set_event(event_id, event)
+        return event
+      end
+
+      
     end
     
     def load_user
