@@ -39,9 +39,6 @@ class UsersController < ApplicationController
     end
 
     @events = yelp_event_search("Seattle", 6)
-    puts "***********"
-    puts @events
-    puts "***********"
     render "home"
   end
 
@@ -57,16 +54,9 @@ class UsersController < ApplicationController
     @reviews = Review.get_user_reviews(@user.id)
     #Liked Restaurant panel
     @liked_res = Set.new(Like.get_user_res(@user.id)).to_a
-    puts "*******"
-    puts @liked_res
-    puts "********"
 
     #Booked Events panel
     @booked_events = BookedEvent.get_user_events(@user.id) 
-    puts "**************"
-    puts @booked_events
-    puts "**************"
-
     @events = []
     @booked_events.each do |e|
       @events.append(yelp_event_lookup(e.event_id))

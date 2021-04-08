@@ -1,3 +1,5 @@
+require 'json'
+
 class BusinessesController < ApplicationController
   @@API_KEY = "cOvuE6J1hqqbEn_ByZMHUqXod80KtPv55iLvQ6G9zoiFtbYvLNtpzUrHE9cFnP4-jTl-5ha99bTNYQ7LAtCWJ2FerNpFlRF9KVBgFmNyXQ9YxPBkNj_DLElVq1M-YHYx"
   @@API_HOST = "https://api.yelp.com"
@@ -73,11 +75,20 @@ class BusinessesController < ApplicationController
   private
 
     def yelp_business_detail(business_id)
+      if $redis.exists?(business_id)
+        business_json = $redis.get(business_id)
+        business = JSON.parse(business_json)
+        puts "**********"
+        puts business
+        puts "**********"
+        return business
+      end
       #Calling Yelp business search end point
       url = "#{@@API_HOST}#{@@SEARCH_PATH}#{business_id}"
       response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
-      response_body_hash = JSON.parse(response.body)
-      return response_body_hash
+      business = JSON.parse(response.body)
+      $redis.set(business_id, business.to_json)
+      return business
     end
 
     def yelp_event_search(location)
