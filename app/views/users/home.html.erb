@@ -1,15 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="">
-  <%= image_tag("superball.png", width:'50px') %>
+  <%= image_tag("superball.png", width:'80px') %>
   <a class="navbar-brand" href="#" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
   <div style="width:60%; margin-left:20%;">
     <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
       <div style="display:inline;">
-        <%= form.label :term, "Find", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;" %>
-        <%= form.text_field :term, :id => 'search_term',:class=>"form-control", :style=>"display:inline; width:20%;"%>
+        <%= form.text_field :term, :id=>'search_term', :class=>"form-control", :style=>"display:inline; width:20%; border-radius:20px;", :placeholder=>"Find"%>
       </div>
       <div style="display:inline;">
-        <%= form.label :location, "Near", :class=>"col-lg-12 col-form-label col-form-label-lg padding", :style=>"display:inline; color:white;"%>
-        <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%;"%>
+        <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%; border-radius:20px;", :placeholder=>"Near"%>
       </div>
       <% if @search_error != nil%>
         <p><%= @search_error%></p>
@@ -32,7 +30,9 @@
     <% else %>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/user" style="font-size:1.25rem;">My Dashboard</a>
+          <a class="nav-link" href="/user" style="font-size:1.25rem;">
+            <img src=<%=@avatar_url%> style="width:65px; display:inline;">
+          </a>
         </li>
       </ul>
     <% end %>
@@ -71,38 +71,38 @@
               justify-content: center;">Trending Restaurants</h3>
   <div style="margin-bottom:10px; height:1px; border-top: solid #ACC0D8 1px;"></div>
   <div class="row justify-content-evenly">
-      <% if @businesses != nil and @businesses.empty? == false%>   
-        <% @businesses.each do |business| %>
-          <div class="col-4"> 
-            <div class="card mb-3" >
-              <img src=<%= business["image_url"]%> class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title business"><%=link_to(business["name"], '/business/' + business["id"] ) %></h5>
-                <div>
-                  <% business["categories"].each do |e| %>
-                    <p class="card-text" style="display:inline;">    
-                      <%= e["title"] %>              
-                    </p>
-                  <% end %>
-                </div>
-                <div>
-                  <% business["location"]["display_address"].each do |e| %>
-                    <p class="card-text" style="display:inline;">    
-                      <%= e %>              
-                    </p>
-                  <% end %>
-                </div>
-                <p class="card-text"><%= business["display_phone"] %></p>
-                <p class="card-text"><%= business["rating"] %></p>
-                <p class="card-text">
-                  <%=link_to("Detail", '/business/' + business["id"] ) %>
-                </p>
-                <%# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>#</p> %>
+    <% if @businesses != nil and @businesses.empty? == false%>   
+      <% @businesses.each do |business| %>
+        <div class="col-4"> 
+          <div class="card mb-3">
+            <img src=<%= business["image_url"]%> class="card-img-top" style="max-height:300px;object-fit:cover;">
+            <div class="card-body">
+              <h5 class="card-title business"><%=link_to(business["name"], '/business/' + business["id"] ) %></h5>
+              <div>
+                <% business["categories"].each do |e| %>
+                  <p class="card-text" style="display:inline;">    
+                    <%= e["title"] %>              
+                  </p>
+                <% end %>
               </div>
+              <div>
+                <% business["location"]["display_address"].each do |e| %>
+                  <p class="card-text" style="display:inline;">    
+                    <%= e %>              
+                  </p>
+                <% end %>
+              </div>
+              <p class="card-text"><%= business["display_phone"] %></p>
+              <p class="card-text"><%= business["rating"] %></p>
+              <p class="card-text">
+                <%=link_to("Detail", '/business/' + business["id"] ) %>
+              </p>
+              <%# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>#</p> %>
             </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
+    <% end %>
   </div>
 </div>
 
@@ -178,11 +178,16 @@
     <div class="row justify-content-evenly">
       <ul class="list-group list-group-flush" style="width:100%;">
         <% @user_reviews.each do |r|%>
-          <li class="list-group-item">
-            <p>For <%= r.business_id%></p>
-            <p><%= r.review%></p> 
-            <p><%= r.updated_at%></p>
-          </li>
+          <div class="row" style="margin-bottom:20px; margin-top:10px;">
+            <div class="col-1">
+              <img src=<%=@avatar_url%> style="width:100px; display:inline;">
+            </div>
+            <div class="col-10" style="margin-left:20px;">
+              <h3><%= r[0]%></h3>
+              <h5><%= r[3] %></h5>
+              <p><%= r[2]%></p>
+            </div>
+          </div>
         <% end %>
       </ul>
     </div> 

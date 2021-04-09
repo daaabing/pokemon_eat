@@ -28,6 +28,7 @@ class UsersController < ApplicationController
     #This is the center of our app, so it should only serve for data displaying purpose.
     #and leave other functions to other methods that it calls.
     @user = load_user()
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id+3 % @@USER_AVATAR.length] + '.png'
     #This @@Question_ID will be used on other method and should
     #be refreshed everytime we visited home page.
     #So we store it in a class varible
@@ -42,6 +43,9 @@ class UsersController < ApplicationController
     @user_reviews = []
     if @user != nil
       @user_reviews = Review.get_user_reviews(@user.id)
+      @user_reviews.each do |r|
+        r.append(yelp_business_detail(r[1])["name"])
+      end
     end
     @events = yelp_event_search("Seattle", 6)
     render "home"
