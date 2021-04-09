@@ -11,7 +11,13 @@ class Like < ApplicationRecord
     res = []
     if user_id != nil and Like.where(user_id:user_id) != nil
       res = Like.where(user_id:user_id).to_a
+      res_id = []
+      res.each do |r|
+        if res_id.include?(r.business_id) == false
+          res_id.append(r.business_id)
+        end
+      end
     end
-    return res
+    return res_id
   end
 end

@@ -11,6 +11,12 @@ class UsersController < ApplicationController
   @@SEARCH_PATH = "/v3/businesses/search"
   @@BUSINESS_PATH = "/v3/businesses/"  # trailing / because we append the business id to the path
   @@EVENT_PATH = "/v3/events"
+  @@USER_AVATAR = [
+                    "abra", "bellsprout", "bullbasaur", "caterpie", "charmander", 
+                    "dratini", "eevee", "mankey", "meowth", "mew",
+                    "pikachu", "psyduck", "rattata", "snorlax", "squirtle",
+                    "venonat", "weedle", "zubat"
+                  ]
 
 
 
@@ -50,11 +56,21 @@ class UsersController < ApplicationController
     #For editing user, we call edit method to do that.
     #Basic Information
     @user = load_user
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id+3 % @@USER_AVATAR.length] + '.png'
     #User's reviews
     @reviews = Review.get_user_reviews(@user.id)
+    puts "*************"
+    puts @reviews
+    puts "*************"
     #Liked Restaurant panel
-    @liked_res = Set.new(Like.get_user_res(@user.id)).to_a
-
+    @liked_res_ids = Like.get_user_res(@user.id)
+    @liked_res = []
+    @liked_res_ids.each do |liked_res_id|
+      res = yelp_business_detail(liked_res_id)
+      if res.has_key?("error") == false
+        @liked_res.append(yelp_business_detail(liked_res_id))
+      end
+    end
     #Booked Events panel
     @booked_events = BookedEvent.get_user_events(@user.id) 
     @events = []
@@ -63,6 +79,10 @@ class UsersController < ApplicationController
     end
     #Food Preference panel -> get user's food preference hash and convert it to an array
     @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
+    @food_hash = $redis.hgetall(@user.id.to_s)
+    puts "*************"
+    puts @food_hash
+    puts "*************"
     #Following panel
     @following = Friend.get_following_all(@user.id)
     render "show"
@@ -297,6 +317,19 @@ class UsersController < ApplicationController
       return businesses
     end
 
+    def yelp_business_detail(business_id)
+      business = redis_get_business(business_id)
+      if business != nil #This business_id was cached before.
+        return business
+      else
+        url = "#{@@API_HOST}#{@@SEARCH_PATH}#{business_id}"    #Calling Yelp business search end point
+        response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
+        business = JSON.parse(response.body)
+        redis_set_business(business_id, business)
+        return business
+      end
+    end
+
     def yelp_event_lookup(event_id)
       #Caling Yelp event look up end point.
       url = "#{@@API_HOST}#{@@EVENT_PATH}/#{event_id}"
@@ -316,5 +349,33 @@ class UsersController < ApplicationController
       response_body_hash = JSON.parse(response.body)
       events = response_body_hash["events"]
       return events
+    end
+
+    def redis_set_business(business_id, business)
+      $redis.set(business_id, business.to_json)
+    end
+
+    def redis_get_business(business_id)
+      if $redis.exists?(business_id)
+        business_json = $redis.get(business_id)
+        business = JSON.parse(business_json)
+        return business
+      else
+        return nil
+      end
+    end
+
+    def redis_set_event(event_id, event)
+      $redis.set(event_id, event.to_json)
+    end
+
+    def redis_get_event(event_id)
+      if $redis.exists?(event_id)
+        event_json = $redis.get(event_id)
+        event = JSON.parse(event_json)
+        return event
+      else
+        return nil
+      end
     end
 end
