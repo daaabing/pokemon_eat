@@ -1,108 +1,201 @@
-<nav class="navbar " style="background: rgba(0,0,0,0);">
-  <div class="container-fluid" >
-    <div class="navbar-brand" style="display:flex; align-items:center;">
-      <%= image_tag("superball.png", width: '50px') %>
-      <strong style="padding-left:5px;">Pokemon Eat</strong>
-    </div>
-    <span class="navbar-text">
-      <% if @other_user == nil %>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Log In", "/" %>
-        </button>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Sign Up", "/" %>
-        </button>
-      <% else %>
-        <%= link_to @visitor.email, "/user" %>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="">
+  <%= image_tag("superball.png", width:'80px') %>
+  <a class="navbar-brand" href="/home" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
+  <div style="width:60%; margin-left:20%;">
+    <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
+      <div style="display:inline;">
+        <%= form.text_field :term, :id=>'search_term', :class=>"form-control", :style=>"display:inline; width:20%; border-radius:20px;", :placeholder=>"Find"%>
+      </div>
+      <div style="display:inline;">
+        <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%; border-radius:20px;", :placeholder=>"Near"%>
+      </div>
+      <% if @search_error != nil%>
+        <p><%= @search_error%></p>
       <% end%>
-    </span>
+      <div style="display:inline;">
+        <%= form.submit "Go" , :class=>"btn", :style=>"color:white; font-size:1.25rem;" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-2 collapse navbar-collapse" id="navbarResponsive">
+    <% if @user == nil %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Log In</a>
+        </li>
+      </ul>
+    <% else %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/user" style="font-size:1.25rem;">
+            <img src=<%=@avatar_url%> style="width:65px; display:inline;">
+          </a>
+        </li>
+      </ul>
+    <% end %>
   </div>
 </nav>
 
-<h1>This is other user page</h1>
-<button type="button" class="btn btn-light">
-    <%= link_to "Follow this user", "/follow_user/" + @other_user_id.to_s%>
-  </button>
+
+
+<div style="margin:0px; padding:0px; width:100%;">
+  <div class="row" style="margin:0px; width:100%; height:550px; overflow:hidden; background-image: url('/assets/user-background-3.jpeg'); background-size:cover;">
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 <div class="container">
   <div class="row">
-    <div class="col">
-      <h1>
-        User Profile
-      </h1>
+    <div class="col-4" style="top:-70px;">
+      <img src=<%=@avatar_url%> style="width:300px;">
     </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>First Name</h3> <h5><%= @other_user.first_name %></h5>
-    </div>
-    <div class="col">
-      <h3>Last Name</h3> <h5><%= @other_user.last_name %></h5>
+    <div class="col-8">
+      <h2><%= @user.nick_name %><h2>
+      <p><%= @user.hometown%></p>  
+      <button type="button" class="btn btn-light">
+        <%= link_to "Follow this user", "/follow_user/" + @user_id.to_s%>
+      </button>      
     </div>
   </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="container" style="margin-bottom:100px;">
   <div class="row">
-    <div class="col">
-      <h3>Nick Name</h3> <h5><%= @other_user.nick_name %></h5>
+    <div class="col-8">
+      <div class="bs-example">
+        <ul class="nav nav-tabs justify-content-center">
+          <li class="nav-item">
+              <a href="#review" class="nav-link active" data-toggle="tab">My Reviews</a>
+          </li>
+          <li class="nav-item">
+              <a href="#restaurants" class="nav-link" data-toggle="tab">Starred Restaurants</a>
+          </li>
+          <li class="nav-item">
+              <a href="#events" class="nav-link" data-toggle="tab">Booked Events</a>
+          </li>
+          <li class="nav-item">
+              <a href="#following" class="nav-link" data-toggle="tab">Following</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="review">
+              <% @reviews.each do |r|%>
+                <div class="row" style="margin-bottom:20px; margin-top:10px;">
+                  <div class="col-2">
+                    <img src=<%=@avatar_url%> style="width:100px; display:inline;">
+                  </div>
+                  <div class="col-10">
+                    <h3><%= r[0]%></h3>
+                    <h5><%= r[3] %></h5>
+                    <p><%= r[2]%></p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="tab-pane fade" id="restaurants">
+                <h4 class="mt-2">
+                  <% @liked_res.each do |l|%>
+                    <div class="row" style="margin-bottom:30px;">
+                      <div class="col-3" >
+                        <img src=<%= l["image_url"]%> style="width:150px; height:100px; object-fit:cover; border-radius:5px;">
+                      </div>
+                      <div class="col-9">
+                        <h3 class="card-title" style="margin:0px;"><%= l["name"]%></h3>
+                        <p style="margin:0px; display:inline; font-size:18px; font-family:serif"> 
+                          <%= l["location"]["address1"]%> | 
+                        </p>
+                        <p style="margin:0px; display:inline; font-size:18px; font-family:serif">
+                          <%= l["display_phone"]%>
+                        </p>
+                        <div>
+                          <a href=<%= "/business/" + l['id']%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit</a>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </h4>
+            </div>
+            <div class="tab-pane fade" id="events">
+                <h4 class="mt-2">
+                  <% @events.each do |e|%>
+                    <div class="row" style="margin-bottom:30px;">
+                      <div class="col-3" >
+                        <img src=<%= e["image_url"]%> style="width:150px; height:200px; object-fit:cover; border-radius:5px;">
+                      </div>
+                      <div class="col-9">
+                        <h3 class="card-title" style="margin:0px;"><%= e["name"]%></h3>
+                        <p style=" font-size:18px; font-family:serif"> 
+                          <%= e["description"]%> 
+                        </p>
+                        <p style="margin:0px; font-size:18px; font-family:serif">
+                          <%= e["location"]["address1"]%>
+                        </p>
+                        <div>
+                          <a href=<%= "/event/" + e['id']%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit</a>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </h4>
+            </div>
+            <div class="tab-pane fade" id="following">
+                <h4 class="mt-2">
+                  <% @following.each do |f|%>
+                    <div class="row" style="margin-bottom:20px; margin-top:10px;">
+                      <div class="col-2">
+                        <img src=<%=f[1]%> style="width:100px; display:inline;">
+                      </div>
+                      <div class="col-10">
+                        <h3><%= f[0].nick_name%></h3>
+                        <div>
+                          <% if f[0].id == @visitor.id%>
+                            <a href=<%= "/user/"%> class="btn btn-primary" style="margin-left:auto; color:white;">Back to My Page</a>
+                          <% else%>
+                            <a href=<%= "/other_user/"+f[0].id.to_s%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit</a>
+                          <% end%>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                  
+                </h4>
+            </div>
+        </div>
+      </div>
     </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Gender</h3> <h5><%= @other_user.gender %></h5>
+
+    <div class="col-4">
+      <%= pie_chart @food_hash%>
     </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Age</h3> <h5><%= @other_user.age %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Food Preference</h3> <h5><%= @other_user.food_preference %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Email</h3> <h5><%= @other_user.email %></h5>
-    </div>
-    <div class="col"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Email is confirmed</h3> <h5><%= @other_user.confirmed %></h5>
-    </div>
-    <div class="col"></div>
   </div>
 </div>
 
 
 
-<div class="container" style="margin:0px;">
-  <div class="row">
-    <div class="col-2">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#"><%= link_to 'Edit my profile', '/edit_profile' %></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><%= link_to 'Back to home page', '/home' %></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><%= link_to 'Log out', '/' %></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#reviews">My reviews</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#friends">My friends</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+
+
+
+
+
+
 
 
 

@@ -62,6 +62,43 @@
     </div>
 </div>
 
+<!-- The Modal -->
+<div class="modal fade" id="recommendModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Recommend</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+      <p><%= @question.question %><p>
+      <% if @question.question_type == 'choose' then%>
+        <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <%= form.label :choice, "Select your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.select :choice, @options, {}, :class=>"form-control" %>
+          <%= form.label :location, "Place:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :location, :id => 'recommend_location',:class=>"form-control insert-location" %>
+          <%= form.submit "Recommend:" , :class=>"btn btn-primary" %>
+        <% end %>
+      <% elsif @question.question_type == 'fill' %>
+        <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
+          <%= form.label :choice, "Input your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :choice, :class=>"form-control" %>
+          <%= form.label :location, "Place:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
+          <%= form.text_field :location, :class=>"form-control insert-location" %>
+          <%= form.submit "Recommend:" , :class=>"btn btn-primary" %>
+        <% end %>
+      <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 
 <div class="container" style="margin-top:40px;">
@@ -94,10 +131,6 @@
               </div>
               <p class="card-text"><%= business["display_phone"] %></p>
               <p class="card-text"><%= business["rating"] %></p>
-              <p class="card-text">
-                <%=link_to("Detail", '/business/' + business["id"] ) %>
-              </p>
-              <%# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>#</p> %>
             </div>
           </div>
         </div>
@@ -149,10 +182,6 @@
                   <% end %>
                 </div>
                 <p class="card-text"><%= event["display_phone"] %></p>
-                <p class="card-text">
-                  <%=link_to("Detail", '/event/' + event["id"] ) %>
-                </p>
-                <%# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>#</p> %>
               </div>
             </div>
           </div>
@@ -227,43 +256,7 @@
 
 
 
-<!-- The Modal -->
-<div class="modal fade" id="recommendModal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Recommend</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-      <p><%= @question.question %><p>
-      <% if @question.question_type == 'choose' then%>
-        <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
-          <%= form.label :choice, "Select your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
-          <%= form.select :choice, @options, {}, :class=>"form-control" %>
-          <%= form.label :location, "Place:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
-          <%= form.text_field :location, :id => 'recommend_location',:class=>"form-control insert-location" %>
-          <%= form.submit "Recommend:" , :class=>"btn btn-primary" %>
-        <% end %>
-      <% elsif @question.question_type == 'fill' %>
-        <%= form_with(url: "/recommend/" + params[:id].to_s, method: :get, local: true) do |form| %>
-          <%= form.label :choice, "Input your answer here:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
-          <%= form.text_field :choice, :class=>"form-control" %>
-          <%= form.label :location, "Place:", :class=>"col-lg-12 col-form-label col-form-label-lg padding" %>
-          <%= form.text_field :location, :class=>"form-control insert-location" %>
-          <%= form.submit "Recommend:" , :class=>"btn btn-primary" %>
-        <% end %>
-      <% end %>
-      </div>
-
-     
-    </div>
-  </div>
-</div>
 
 
 <!-- The Modal -->
@@ -344,14 +337,14 @@
 </script>
 
 <script>
-(function(d,e,s){
-  if(d.getElementById("likebtn_wjs"))return;
-  
-  a=d.createElement(e);
-  m=d.getElementsByTagName(e)[0];
-  a.async=1;
-  a.id="likebtn_wjs";
-  a.src=s;
-  m.parentNode.insertBefore(a, m)
-})(document,"script","//w.likebtn.com/js/w/widget.js");
+  (function(d,e,s){
+    if(d.getElementById("likebtn_wjs"))return;
+    
+    a=d.createElement(e);
+    m=d.getElementsByTagName(e)[0];
+    a.async=1;
+    a.id="likebtn_wjs";
+    a.src=s;
+    m.parentNode.insertBefore(a, m)
+  })(document,"script","//w.likebtn.com/js/w/widget.js");
 </script>

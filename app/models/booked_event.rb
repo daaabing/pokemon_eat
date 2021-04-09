@@ -9,8 +9,14 @@ class BookedEvent < ApplicationRecord
     events = []
     if user_id != nil and BookedEvent.where(user_id:user_id) != nil
       events = BookedEvent.where(user_id:user_id).to_a
+      events_id = []
+      events.each do |e|
+        if events_id.include?(e.event_id) == false
+          events_id.append(e.event_id)
+        end
+      end
     end
-    return events
+    return events_id
   end
 
 

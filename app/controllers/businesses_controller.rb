@@ -5,10 +5,19 @@ class BusinessesController < ApplicationController
   @@API_HOST = "https://api.yelp.com"
   @@SEARCH_PATH = "/v3/businesses/"
   @@EVENT_PATH = "/v3/events"
+  @@USER_AVATAR = [
+    "abra", "bellsprout", "bullbasaur", "caterpie", "charmander", 
+    "dratini", "eevee", "mankey", "meowth", "mew",
+    "pikachu", "psyduck", "rattata", "snorlax", "squirtle",
+    "venonat", "weedle", "zubat"
+  ]
+  @@RES_BACKGROUND_SIZE = 16
 
   def show
     #Show a specific business detail page
     @user = load_user()
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    @business_background_url = '/assets/res-' + rand(@@RES_BACKGROUND_SIZE).to_s + '.jpg'
     @business_id = params[:business_id]
     @business = yelp_business_detail(@business_id)
     @reviews = Review.where(business_id:@business_id)

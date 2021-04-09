@@ -1,26 +1,50 @@
-<nav class="navbar " style="background: rgba(0,0,0,0);">
-  <div class="container-fluid" >
-    <div class="navbar-brand" style="display:flex; align-items:center;">
-      <%= image_tag("superball.png", width: '50px') %>
-      <strong style="padding-left:5px;">Pokemon Eat</strong>
-    </div>
-    <span class="navbar-text">
-      <% if @user == nil %>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Log In", "/" %>
-        </button>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Sign Up", "/" %>
-        </button>
-      <% else %>
-        <%= link_to @user.email, "/user" %>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="">
+  <%= image_tag("superball.png", width:'80px') %>
+  <a class="navbar-brand" href="#" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
+  <div style="width:60%; margin-left:20%;">
+    <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
+      <div style="display:inline;">
+        <%= form.text_field :term, :id=>'search_term', :class=>"form-control", :style=>"display:inline; width:20%; border-radius:20px;", :placeholder=>"Find"%>
+      </div>
+      <div style="display:inline;">
+        <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%; border-radius:20px;", :placeholder=>"Near"%>
+      </div>
+      <% if @search_error != nil%>
+        <p><%= @search_error%></p>
       <% end%>
-    </span>
+      <div style="display:inline;">
+        <%= form.submit "Go" , :class=>"btn", :style=>"color:white; font-size:1.25rem;" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-2 collapse navbar-collapse" id="navbarResponsive">
+    <% if @user == nil %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Log In</a>
+        </li>
+      </ul>
+    <% else %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/user" style="font-size:1.25rem;">
+            <img src=<%=@avatar_url%> style="width:65px; display:inline;">
+          </a>
+        </li>
+      </ul>
+    <% end %>
   </div>
 </nav>
 
 
 
+<div style="margin:0px; padding:0px; width:100%;">
+  <div class="row" style="margin:0px; width:100%; height:550px; overflow:hidden; background-image: url(<%= @business_background_url %>); background-size:cover;">
+  </div>
+</div>
 
 <div class="container" >
   <h1>

@@ -17,8 +17,7 @@ class UsersController < ApplicationController
                     "pikachu", "psyduck", "rattata", "snorlax", "squirtle",
                     "venonat", "weedle", "zubat"
                   ]
-
-
+  @@USER_BACKGROUND_SIZE = 5
 
   def landing
   end
@@ -28,7 +27,7 @@ class UsersController < ApplicationController
     #This is the center of our app, so it should only serve for data displaying purpose.
     #and leave other functions to other methods that it calls.
     @user = load_user()
-    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id+3 % @@USER_AVATAR.length] + '.png'
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
     #This @@Question_ID will be used on other method and should
     #be refreshed everytime we visited home page.
     #So we store it in a class varible
@@ -59,15 +58,13 @@ class UsersController < ApplicationController
     #For editing user, we call edit method to do that.
     #Basic Information
     @user = load_user
-    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id+3 % @@USER_AVATAR.length] + '.png'
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    @user_background_url = '/assets/user-background-' + rand(@@USER_BACKGROUND_SIZE).to_s + '.jpg'
     #User's reviews
     @reviews = Review.get_user_reviews(@user.id)
     @reviews.each do |r|
       r.append(yelp_business_detail(r[1])["name"])
     end
-    puts "*************"
-    puts @reviews
-    puts "*************"
     #Liked Restaurant panel
     @liked_res_ids = Like.get_user_res(@user.id)
     @liked_res = []
@@ -77,20 +74,28 @@ class UsersController < ApplicationController
         @liked_res.append(yelp_business_detail(liked_res_id))
       end
     end
-    puts "**************"
-    puts @liked_res
-    puts "**************"
     #Booked Events panel
-    @booked_events = BookedEvent.get_user_events(@user.id) 
+    @events_id = BookedEvent.get_user_events(@user.id) 
     @events = []
-    @booked_events.each do |e|
-      @events.append(yelp_event_lookup(e.event_id))
+    @events_id.each do |e|
+      @events.append(yelp_event_lookup(e))
     end
+    puts "*************"
+    puts @events
+    puts "*************"
     #Food Preference panel -> get user's food preference hash and convert it to an array
     @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
     @food_hash = $redis.hgetall(@user.id.to_s)
     #Following panel
-    @following = Friend.get_following_all(@user.id)
+    @following_id = Friend.get_following_all(@user.id)
+    @following = []
+    @following_id.each do |id|
+      following_avatar = '/assets/' + @@USER_AVATAR[id.to_i % @@USER_AVATAR.length] + '.png'
+      @following.append([
+        User.get_user(id),
+        following_avatar
+      ])
+    end
     render "show"
   end
 
@@ -100,18 +105,16 @@ class UsersController < ApplicationController
   def edit
     #Edit user's personal information.
     @user = load_user
-    if params[:commit] == "Change my profile"
+    if params[:commit] == "Save"
       @user = load_user
       @user.first_name = params[:first_name]
       @user.last_name = params[:last_name]
       @user.nick_name = params[:nick_name]
       @user.gender = params[:gender]
       @user.age = params[:age]
-      @user.food_preference = params[:food_preference]
+      @user.hometown = params[:hometown]
       @user.save
       redirect_to "/user"
-    else
-      render "edit"
     end
   end
 
@@ -220,6 +223,7 @@ class UsersController < ApplicationController
     @password = params[:password]
     @re_password = params[:re_password]
     @nick_name = params[:nick_name]
+    @hometown = params[:hometown]
     @signup_errors = []
     if @email == ""
       @signup_errors.push("Email is empty")
@@ -244,7 +248,7 @@ class UsersController < ApplicationController
     if @signup_errors.length() > 0 # He failed to signup.
       render "welcome"
     else
-      @new_user = User.create(email: @email, password_digest: @password)
+      @new_user = User.create(email: @email, password_digest: @password, nick_name: @nick_name, hometown: @hometown)
       @new_user.save()
       store_user(@new_user.id) # If he successfully signed up, and we store his user_id into session.
       redirect_to "/home"
@@ -269,8 +273,45 @@ class UsersController < ApplicationController
 
   def show_other_user
     @visitor = load_user
-    @other_user_id = params[:user_id]
-    @other_user = User.find_by_id(@other_user_id)
+    @user_id = params[:user_id]
+    @user = User.find_by_id(@user_id) #big difference 
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    #User's reviews
+    @reviews = Review.get_user_reviews(@user.id)
+    @reviews.each do |r|
+      r.append(yelp_business_detail(r[1])["name"])
+    end
+    #Liked Restaurant panel
+    @liked_res_ids = Like.get_user_res(@user.id)
+    @liked_res = []
+    @liked_res_ids.each do |liked_res_id|
+      res = yelp_business_detail(liked_res_id)
+      if res.has_key?("error") == false
+        @liked_res.append(yelp_business_detail(liked_res_id))
+      end
+    end
+    #Booked Events panel
+    @events_id = BookedEvent.get_user_events(@user.id) 
+    @events = []
+    @events_id.each do |e|
+      @events.append(yelp_event_lookup(e))
+    end
+    puts "*************"
+    puts @events
+    puts "*************"
+    #Food Preference panel -> get user's food preference hash and convert it to an array
+    @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
+    @food_hash = $redis.hgetall(@user.id.to_s)
+    #Following panel
+    @following_id = Friend.get_following_all(@user.id)
+    @following = []
+    @following_id.each do |id|
+      following_avatar = '/assets/' + @@USER_AVATAR[id.to_i % @@USER_AVATAR.length] + '.png'
+      @following.append([
+        User.get_user(id),
+        following_avatar
+      ])
+    end
     render "show_other_user"
   end
 
