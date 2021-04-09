@@ -43,7 +43,6 @@ class UsersController < ApplicationController
     if @user != nil
       @user_reviews = Review.get_user_reviews(@user.id)
     end
-
     @events = yelp_event_search("Seattle", 6)
     render "home"
   end
@@ -59,6 +58,9 @@ class UsersController < ApplicationController
     @avatar_url = '/assets/' + @@USER_AVATAR[@user.id+3 % @@USER_AVATAR.length] + '.png'
     #User's reviews
     @reviews = Review.get_user_reviews(@user.id)
+    @reviews.each do |r|
+      r.append(yelp_business_detail(r[1])["name"])
+    end
     puts "*************"
     puts @reviews
     puts "*************"
@@ -71,6 +73,9 @@ class UsersController < ApplicationController
         @liked_res.append(yelp_business_detail(liked_res_id))
       end
     end
+    puts "**************"
+    puts @liked_res
+    puts "**************"
     #Booked Events panel
     @booked_events = BookedEvent.get_user_events(@user.id) 
     @events = []
@@ -80,9 +85,6 @@ class UsersController < ApplicationController
     #Food Preference panel -> get user's food preference hash and convert it to an array
     @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
     @food_hash = $redis.hgetall(@user.id.to_s)
-    puts "*************"
-    puts @food_hash
-    puts "*************"
     #Following panel
     @following = Friend.get_following_all(@user.id)
     render "show"
