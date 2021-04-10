@@ -20,6 +20,9 @@ class BusinessesController < ApplicationController
     @business_background_url = '/assets/res-' + rand(@@RES_BACKGROUND_SIZE).to_s + '.jpg'
     @business_id = params[:business_id]
     @business = yelp_business_detail(@business_id)
+    puts "************"
+    puts @business
+    puts "************"
     @reviews = Review.where(business_id:@business_id)
     @categories = @business["categories"]
   end
