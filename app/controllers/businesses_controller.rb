@@ -23,7 +23,17 @@ class BusinessesController < ApplicationController
     puts "************"
     puts @business
     puts "************"
-    @reviews = Review.where(business_id:@business_id)
+    @reviews_obj = Review.where(business_id:@business_id)
+    @reviews = []
+    @reviews_obj.each do |r|
+      nick_name = User.find_by_id(r.user_id).nick_name
+      avatar_url = '/assets/' + @@USER_AVATAR[r.user_id.to_i % @@USER_AVATAR.length] + '.png'
+      @reviews.append([nick_name, r.updated_at, r.review, avatar_url, r.user_id])
+    end
+    @week = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
+    # puts "**********"
+    # puts @reviews
+    # puts "**********"
     @categories = @business["categories"]
   end
 
