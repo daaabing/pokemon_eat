@@ -12,6 +12,8 @@ class BusinessesController < ApplicationController
     "venonat", "weedle", "zubat"
   ]
   @@RES_BACKGROUND_SIZE = 16
+  @@EVENT_BACKGROUND_SIZE = 6
+
 
   def show
     #Show a specific business detail page
@@ -20,9 +22,6 @@ class BusinessesController < ApplicationController
     @business_background_url = '/assets/res-' + rand(@@RES_BACKGROUND_SIZE).to_s + '.jpg'
     @business_id = params[:business_id]
     @business = yelp_business_detail(@business_id)
-    puts "************"
-    puts @business
-    puts "************"
     @reviews_obj = Review.where(business_id:@business_id)
     @reviews = []
     @reviews_obj.each do |r|
@@ -31,9 +30,6 @@ class BusinessesController < ApplicationController
       @reviews.append([nick_name, r.updated_at, r.review, avatar_url, r.user_id])
     end
     @week = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
-    # puts "**********"
-    # puts @reviews
-    # puts "**********"
     @categories = @business["categories"]
   end
 
@@ -70,8 +66,13 @@ class BusinessesController < ApplicationController
     #On the event list page, if current user is interested in any particular event,
     #he will get the event detail on business/event.html.erb
     @user = load_user
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    @event_background_url = '/assets/event-' + rand(@@EVENT_BACKGROUND_SIZE).to_s + '.jpg'
     @event_id = params[:id]
     @event = yelp_event_lookup(@event_id)
+    puts "***********"
+    puts @event
+    puts "***********"
     render "event"
   end
 
