@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     for o in @question.options do
       @options.append(o["option"])
     end
-    @businesses = yelp_business_search("", "New York", 9)
+    @businesses = yelp_business_search("", @user.hometown, 9)
     @user_reviews = []
     if @user != nil
       @user_reviews = Review.get_user_reviews(@user.id)
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
         r.append(yelp_business_detail(r[1])["name"])
       end
     end
-    @events = yelp_event_search("Seattle", 6)
+    @events = yelp_event_search(@user.hometown, 6)
     render "home"
   end
 
@@ -86,9 +86,6 @@ class UsersController < ApplicationController
     @events_id.each do |e|
       @events.append(yelp_event_lookup(e))
     end
-    puts "*************"
-    puts @events
-    puts "*************"
     #Food Preference panel -> get user's food preference hash and convert it to an array
     @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
     @food_hash = $redis.hgetall(@user.id.to_s)
@@ -173,9 +170,6 @@ class UsersController < ApplicationController
     @business_background_url = '/assets/res-' + rand(@@RES_BACKGROUND_SIZE).to_s + '.jpg'
     @food_hash = $redis.hgetall(@user.id.to_s)
     @response = Question.generate_response(@@QUESTION_ID, params[:choice]).to_s
-    # puts "*********from recommend**********"
-    # puts @@QUESTION_ID
-    # puts "*********************************"
     @LOCATION = ""
     @recommend_error = nil
     if params[:location].present?
@@ -187,9 +181,6 @@ class UsersController < ApplicationController
     @businesses = []
     if @recommend_error == nil
       @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
-      puts "***********"
-      puts @food_list
-      puts "***********"
       @TERM = @food_list[-1][0].to_s
       @businesses = get_recommend(@TERM, @LOCATION)
     end
@@ -314,9 +305,6 @@ class UsersController < ApplicationController
     @events_id.each do |e|
       @events.append(yelp_event_lookup(e))
     end
-    puts "*************"
-    puts @events
-    puts "*************"
     #Food Preference panel -> get user's food preference hash and convert it to an array
     @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
     @food_hash = $redis.hgetall(@user.id.to_s)

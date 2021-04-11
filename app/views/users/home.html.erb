@@ -104,13 +104,13 @@
   <h1 style=" font-family: 'Times New Roman', Times, serif; 
               display: flex; 
               align-items: center; 
-              justify-content: center;">Trending Restaurants</h3>
+              justify-content: center;">Trending Restaurants Near <%= @user.hometown%></h3>
   <div style="margin-bottom:10px; height:1px; border-top: solid #ACC0D8 1px;"></div>
   <div class="row justify-content-evenly">
     <% if @businesses != nil and @businesses.empty? == false%>   
       <% @businesses.each do |business| %>
         <div class="col-4"> 
-          <div class="card mb-3">
+          <div class="card mb-3" style="height:500px;">
             <img src=<%= business["image_url"]%> class="card-img-top" style="max-height:300px;object-fit:cover;">
             <div class="card-body">
               <h5 class="card-title business"><%=link_to(business["name"], '/business/' + business["id"] ) %></h5>
@@ -142,7 +142,7 @@
   <h1 style=" font-family: 'Times New Roman', Times, serif; 
               display: flex; 
               align-items: center; 
-              justify-content: center;">Booked Events</h3>
+              justify-content: center;">Popular Events Near <%=@user.hometown %></h3>
   <div style="height:1px; border-top: solid #ACC0D8 1px;"></div>
   <div class="vw-50" style="margin-top:5px; width:100%;">
       <div class="card text-center" style="border:0px;">
@@ -164,8 +164,8 @@
       <% if @events != nil and @events.empty? == false%>   
         <% @events.each do |event| %>
           <div class="col-4"> 
-            <div class="card mb-3" >
-              <img src=<%= event["image_url"]%> class="card-img-top" style="overflow:hidden;">
+            <div class="card mb-3" style="height:500px;">
+              <img src=<%= event["image_url"]%> class="card-img-top" style="overflow:hidden;" alt="/assets/yelp.jpeg">
               <div class="card-body">
                 <h5 class="card-title business"><%=link_to(event["name"], '/event/' + event["id"].to_s ) %></h5>
                 <div>
@@ -282,7 +282,6 @@
 </div>
 
 
-<span class="likebtn-wrapper" data-theme="review" data-white_label="true" data-identifier="item_1"></span>
 
 
 

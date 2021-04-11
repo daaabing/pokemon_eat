@@ -82,8 +82,8 @@
       </div>
     </div>
   </div>
-  <button type="button" href=<%="/like/" + @business["id"]%> class="btn btn-primary" style="font-size:20px;">
-    Thumbs Up
+  <button type="button" href=<%="/like/" + @business["id"].to_s%> class="btn btn-primary" style="font-size:20px;">
+    <%= link_to "Thumbs Up", "/like/" + @business["id"]%>
   </button>
   <div style="margin-top:5px; height:1px; border-top:solid #ACC0D8 1px;"></div>
 </div>

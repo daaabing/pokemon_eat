@@ -141,10 +141,10 @@
                       </div>
                       <div class="col-9">
                         <h3 class="card-title" style="margin:0px;"><%= l["name"]%></h3>
-                        <p style="margin:0px; display:inline; font-size:18px; font-family:serif"> 
+                        <p style="margin:0px; display:inline; font-size:18px;"> 
                           <%= l["location"]["address1"]%> | 
                         </p>
-                        <p style="margin:0px; display:inline; font-size:18px; font-family:serif">
+                        <p style="margin:0px; display:inline; font-size:18px;">
                           <%= l["display_phone"]%>
                         </p>
                         <div>
@@ -164,15 +164,13 @@
                       </div>
                       <div class="col-9">
                         <h3 class="card-title" style="margin:0px;"><%= e["name"]%></h3>
-                        <p style=" font-size:18px; font-family:serif"> 
+                        <h5 style=" font-size:18px; "> 
                           <%= e["description"]%> 
-                        </p>
-                        <p style="margin:0px; font-size:18px; font-family:serif">
+                        </h5>
+                        <h5 style="margin:0px; font-size:18px;">
                           <%= e["location"]["address1"]%>
-                        </p>
-                        <div>
-                          <a href=<%= "/event/" + e['id']%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit</a>
-                        </div>
+                        </h5>
+                        <a href=<%= "/event/" + e['id']%> class="btn btn-primary" style="margin-top:auto; margin-left:auto; color:white;">Visit</a>
                       </div>
                     </div>
                   <% end %>
@@ -187,13 +185,13 @@
                       </div>
                       <div class="col-10">
                         <h3><%= f[0].nick_name%></h3>
+                        <h5><%= f[0].hometown%></h5>
                         <div>
                           <a href=<%= "/other_user/"+f[0].id.to_s%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit</a>
                         </div>
                       </div>
                     </div>
                   <% end %>
-                  
                 </h4>
             </div>
         </div>
