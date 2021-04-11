@@ -18,6 +18,9 @@ class UsersController < ApplicationController
                     "venonat", "weedle", "zubat"
                   ]
   @@USER_BACKGROUND_SIZE = 5
+  @@RES_BACKGROUND_SIZE = 16
+  @@EVENT_BACKGROUND_SIZE = 6
+
 
   def landing
   end
@@ -33,6 +36,9 @@ class UsersController < ApplicationController
     #So we store it in a class varible
     #because every request(like GET '/home', to "users#home") will make rails to create a new instance of UserController.
     @@QUESTION_ID = Question.generate_question.id  
+    puts "**********"
+    puts @@QUESTION_ID
+    puts "**********"
     @question = load_question(@@QUESTION_ID)
     @options = []
     for o in @question.options do
@@ -125,6 +131,8 @@ class UsersController < ApplicationController
     #Search restaurant based on keyword(term) and location.
     #This is depended on Yelp business search end point.
     @user = load_user
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    @business_background_url = '/assets/res-' + rand(@@RES_BACKGROUND_SIZE).to_s + '.jpg'
     @from_other_page = !params[:commit].present?
     @TERM = ""  #term can be empty.
     if params[:term] != nil
@@ -161,8 +169,13 @@ class UsersController < ApplicationController
     #as well as some business user queried before(like two day before up to now).
     #So in this way, we can large reduce API calls to Yelp and in the meantime keep our site updated constantly. 
     @user = load_user
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    @business_background_url = '/assets/res-' + rand(@@RES_BACKGROUND_SIZE).to_s + '.jpg'
+    @food_hash = $redis.hgetall(@user.id.to_s)
     @response = Question.generate_response(@@QUESTION_ID, params[:choice]).to_s
-
+    # puts "*********from recommend**********"
+    # puts @@QUESTION_ID
+    # puts "*********************************"
     @LOCATION = ""
     @recommend_error = nil
     if params[:location].present?
@@ -173,7 +186,12 @@ class UsersController < ApplicationController
 
     @businesses = []
     if @recommend_error == nil
-      @businesses = get_recommend(@LOCATION)
+      @food_list = $redis.hgetall(@user.id.to_s).sort_by {|k, v| -v}
+      puts "***********"
+      puts @food_list
+      puts "***********"
+      @TERM = @food_list[-1][0].to_s
+      @businesses = get_recommend(@TERM, @LOCATION)
     end
     render "recommend"
   end
@@ -341,13 +359,13 @@ class UsersController < ApplicationController
       return Question.find_by({id:@@QUESTION_ID})
     end
 
-    def get_recommend(location)
+    def get_recommend(term, location)
       #This method is called by other public methods above.
       #It will recommend other 10 restaurant to our user.
       user = load_user
-      preference = User.find_by_id(user.id).food_preference
+      # preference = User.find_by_id(user.id).food_preference
       businesses = []
-      businesses = yelp_business_search(preference, location, 10)
+      businesses = yelp_business_search(term, location, 10)
       return businesses
     end
 

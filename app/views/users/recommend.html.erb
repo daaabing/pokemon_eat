@@ -1,63 +1,109 @@
-<nav class="navbar " style="background: rgba(0,0,0,0);">
-  <div class="container-fluid" >
-    <div class="navbar-brand" style="display:flex; align-items:center;">
-      <%= image_tag("superball.png", width: '50px') %>
-      <strong style="padding-left:5px;">Pokemon Eat</strong>
-    </div>
-    <span class="navbar-text">
-      <% if @user == nil %>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Log In", "/" %>
-        </button>
-        <button class="btn btn-outline-success" >
-          <%= link_to "Sign Up", "/" %>
-        </button>
-      <% else %>
-        <%= link_to @user.email, "/user" %>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+  <%= image_tag("superball.png", width:'80px') %>
+  <a class="navbar-brand" href="/home" style="margin-left:5px; font-size:25px;">Pokemon Eat</a>
+  <div style="width:60%; margin-left:20%;">
+    <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
+      <div style="display:inline;">
+        <%= form.text_field :term, :id=>'search_term', :class=>"form-control", :style=>"display:inline; width:20%; border-radius:20px;", :placeholder=>"Find"%>
+      </div>
+      <div style="display:inline;">
+        <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%; border-radius:20px;", :placeholder=>"Near"%>
+      </div>
+      <% if @search_error != nil%>
+        <p><%= @search_error%></p>
       <% end%>
-    </span>
+      <div style="display:inline;">
+        <%= form.submit "Go" , :class=>"btn", :style=>"color:white; font-size:1.25rem;" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-2 collapse navbar-collapse" id="navbarResponsive">
+    <% if @user == nil %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/welcome">Log In</a>
+        </li>
+      </ul>
+    <% else %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/user" style="font-size:1.25rem;">
+            <img src=<%=@avatar_url%> style="width:65px; display:inline;">
+          </a>
+        </li>
+      </ul>
+    <% end %>
   </div>
 </nav>
 
 
+<div style="margin:0px; padding:0px; width:100%;">
+  <div class="row" style="margin:0px; width:100%; height:550px; overflow:hidden; background-image: linear-gradient(to top, rgba(0,0,0,0.75), rgba(255,255,255,0)), url(<%= @business_background_url %>); background-size:cover; ">
+    <div class="container" style="margin-top:250px; color:white; text-align:center">
+      <%= image_tag("instinct.png", width:'80px') %>
+      <h2 style="margin-top:20px;"><%= @response %></h2>
+    </div>
+  </div>
+</div>
+
 <% if @recommend_error != nil %>
     <p><%= @recommend_error %></p>
 <% elsif @businesses != nil and @businesses.empty? == false%>
-    <div class="container" >
-        <div class="row justify-content-evenly">
-          <h2><%= @response %></h2>
-        </div>
-        <div class="row justify-content-evenly" style="margin-top:50px;">
-          <h4>Recommendation</h2>
-        </div>
-    </div>
-    <div class="container" >
-        <div class="row justify-content-evenly">
-          <ul class="list-group list-group-flush">
-            <% @businesses.each do |b| %>
-              <li class="list-group-item">
-                <h5><%= b["name"]%></h5>
-                <img src=<%= b["image_url"]%> style="width:300px;">
-                <p>Closed <%= b["is_closed"]%></p>
-                <p>Call <%= b["display_phone"]%></p>
-                <p><%= link_to "detail", "/business/" + b["id"].to_s%></p>
-              </li>
-            <%end%>
-          </ul>
-        </div> 
+    <div class="container" style="margin-top:50px;" >
+      <h1>Your Current Food Preference</h1>
+      <div style="margin-top:5px; height:1px; border-top:solid #ACC0D8 1px;"></div>
+      <div class="row justify-content-evenly">
+          <%= pie_chart @food_hash%>
+      </div>
+
+      <h1 style="margin-top:30px;">Here's What We Find Out</h1>
+      <div style="margin-top:5px; margin-bottom:5px;height:1px; border-top:solid #ACC0D8 1px;"></div>
+      <div class="row justify-content-evenly">
+        <% if @businesses != nil and @businesses.empty? == false%>   
+          <% @businesses.each do |business| %>
+            <div class="col-4"> 
+              <div class="card mb-3">
+                <img src=<%= business["image_url"]%> class="card-img-top" style="height:300px;object-fit:cover;">
+                <div class="card-body">
+                  <h5 class="card-title business"><%=link_to(business["name"], '/business/' + business["id"] ) %></h5>
+                  <div>
+                    <% business["categories"].each do |e| %>
+                      <p class="card-text" style="display:inline;">    
+                        <%= e["title"] %>              
+                      </p>
+                    <% end %>
+                  </div>
+                  <div>
+                    <% business["location"]["display_address"].each do |e| %>
+                      <p class="card-text" style="display:inline;">    
+                        <%= e %>              
+                      </p>
+                    <% end %>
+                  </div>
+                  <p class="card-text"><%= business["display_phone"] %></p>
+                  <p class="card-text"><%= business["rating"] %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
     </div>
 <% end %>
 
 
 
+<footer class="py-5" style="margin-top:100px; background-color:rgb(0,0,0,0.7)">
+    <div class="container">
+      <p class="m-0 text-center text-white small">Copyright &copy; Pokemon Eat 2021</p>
+    </div>
+</footer>
 
-<div class="container" >
-  <div class="row justify-content-evenly">
-    <button type="button" class="btn btn-primary" style="margin-left:10px;">
-      <%= link_to "Back to home page", "/home"%>
-    </button> 
-  </div>
-</div>
+
+
 
 
 
