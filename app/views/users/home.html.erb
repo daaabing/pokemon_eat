@@ -144,7 +144,7 @@
               align-items: center; 
               justify-content: center;">Popular Events Near <%=@user.hometown %></h3>
   <div style="height:1px; border-top: solid #ACC0D8 1px;"></div>
-  <div class="vw-50" style="margin-top:5px; width:100%;">
+  <div class="vw-50" style="margin-top:5px; width:100%; ">
       <div class="card text-center" style="border:0px;">
         <div class="card-body">
           <h4 class="card-text">Find out events near you!</h4>
@@ -154,7 +154,7 @@
             <%= form.text_field :location, :id => 'event_location', :class=>"form-control insert-location", :style=>"display:inline; width:50%;"%>
           </div>
           <div style="display:inline;">
-            <%= form.submit "Go" , :class=>"btn btn-primary" %>
+            <%= form.submit "Go" , :class=>"btn", :style=>"color:back background-color:#fffefefa"%>
           </div>
           <% end %>
         </div>
@@ -165,7 +165,7 @@
         <% @events.each do |event| %>
           <div class="col-4"> 
             <div class="card mb-3" style="height:500px;">
-              <img src=<%= event["image_url"]%> class="card-img-top" style="overflow:hidden;" alt="/assets/yelp.jpeg">
+              <img src=<%= event["image_url"]%> class="card-img-top" style="overflow:hidden; max-height:300px;" alt="/assets/yelp.jpeg">
               <div class="card-body">
                 <h5 class="card-title business"><%=link_to(event["name"], '/event/' + event["id"].to_s ) %></h5>
                 <div>

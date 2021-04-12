@@ -25,6 +25,13 @@ class UsersController < ApplicationController
   def landing
   end
 
+  def question
+    @user = load_user()
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    @user_background_url = '/assets/user-background-' + rand(@@USER_BACKGROUND_SIZE).to_s + '.jpg'
+    render "question"
+  end
+
   def home
     #Collect all necessary data and show them on home page.
     #This is the center of our app, so it should only serve for data displaying purpose.
@@ -234,6 +241,15 @@ class UsersController < ApplicationController
     @nick_name = params[:nick_name]
     @hometown = params[:hometown]
     @signup_errors = []
+
+    if @nick_name == ""
+      @signup_errors.push("Nick Name can not be Empty!")
+    end 
+
+    if @hometown == ""
+      @signup_errors.push("Location can not be Empty!")
+    end
+
     if @email == ""
       @signup_errors.push("Email is empty")
     end
@@ -260,7 +276,7 @@ class UsersController < ApplicationController
       @new_user = User.create(email: @email, password_digest: @password, nick_name: @nick_name, hometown: @hometown)
       @new_user.save()
       store_user(@new_user.id) # If he successfully signed up, and we store his user_id into session.
-      redirect_to "/home"
+      redirect_to "/question"
     end
   end
 
@@ -271,9 +287,17 @@ class UsersController < ApplicationController
     #Right after user successfully signed up, he will be directed to a simple food question page
     #so that we can store his food preference.
     #He can edit his food preference in the future on his user profile page.
-    @user = User.find(params[:id])
-    @user.food_preference = params[:food_preference]
-    @user.save
+    @user = load_user
+    pre_food_preference = ["Chinese", "Korean", "Sushi", "Japanese", "Pizza", "Seafood"]
+    pre_food_preference.each do |p|
+      puts p
+      if params.has_key?(p) == true
+        update_user_food_pre([p], @user.id.to_s)
+      end
+    end
+    puts "****** params ********"
+    puts params
+    puts "**********************"
     redirect_to "/home"
   end
 
@@ -284,6 +308,7 @@ class UsersController < ApplicationController
     @visitor = load_user
     @user_id = params[:user_id]
     @user = User.find_by_id(@user_id) #big difference 
+    @other_avatar_url = '/assets/' + @@USER_AVATAR[@visitor.id % @@USER_AVATAR.length] + '.png'
     @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
     #User's reviews
     @reviews = Review.get_user_reviews(@user.id)
@@ -429,6 +454,16 @@ class UsersController < ApplicationController
         return event
       else
         return nil
+      end
+    end
+
+    def update_user_food_pre(category, user_id)
+      if $redis.hexists(user_id, category)
+        cur_freq = $redis.hget(user_id, category)
+        new_freq = (cur_freq.to_i + 1).to_s
+        $redis.hset(user_id, category, new_freq)
+      else
+        $redis.hset(user_id, category, "1")
       end
     end
 end

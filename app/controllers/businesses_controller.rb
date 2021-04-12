@@ -52,6 +52,8 @@ class BusinessesController < ApplicationController
   def get_event_list
     #Show the event list page after searching one location's popular events.
     @user = load_user
+    @avatar_url = '/assets/' + @@USER_AVATAR[@user.id % @@USER_AVATAR.length] + '.png'
+    @event_background_url = '/assets/event-' + rand(@@EVENT_BACKGROUND_SIZE).to_s + '.jpg'
     @LOCATION = ""
     if params[:location].present?
       @LOCATION = params[:location]
