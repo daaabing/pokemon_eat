@@ -29,6 +29,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 #For data visualization
 gem "chartkick"
 
+gem 'redis'
+
 
 #redis for recommendation
 gem 'redis'
