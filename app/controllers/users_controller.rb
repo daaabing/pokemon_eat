@@ -298,9 +298,6 @@ class UsersController < ApplicationController
         update_user_food_pre([p], @user.id.to_s)
       end
     end
-    puts "****** params ********"
-    puts params
-    puts "**********************"
     redirect_to "/home"
   end
 
@@ -432,7 +429,9 @@ class UsersController < ApplicationController
     end
 
     def redis_set_business(business_id, business)
-      $redis.set(business_id, business.to_json)
+      if business.include?("error") == false
+        $redis.set(business_id, business.to_json)
+      end
     end
 
     def redis_get_business(business_id)
@@ -446,7 +445,9 @@ class UsersController < ApplicationController
     end
 
     def redis_set_event(event_id, event)
-      $redis.set(event_id, event.to_json)
+      if event.include?("error") == false
+        $redis.set(event_id, event.to_json)
+      end
     end
 
     def redis_get_event(event_id)
