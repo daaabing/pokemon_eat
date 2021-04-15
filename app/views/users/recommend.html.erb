@@ -62,7 +62,7 @@
       <h1 style="margin-top:30px;">Here's What We Find Out</h1>
       <div style="margin-top:5px; margin-bottom:5px;height:1px; border-top:solid #ACC0D8 1px;"></div>
       <div class="row justify-content-evenly">
-        <% if @businesses != nil and @businesses.empty? == false%>   
+        <% if @businesses != nil and @businesses.empty? == false and @businesses.include?("error") == false%>   
           <% @businesses.each do |business| %>
             <div class="col-4"> 
               <div class="card mb-3">

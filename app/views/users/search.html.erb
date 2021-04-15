@@ -54,7 +54,7 @@
 
 <% if @search_error != nil %>
     <p><%= @search_error %></p>
-<% elsif @businesses != nil and @businesses.empty? == false%>
+<% elsif @businesses != nil and @businesses.empty? == false and @businesses.include?("error") == false%>
     <div class="container" style="margin-top:50px;" >
       <div class="row justify-content-evenly">
         <% if @businesses != nil and @businesses.empty? == false%>   

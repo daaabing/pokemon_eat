@@ -52,6 +52,9 @@ class UsersController < ApplicationController
       @options.append(o["option"])
     end
     @businesses = yelp_business_search("", @user.hometown, 9)
+    puts "***********"
+    puts @businesses
+    puts "***********"
     @user_reviews = []
     if @user != nil
       @user_reviews = Review.get_user_reviews(@user.id)
@@ -301,8 +304,7 @@ class UsersController < ApplicationController
     redirect_to "/home"
   end
 
-  # def show_liked_res
-  # end
+  
 
   def show_other_user
     @visitor = load_user
