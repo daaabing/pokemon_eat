@@ -11,8 +11,8 @@ Background: users in database
   | heyunong1223@gmail.com       | 1               | 1              |                 |
 
     Scenario: Search with term and location
-        Given I am on "Home" page
-        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        Given I am on "Welcome" page
+        And I fill in "Email" for login with "zhengchuan@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
         And I fill in "Category" with "chinese"
@@ -21,8 +21,8 @@ Background: users in database
         Then I should see "Searching Restaurants"
 
     Scenario: Search without location
-        Given I am on "Home" page
-        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        Given I am on "Welcome" page
+        And I fill in "Email" for login with "zhengchuan@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
         And I fill in "Category" with "chinese"
@@ -30,8 +30,8 @@ Background: users in database
         Then I should see "location can not be empty"
 
     Scenario: Search without term
-        Given I am on "Home" page
-        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        Given I am on "Welcome" page
+        And I fill in "Email" for login with "zhengchuan@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
         And I fill in "Nearby" with "New York"
@@ -39,10 +39,10 @@ Background: users in database
         Then I should see "Searching Restaurants"
 
     Scenario: Search event
-        Given I am on "Home" page
-        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        Given I am on "Welcome" page
+        And I fill in "Email" for login with "zhengchuan@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
-        And I fill in "Nearby" with "New York"
-        And I press "Look"
-        Then I should see "Events Around You"
+        And I fill in "Location" with "New York"
+        And I press "Go"
+        Then I should see "Trending Events"

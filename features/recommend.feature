@@ -11,8 +11,8 @@ Background: users in database
   | heyunong1223@gmail.com       | 1               | 1              |                 |
 
     Scenario: Recommend with fun question and location and he will get on restaurtant detail page
-        Given I am on "Home" page
-        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        Given I am on "Welcome" page
+        And I fill in "Email" for login with "zhengchuan@gmail.com"
         And I fill in "Password" for login with "1"
         And I press "Login"
         And I press "Recommend"
@@ -21,8 +21,8 @@ Background: users in database
         Then I should see "Recommendation"
 
     Scenario: Recommend without location and he will get error message
-        Given I am on "Home" page
-        And I fill in "Email" for login with "zhengchuan000@gmail.com"
+        Given I am on "Welcome" page
+        And I fill in "Email" for login with "zhengchuan@gmail.com"
         And I fill in "Password" for login with "1"
         And I press "Login"
         And I press "Recommend"
