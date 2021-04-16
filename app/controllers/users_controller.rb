@@ -43,18 +43,18 @@ class UsersController < ApplicationController
     #So we store it in a class varible
     #because every request(like GET '/home', to "users#home") will make rails to create a new instance of UserController.
     @@QUESTION_ID = Question.generate_question.id  
-    puts "**********"
-    puts @@QUESTION_ID
-    puts "**********"
+    # puts "**********"
+    # puts @@QUESTION_ID
+    # puts "**********"
     @question = load_question(@@QUESTION_ID)
     @options = []
     for o in @question.options do
       @options.append(o["option"])
     end
     @businesses = yelp_business_search("", @user.hometown, 9)
-    puts "***********"
-    puts @businesses
-    puts "***********"
+    # puts "***********"
+    # puts @businesses
+    # puts "***********"
     @user_reviews = []
     if @user != nil
       @user_reviews = Review.get_user_reviews(@user.id)

@@ -22,14 +22,14 @@ gem 'bcrypt', '~> 3.1.7'
 gem "http" 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-# gem 'wdm', '~> 0.1.0'
+gem 'wdm', '~> 0.1.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
 #For data visualization
 gem "chartkick"
 
-gem 'redis'
+# gem 'redis'
 
 
 #redis for recommendation
