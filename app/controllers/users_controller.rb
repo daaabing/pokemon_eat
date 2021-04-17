@@ -205,8 +205,8 @@ class UsersController < ApplicationController
     #User only need to login with email and password.
     #No other information is needed.
     #We want to keep this simple and focus on feature development on our project first.
-    @email = params[:email]
-    @password = params[:password]
+    @email = params[:login_email]
+    @password = params[:login_password]
     @user = User.find_by(email: @email)
     @login_errors = []
     if @email == ""

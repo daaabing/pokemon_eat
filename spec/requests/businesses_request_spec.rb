@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Businesses", type: :request do
     before(:each) do
         @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
-        post "/login", :params => {:email => 'test122@gmail.com', :password =>'test' }
+        post "/login", :params => {:login_email => 'test122@gmail.com', :login_password =>'test' }
     end
 
     it "check get on restaurant detail page successfully" do
