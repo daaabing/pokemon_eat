@@ -218,13 +218,17 @@ RSpec.describe "check user profile function", type: :request do
   end
 end
 
-describe "the signin process", type: :feature do
+describe "User Profile", type: :feature do
   before :each do
     @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui')
     @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui')
-    @review = Review.create!(user_id:@user_new.id, business_id:1, review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    @review = Review.create!(user_id:@user_new.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
     @like = Like.create!(user_id:@user_new.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
-    @friend = Friend.create!(user_id:@user_new.id, friend_id:@user_new1.id, created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Review.create!(user_id:@user_new1.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Like.create!(user_id:@user_new1.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    BookedEvent.create!(user_id:@user_new1.id, event_id:"new-york-yelps-10th-burstday", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Friend.create!(user_id:@user_new.id, friend_id:@user_new1.id, created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Friend.create!(user_id:@user_new1.id, friend_id:@user_new.id, created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
     @event = BookedEvent.create!(user_id:@user_new.id, event_id:"new-york-yelps-10th-burstday", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
     visit '/welcome'
     fill_in 'login_email', with: 'test12223@gmail.com'
@@ -242,18 +246,128 @@ describe "the signin process", type: :feature do
     expect(page).to have_content 'name1'
   end
 
-  it "check four nav-bar links" do
+  it "check reviews nav-bar links" do
     visit '/user'
     click_on('My Reviews')
     expect(page).to have_content 'Good!'
+  end
+
+  it "check Starred Restaurants nav-bar links" do
+    visit '/user'
     click_on('Starred Restaurants')
     expect(page).to have_content 'Levain Bakery'
+    expect(page).to have_content 'Visit the restaurant'
+    click_on('Visit the restaurant')
+    expect(page).to have_content 'Thumbs Up'
+  end
+
+  it "check events nav-bar links" do
+    visit '/user'
     click_on('Booked Events')
     expect(page).to have_content '10th Burstday!'
     click_on('Following')
-    expect(page).to have_content 'Rui'
+    expect(page).to have_content 'Visit the event'
+    click_on('Visit the event')
+    expect(page).to have_content 'Quick Info'
+  end
+
+  it "check following nav-bar links" do
+    visit '/user'
+    click_on('Following')
+    expect(page).to have_content 'Visit this user'
+    click_on('Visit this user')
+    expect(page).to have_content 'Follow this user'
+    click_button 'Follow this user'
+    expect(page).to have_content 'Follow this user'
+  end
+
+  it "check reviews nav-bar links" do
+    visit '/user'
+    click_on('Log Out')
+    expect(page).to have_content 'Boost up your daily food choices'
   end
 end
 
+describe "Other user page", type: :feature do
+  before :each do
+    @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui')
+    @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui')
+    @review = Review.create!(user_id:@user_new.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    @like = Like.create!(user_id:@user_new.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Review.create!(user_id:@user_new1.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Like.create!(user_id:@user_new1.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    BookedEvent.create!(user_id:@user_new1.id, event_id:"new-york-yelps-10th-burstday", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Friend.create!(user_id:@user_new.id, friend_id:@user_new1.id, created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Friend.create!(user_id:@user_new1.id, friend_id:@user_new.id, created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    @event = BookedEvent.create!(user_id:@user_new.id, event_id:"new-york-yelps-10th-burstday", created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    visit '/welcome'
+    fill_in 'login_email', with: 'test12223@gmail.com'
+    fill_in 'login_password', with: 'test'
+    click_button 'Login'
+    visit '/user'
+    click_on('Following')
+    expect(page).to have_content 'Visit this user'
+    click_on('Visit this user')
+  end
 
+  it "check reviews nav-bar links" do
+    click_on('My Reviews')
+    expect(page).to have_content 'Good!'
+  end
 
+  it "check Starred Restaurants nav-bar links" do
+    click_on('Starred Restaurants')
+    expect(page).to have_content 'Levain Bakery'
+    expect(page).to have_content 'Visit the restaurant'
+    click_on('Visit the restaurant')
+    expect(page).to have_content 'Thumbs Up'
+  end
+
+  it "check events nav-bar links" do
+    click_on('Booked Events')
+    expect(page).to have_content '10th Burstday!'
+    click_on('Following')
+    expect(page).to have_content 'Visit the event'
+    click_on('Visit the event')
+    expect(page).to have_content 'Quick Info'
+  end
+
+  it "check following nav-bar links" do
+    click_on('Following')
+    expect(page).to have_content 'Back to My Page'
+    click_on('Back to My Page')
+    expect(page).to have_content 'Edit'
+  end
+
+end
+
+describe "follow users", type: :feature do
+  before :each do
+    @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown:'New York')
+    @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui', hometown:'New York')
+    Review.create!(user_id:@user_new.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Review.create!(user_id:@user_new1.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    visit '/welcome'
+    fill_in 'login_email', with: 'test12223@gmail.com'
+    fill_in 'login_password', with: 'test'
+    click_button 'Login'
+  end
+
+  it "check preference" do
+    click_on('Levain Bakery')
+    expect(page).to have_content 'Thumbs Up'
+    click_button 'Thumbs Up'
+    expect(page).to have_content 'Levain Bakery'
+  end
+
+  it "check review" do
+    click_on('Levain Bakery')
+    expect(page).to have_content 'Thumbs Up'
+    click_button 'Write a Review'
+    expect(page).to have_content 'Write up Your Reivew'
+    fill_in 'review', with: 'Good!'
+    click_button 'Post'
+    expect(page).to have_content 'Good!'
+  end
+
+end

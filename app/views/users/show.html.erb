@@ -148,7 +148,7 @@
                           <%= l["display_phone"]%>
                         </p>
                         <div>
-                          <a href=<%= "/business/" + l['id']%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit</a>
+                          <a href=<%= "/business/" + l['id']%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit the restaurant</a>
                         </div>
                       </div>
                     </div>
@@ -170,7 +170,7 @@
                         <h5 style="margin:0px; font-size:18px;">
                           <%= e["location"]["address1"]%>
                         </h5>
-                        <a href=<%= "/event/" + e['id']%> class="btn btn-primary" style="margin-top:auto; margin-left:auto; color:white;">Visit</a>
+                        <a href=<%= "/event/" + e['id']%> class="btn btn-primary" style="margin-top:auto; margin-left:auto; color:white;">Visit the event</a>
                       </div>
                     </div>
                   <% end %>
@@ -187,7 +187,7 @@
                         <h3><%= f[0].nick_name%></h3>
                         <h5><%= f[0].hometown%></h5>
                         <div>
-                          <a href=<%= "/other_user/"+f[0].id.to_s%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit</a>
+                          <a href=<%= "/other_user/"+f[0].id.to_s%> class="btn btn-primary" style="margin-left:auto; color:white;">Visit this user</a>
                         </div>
                       </div>
                     </div>
