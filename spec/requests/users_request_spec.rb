@@ -214,7 +214,7 @@ RSpec.describe "check user profile function", type: :request do
   end
 end
 
-describe "User Profile", type: :feature do
+RSpec.describe "User Profile", type: :feature do
   before :each do
     @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui')
     @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui')
@@ -284,7 +284,7 @@ describe "User Profile", type: :feature do
   end
 end
 
-describe "Other user page", type: :feature do
+RSpec.describe "Other user page", type: :feature do
   before :each do
     @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui')
     @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui')
@@ -337,7 +337,7 @@ describe "Other user page", type: :feature do
 
 end
 
-describe "follow users", type: :feature do
+RSpec.describe "follow users", type: :feature do
   before :each do
     @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown: "New York")
     @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui1', hometown: "New York")
@@ -378,6 +378,7 @@ describe "follow users", type: :feature do
     expect(page).to have_content 'Follow this user'
     Friend.create!(user_id:@user_new.id, friend_id:@user_new2.id, created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
     click_button 'Follow this user'
+    expect(page).to have_content 'XXX'
   end
 
   it "check nil" do
@@ -387,7 +388,7 @@ describe "follow users", type: :feature do
 
 end
 
-describe "register events and thumb up restaurants", type: :request do
+RSpec.describe "register events and thumb up restaurants", type: :request do
   before(:each) do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test', hometown: "New York")
     post "/login", :params => {:login_email => 'test122@gmail.com', :login_password =>'test' }
@@ -410,7 +411,7 @@ describe "register events and thumb up restaurants", type: :request do
 
 end
 
-describe "select preference&update questions", type: :feature do
+RSpec.describe "select preference&update questions", type: :feature do
   before :each do
     @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown: "New York")
     visit '/welcome'
@@ -426,7 +427,7 @@ describe "select preference&update questions", type: :feature do
   end
 end
 
-describe "Search and register Events", type: :feature do
+RSpec.describe "Search and register Events", type: :feature do
   before :each do
     @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown: "New York")
     visit '/welcome'
@@ -447,4 +448,20 @@ describe "Search and register Events", type: :feature do
     click_button 'Register Now'
     expect(page).to have_content'Quick Info'
   end
+end
+
+RSpec.describe "follow users", type: :request do
+  before(:each) do
+    @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test', nick_name:'Rui')
+    @user_new1 = User.create!(email: 'test122345@gmail.com', password_digest: 'test', nick_name:'Rui')
+    post "/login", :params => {:login_email => 'test122@gmail.com', :login_password =>'test' }
+    get '/user'
+  end
+
+  it "check follow users" do
+    get '/follow_user/' + @user_new1.id.to_s
+    get '/other_user/' + @user_new1.id.to_s
+    expect(response.body).to include "Rui"
+  end
+
 end
