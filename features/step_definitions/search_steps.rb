@@ -22,9 +22,17 @@ When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   end
 end
 
-
+<a href="/" class="btn btn-primary" style="display:inline; color:white;">Log Out</a>
 When /^(?:|I )follow "([^"]*)"$/ do |link|
-  click_link(link)
+  begin
+    click_link(link)
+  rescue
+    if link == 'Log Out'
+      click_link(link, href: '/')
+    elsif link == 'POKEMON EAT'
+      click_link(link, href: '/home')
+    end
+  end
 end
 
 

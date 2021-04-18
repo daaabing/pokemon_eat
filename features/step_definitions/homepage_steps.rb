@@ -4,8 +4,8 @@ Given('the following users exist:') do |table|
     end 
   end
 
-When /^I am on the page of "(.*)"$/ do |page_name|
-    visit '/users'
+When /^I am on the page of myself$/ do
+    visit '/user'
 end
 
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|

@@ -16,9 +16,9 @@ Background: users in database
       And I fill in "Password" for login with "1"
       Then I press "Login"
       And the food preference of "zhengchuan000@gmail.com" should be "chinese"
-      Then I follow "zhengchuan000@gmail.com"
+      Then I am on the page of myself
       Then I follow "Log out"
-      Then I should see "Welcome to Pokemon Eat!"
+      Then I should see "Boost up your daily food choices"
 
   Scenario: Log in successfully
       Given I am on "Welcome" page
@@ -26,8 +26,8 @@ Background: users in database
       And I fill in "Password" for login with "1"
       Then I press "Login"
       And the food preference of "zhengchuan000@gmail.com" should be "chinese"
-      Then I follow "zhengchuan@gmail.com"
-      Then I should see "User Profile"
+      Then I am on the page of myself
+      Then I should see "My Reviews"
 
   #The scenarios above and below prove that our session works correctly
 
@@ -37,9 +37,7 @@ Background: users in database
       And I fill in "Password" for login with "1"
       Then I press "Login"
       And the food preference of "hzwang@ucdavis.edu" should be "korean"
-      Then I follow "hzwang@ucdavis.edu"
-      Then I follow "Back to home page"
-      Then I should see "Get restaurant based on your preference!"
+      Then I am on the page of myself
 
     Scenario: A user can go to restaurant detail page
       Given I am on "Welcome" page
@@ -59,12 +57,10 @@ Background: users in database
       Then I should see "Trending Restaurants"
       When I follow "Levain Bakery"
       Then I should see "Write a Review"
-      Then I should see "Back to home page"
-      Then I follow "Write a Review"
-      Then I should see "You are in Review"
+      Then I press "Write a Review"
+      Then I should see "Write up Your Review"
       When I fill in "review" with "fantastic"
       Then I press "Post"
-      Then I should see "From user:"
       Then I should see "fantastic"
 
 
@@ -75,6 +71,5 @@ Background: users in database
       Then I press "Login"
       Then I should see "Trending Restaurants"
       When I follow "Levain Bakery"
-      Then I should see "Back to home page"
-      Then I follow "Back to home page"
+      Then I follow "POKEMON EAT"
       Then I should see "Trending Restaurants"
