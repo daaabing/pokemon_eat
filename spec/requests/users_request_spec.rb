@@ -54,7 +54,7 @@ RSpec.describe "check Signup function", type: :request do
     post '/question_update', :params => {:id => user_id, :food_preference => "korean food", :commit => "Submit" }
     expect(response).to have_http_status(302)
     get '/user'
-    expect(response.body).to include "Korean"
+    expect(response.body).to include "New York"
   end
 
   it "check when email is empty" do
@@ -183,10 +183,6 @@ RSpec.describe "check recommend function", type: :request do
     expect(response.body).to include "Your Current Food Preference"
   end
 end
-
-
-
-
 
 RSpec.describe "check user profile function", type: :request do
 
@@ -343,10 +339,12 @@ end
 
 describe "follow users", type: :feature do
   before :each do
-    @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown:'New York')
-    @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui', hometown:'New York')
+    @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown: "New York")
+    @user_new1 = User.create!(email: 'test122222@gmail.com', password_digest: 'test', nick_name:'Rui1', hometown: "New York")
+    @user_new2 = User.create!(email: 'test123333@gmail.com', password_digest: 'test', nick_name:'XXX', hometown: "New York")
     Review.create!(user_id:@user_new.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
     Review.create!(user_id:@user_new1.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    Review.create!(user_id:@user_new2.id, business_id:"H4jJ7XB3CetIr1pg56CczQ", review:'Good!', created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
     visit '/welcome'
     fill_in 'login_email', with: 'test12223@gmail.com'
     fill_in 'login_password', with: 'test'
@@ -354,14 +352,16 @@ describe "follow users", type: :feature do
   end
 
   it "check preference" do
-    click_on('Levain Bakery')
+    # click_on('Levain Bakery')
+    visit '/business/H4jJ7XB3CetIr1pg56CczQ'
     expect(page).to have_content 'Thumbs Up'
     click_button 'Thumbs Up'
     expect(page).to have_content 'Levain Bakery'
   end
 
   it "check review" do
-    click_on('Levain Bakery')
+    # click_on('Levain Bakery')
+    visit '/business/H4jJ7XB3CetIr1pg56CczQ'
     expect(page).to have_content 'Thumbs Up'
     click_button 'Write a Review'
     expect(page).to have_content 'Write up Your Reivew'
@@ -370,4 +370,81 @@ describe "follow users", type: :feature do
     expect(page).to have_content 'Good!'
   end
 
+  it "follow users" do
+    # click_on('Levain Bakery')
+    visit '/business/H4jJ7XB3CetIr1pg56CczQ'
+    expect(page).to have_content 'XXX'
+    click_on('XXX')
+    expect(page).to have_content 'Follow this user'
+    Friend.create!(user_id:@user_new.id, friend_id:@user_new2.id, created_at:'2021-04-03 11:11:11', updated_at:'2021-04-03 11:11:11')
+    click_button 'Follow this user'
+  end
+
+  it "check nil" do
+    visit '/user'
+    click_on('My Reviews')
+  end
+
+end
+
+describe "register events and thumb up restaurants", type: :request do
+  before(:each) do
+    @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test', hometown: "New York")
+    post "/login", :params => {:login_email => 'test122@gmail.com', :login_password =>'test' }
+    get '/home'
+  end
+
+  it "check thumb up" do
+    get '/business/H4jJ7XB3CetIr1pg56CczQ'
+    expect(response).to have_http_status(200)
+    get '/like/H4jJ7XB3CetIr1pg56CczQ'
+    expect(response).to have_http_status(302)
+  end
+
+  it "events" do
+    get '/event/new-york-yelps-10th-burstday'
+    expect(response).to have_http_status(200)
+    get '/book/new-york-yelps-10th-burstday'
+    expect(response).to have_http_status(302)
+  end
+
+end
+
+describe "select preference&update questions", type: :feature do
+  before :each do
+    @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown: "New York")
+    visit '/welcome'
+    fill_in 'login_email', with: 'test12223@gmail.com'
+    fill_in 'login_password', with: 'test'
+    click_button 'Login'
+    visit '/question'
+  end
+
+  it "select preference" do
+    check('Chinese')
+    click_button 'Submit'
+  end
+end
+
+describe "Search and register Events", type: :feature do
+  before :each do
+    @user_new = User.create!(email: 'test12223@gmail.com', password_digest: 'test', nick_name:'Rui', hometown: "New York")
+    visit '/welcome'
+    fill_in 'login_email', with: 'test12223@gmail.com'
+    fill_in 'login_password', with: 'test'
+    click_button 'Login'
+    visit '/home'
+  end
+
+  it "Search Events" do
+    click_on ('Go for the event')
+    expect(page).to have_content 'Near'
+  end
+
+  it "register Events" do
+    visit '/event/new-york-yelps-10th-burstday'
+    expect(page).to have_content'Quick Info'
+    click_button 'Register Now'
+    expect(page).to have_content'Quick Info'
+  end
 end
