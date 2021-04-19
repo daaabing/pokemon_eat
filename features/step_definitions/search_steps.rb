@@ -10,7 +10,7 @@ end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   if field == "Find Cuisine"
-    page.fill_in(with => value, id: "search_term", class: ['form-control'])
+      fill_in('term', :with => value, id: "search_term")
   elsif field == "Nearby"
       fill_in(:with => value, id: "search_location")
   elsif field == "Location:"
@@ -44,7 +44,7 @@ When /^(?:|I )press "(.*)"$/ do |button|
   elsif button == 'Recommend:'
     click_button('Recommend',class: ['btn btn-primary'])
   elsif button == 'Go for the event'
-    click_button(button,class: ['btn btn-primary'],disabled: true)
+    click_button(button,class: ['btn btn-primary'])
   else
     click_button(button)
   end
