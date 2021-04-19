@@ -72,9 +72,6 @@ class BusinessesController < ApplicationController
     @event_background_url = '/assets/event-' + rand(@@EVENT_BACKGROUND_SIZE).to_s + '.jpg'
     @event_id = params[:id]
     @event = yelp_event_lookup(@event_id)
-    # puts "***********"
-    # puts @event
-    # puts "***********"
     render "event"
   end
 

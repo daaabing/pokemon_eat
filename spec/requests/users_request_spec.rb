@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 
-
-RSpec.describe "check login function", type: :request do
+RSpec.describe "User Login", type: :request do
 
   it "check login successfully" do
     get '/'
@@ -42,7 +41,7 @@ end
 
 
 
-RSpec.describe "check Signup function", type: :request do
+RSpec.describe "User Sign Up", type: :request do
 
   it "check signup successfully" do
     get '/'
@@ -57,7 +56,7 @@ RSpec.describe "check Signup function", type: :request do
     expect(response.body).to include "New York"
   end
 
-  it "check when email is empty" do
+  it "check when Email is empty" do
     get '/'
     post signup_path, :params => {:email => '', :password =>'1', :re_password => '1' }
     expect(response.body).to include "Email is empty"
@@ -102,7 +101,7 @@ end
 
 
 
-RSpec.describe "check search function", type: :request do
+RSpec.describe "Search", type: :request do
 
   before(:each) do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
@@ -140,7 +139,7 @@ end
 
 
 
-RSpec.describe "check home page information is correct", type: :request do
+RSpec.describe "Home page shows user's reviews", type: :request do
 
   it "check home page has user's previous reviews successfully" do
     get '/'
@@ -165,7 +164,7 @@ end
 
 
 
-RSpec.describe "check recommend function", type: :request do
+RSpec.describe "Recommend", type: :request do
 
   before(:each) do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test')
@@ -184,8 +183,12 @@ RSpec.describe "check recommend function", type: :request do
   end
 end
 
-RSpec.describe "check user profile function", type: :request do
 
+
+
+
+
+RSpec.describe "check user profile function", type: :request do
   before(:each) do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test', nick_name:'Rui')
     post "/login", :params => {:login_email => 'test122@gmail.com', :login_password =>'test' }
@@ -210,9 +213,12 @@ RSpec.describe "check user profile function", type: :request do
     expect(response.body).to include "Rui"
     # find('.My-Reviews').click
     # click_button 'Edit'
-
   end
 end
+
+
+
+
 
 RSpec.describe "User Profile", type: :feature do
   before :each do

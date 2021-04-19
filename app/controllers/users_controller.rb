@@ -43,18 +43,12 @@ class UsersController < ApplicationController
     #So we store it in a class varible
     #because every request(like GET '/home', to "users#home") will make rails to create a new instance of UserController.
     @@QUESTION_ID = Question.generate_question.id  
-    # puts "**********"
-    # puts @@QUESTION_ID
-    # puts "**********"
     @question = load_question(@@QUESTION_ID)
     @options = []
     for o in @question.options do
       @options.append(o["option"])
     end
     @businesses = yelp_business_search("", @user.hometown, 9)
-    # puts "***********"
-    # puts @businesses
-    # puts "***********"
     @user_reviews = []
     if @user != nil
       @user_reviews = Review.get_user_reviews(@user.id)
@@ -293,7 +287,6 @@ class UsersController < ApplicationController
     @user = load_user
     pre_food_preference = ["Chinese", "Korean", "Sushi", "Japanese", "Pizza", "Seafood"]
     pre_food_preference.each do |p|
-      puts p
       if params.has_key?(p) == true
         update_user_food_pre([p], @user.id.to_s)
       end
@@ -439,22 +432,6 @@ class UsersController < ApplicationController
         business_json = $redis.get(business_id)
         business = JSON.parse(business_json)
         return business
-      else
-        return nil
-      end
-    end
-
-    def redis_set_event(event_id, event)
-      if event.include?("error") == false
-        $redis.set(event_id, event.to_json)
-      end
-    end
-
-    def redis_get_event(event_id)
-      if $redis.exists?(event_id)
-        event_json = $redis.get(event_id)
-        event = JSON.parse(event_json)
-        return event
       else
         return nil
       end
