@@ -12,19 +12,24 @@ Background: users in database
 
     Scenario: Recommend with fun question and location and he will get on restaurtant detail page
         Given I am on "Welcome" page
-        And I fill in "Email" for login with "zhengchuan@gmail.com"
+        And I fill in "Email" for login with "hzwang@ucdavis.edu"
         And I fill in "Password" for login with "1"
-        And I press "Login"
+        Then I press "Login"
+        When I follow "Levain Bakery"
+        And I press "Thumbs Up"
+        Then I am on the page of myself
+        Then I follow "POKEMON EAT"
         And I press "Recommend"
+        Then I should see "Pick one"
         And I fill in "Place:" with "50 W 108th St, New York, NY 10025-3243, United States"
         Then I press "Recommend:"
         Then I should see "Recommendation"
 
     Scenario: Recommend without location and he will get error message
         Given I am on "Welcome" page
-        And I fill in "Email" for login with "zhengchuan@gmail.com"
+        And I fill in "Email" for login with "hzwang@ucdavis.edu"
         And I fill in "Password" for login with "1"
-        And I press "Login"
+        Then I press "Login"
         And I press "Recommend"
         Then I press "Recommend:"
         Then I should see "location can not be empty!"

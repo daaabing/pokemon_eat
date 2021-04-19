@@ -44,5 +44,5 @@ Background: users in database
         And I fill in "Password" for login with "1"
         Then I press "Login"
         And I fill in "Location" with "New York"
-        And I press "Go"
+        And I press "Go for the event"
         Then I should see "Trending Events"

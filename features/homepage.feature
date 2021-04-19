@@ -17,8 +17,9 @@ Background: users in database
       Then I press "Login"
       And the food preference of "zhengchuan000@gmail.com" should be "chinese"
       Then I am on the page of myself
-      Then I follow "Log out"
-      Then I should see "Boost up your daily food choices"
+      Then I should see "Edit My Profile"
+      Then I follow "Log Out"
+      Then I should see "Choosing Between Restaurants is Hard"
 
   Scenario: Log in successfully
       Given I am on "Welcome" page
@@ -57,12 +58,11 @@ Background: users in database
       Then I should see "Trending Restaurants"
       When I follow "Levain Bakery"
       Then I should see "Write a Review"
+      And I press "Thumbs Up"
       Then I press "Write a Review"
-      Then I should see "Write up Your Review"
       When I fill in "review" with "fantastic"
       Then I press "Post"
       Then I should see "fantastic"
-
 
     Scenario: A user can go back to home page at reataurant detail page 
       Given I am on "Welcome" page

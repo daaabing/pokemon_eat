@@ -22,22 +22,30 @@ When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   end
 end
 
-<a href="/" class="btn btn-primary" style="display:inline; color:white;">Log Out</a>
 When /^(?:|I )follow "([^"]*)"$/ do |link|
   begin
     click_link(link)
   rescue
     if link == 'Log Out'
-      click_link(link, href: '/')
+      redirect_to '/'
     elsif link == 'POKEMON EAT'
-      click_link(link, href: '/home')
+      page.click_link('', :href => '/home')
     end
   end
 end
 
 
 When /^(?:|I )press "(.*)"$/ do |button|
-  click_button(button)
+  
+  if button == 'Recommend'
+    click_button(button,class: ['btn btn-secondary'])
+  elsif button == 'Recommend:'
+    click_button('Recommend',class: ['btn btn-primary'])
+  elsif button == 'Go for the event'
+    click_button(button,class: ['btn btn-primary'],disabled: true)
+  else
+    click_button(button)
+  end
 end
 
 Then /^(?:|I )should see "(.*)"$/ do |text|
