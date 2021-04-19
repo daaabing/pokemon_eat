@@ -15,7 +15,7 @@ Background: users in database
         And I fill in "Email" for login with "zhengchuan@gmail.com"
         And I fill in "Password" for login with "1"
         Then I press "Login"
-        And I fill in "Category" with "chinese"
+        And I fill in "Find Cuisine" with "chinese"
         And I fill in "Nearby" with "New York"
         And I press "Go"
         Then I should see "Searching Restaurants"

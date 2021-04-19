@@ -9,8 +9,8 @@ Given /^I am on "(.*)" page$/ do |page_name|
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  if field == "Category"
-    fill_in(:with => value, id: "search_term")
+  if field == "Find Cuisine"
+    page.fill_in(with => value, id: "search_term", class: ['form-control'])
   elsif field == "Nearby"
       fill_in(:with => value, id: "search_location")
   elsif field == "Location:"
@@ -30,6 +30,8 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
       redirect_to '/'
     elsif link == 'POKEMON EAT'
       page.click_link('', :href => '/home')
+    elsif link == 'Chinese'
+      check(link)
     end
   end
 end

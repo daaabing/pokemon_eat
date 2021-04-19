@@ -21,7 +21,7 @@ Background: users in database
       Then I follow "Log Out"
       Then I should see "Choosing Between Restaurants is Hard"
 
-  Scenario: Log in successfully
+  Scenario: Log in successfully and see review
       Given I am on "Welcome" page
       And I fill in "Email" for login with "zhengchuan000@gmail.com"
       And I fill in "Password" for login with "1"
@@ -51,8 +51,9 @@ Background: users in database
       Then I should see "(917) 464-3769"
 
     Scenario: A user can write a review for a restaurant and it shows on this restaurant detail page
+    and a user can also like a restaurant, edit his profie and follow other user
       Given I am on "Welcome" page
-      And I fill in "Email" for login with "hzwang@ucdavis.edu"
+      And I fill in "Email" for login with "zhengchuan000@gmail.com"
       And I fill in "Password" for login with "1"
       Then I press "Login"
       Then I should see "Trending Restaurants"
@@ -63,6 +64,26 @@ Background: users in database
       When I fill in "review" with "fantastic"
       Then I press "Post"
       Then I should see "fantastic"
+
+      Then I am on the page of myself
+      And I should see "Levain Bakery"
+      Then I press "Edit"
+      And I fill in "Nick Name" with "Peter"
+      And I press "Save"
+      Then I should see "Peter"
+      Then I follow "Log Out"
+      Then I should see "Choosing Between Restaurants is Hard"
+
+      Given I am on "Welcome" page
+      And I fill in "Email" for login with "heyunong1223@gmail.com"
+      And I fill in "Password" for login with "1"
+      Then I press "Login"
+      When I follow "Levain Bakery"
+      And I press "Thumbs Up"
+      Then I should see "fantastic"
+      Then I should see "Peter"
+      And I follow "Peter"
+      And I press "Follow this user"
 
     Scenario: A user can go back to home page at reataurant detail page 
       Given I am on "Welcome" page

@@ -4,7 +4,7 @@
   <div style="width:60%; margin-left:20%;">
     <%= form_with(url: "/search/" + params[:id].to_s, method: :get, local: true) do |form| %>
       <div style="display:inline;">
-        <%= form.text_field :term, :id=>'search_term', :class=>"form-control", :style=>"display:inline; width:20%; border-radius:20px;", :placeholder=>"Find Cuisine"%>
+        <%= form.text_field :term, :id =>'search_term', :class=>"form-control", :style=>"display:inline; width:20%; border-radius:20px;", :placeholder=>"Find Cuisine"%>
       </div>
       <div style="display:inline;">
         <%= form.text_field :location, :id => 'search_location', :class=>"form-control insert-location", :style=>"display:inline; width:30%; border-radius:20px;", :placeholder=>"Near"%>
