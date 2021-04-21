@@ -12,19 +12,27 @@ Background: users in database
 
     Scenario: Recommend with fun question and location and he will get on restaurtant detail page
         Given I am on "Welcome" page
-        And I fill in "Email" for login with "zhengchuan@gmail.com"
-        And I fill in "Password" for login with "1"
-        And I press "Login"
+        And I fill in "Email" for signup with "123123@qq.com"
+        And I fill in "password" for signup with "!@#123"
+        And I fill in "re_password" with "!@#123"
+        And I fill in "hometown" with "New York"
+        And I fill in "nick_name" with "Julie"
+        Then I press "SignUp"
+        Then I should see "Pick Up Some Food"
+        And I follow "Chinese"
+        And I press "Submit"
+        And I should see "Get restaurant based on your preference!"
         And I press "Recommend"
+        Then I should see "Pick one"
         And I fill in "Place:" with "50 W 108th St, New York, NY 10025-3243, United States"
         Then I press "Recommend:"
-        Then I should see "Recommendation"
+        Then I should see "Here's What We Find Out"
 
     Scenario: Recommend without location and he will get error message
         Given I am on "Welcome" page
-        And I fill in "Email" for login with "zhengchuan@gmail.com"
+        And I fill in "Email" for login with "hzwang@ucdavis.edu"
         And I fill in "Password" for login with "1"
-        And I press "Login"
+        Then I press "Login"
         And I press "Recommend"
         Then I press "Recommend:"
         Then I should see "location can not be empty!"

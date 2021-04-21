@@ -1,5 +1,4 @@
 Feature: create a user profile
- 
   As a new user
   So that I can create my profile
 
@@ -21,7 +20,12 @@ Scenario: empty password
 Scenario: signed up successfully
     Given I am on "Welcome" page
     And I fill in "Email" for signup with "123123@qq.com"
-    And I fill in "Password:" for signup with "123"
-    And I fill in "Re-Password" with "123"
+    And I fill in "password" for signup with "!@#123"
+    And I fill in "re_password" with "!@#123"
+    And I fill in "hometown" with "New York"
+    And I fill in "nick_name" with "Julie"
     Then I press "SignUp"
-    Then I should see "Pokemon Eat"
+    Then I should see "Pick Up Some Food"
+    And I follow "Chinese"
+    And I press "Submit"
+    And I should see "Get restaurant based on your preference!"

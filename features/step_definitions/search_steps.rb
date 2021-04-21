@@ -9,8 +9,8 @@ Given /^I am on "(.*)" page$/ do |page_name|
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  if field == "Category"
-    fill_in(:with => value, id: "search_term")
+  if field == "Find Cuisine"
+      fill_in('term', :with => value, id: "search_term")
   elsif field == "Nearby"
       fill_in(:with => value, id: "search_location")
   elsif field == "Location:"
@@ -22,14 +22,32 @@ When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   end
 end
 
-
 When /^(?:|I )follow "([^"]*)"$/ do |link|
-  click_link(link)
+  begin
+    click_link(link)
+  rescue
+    if link == 'Log Out'
+      redirect_to '/'
+    elsif link == 'POKEMON EAT'
+      page.click_link('', :href => '/home')
+    elsif link == 'Chinese'
+      check(link)
+    end
+  end
 end
 
 
 When /^(?:|I )press "(.*)"$/ do |button|
-  click_button(button)
+  
+  if button == 'Recommend'
+    click_button(button,class: ['btn btn-secondary'])
+  elsif button == 'Recommend:'
+    click_button('Recommend',class: ['btn btn-primary'])
+  elsif button == 'Go for the event'
+    click_button(button,class: ['btn btn-primary'])
+  else
+    click_button(button)
+  end
 end
 
 Then /^(?:|I )should see "(.*)"$/ do |text|
