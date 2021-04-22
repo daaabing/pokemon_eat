@@ -48,9 +48,10 @@ RSpec.describe "User Sign Up", type: :request do
     post signup_path, :params => {:email => 'testsignup0@gmail.com', :password =>'1', :re_password => '1', nick_name: 'XXX', gender: 'male', age: 20, last_name: 'xx', first_name: 'xx', hometown: "New York" }
     expect(response).to have_http_status(302)
     user_id = User.find_by(email:'testsignup0@gmail.com').id.to_s
+    $redis.hdel(user_id, "Korean")
     get '/question'
     expect(response.body).to include "Pick Up Some Food"
-    post '/question_update', :params => {:id => user_id, :Korean => "1", :commit => "Submit" }
+    post '/question_update', :params => {:id => user_id, "Korean" => "1", :commit => "Submit" }
     expect(response).to have_http_status(302)
     get '/user'
     expect(response.body).to include "New York"
@@ -211,8 +212,6 @@ RSpec.describe "check user profile function", type: :request do
     get '/user'
     expect(response).to have_http_status(200) #check if Nickname is updated, other information is exactly the same.
     expect(response.body).to include "Rui"
-    # find('.My-Reviews').click
-    # click_button 'Edit'
   end
 end
 
@@ -399,6 +398,15 @@ RSpec.describe "register events and thumb up restaurants", type: :request do
     @user_new = User.create!(email: 'test122@gmail.com', password_digest: 'test', hometown: "New York")
     post "/login", :params => {:login_email => 'test122@gmail.com', :login_password =>'test' }
     get '/home'
+  end
+
+  it "check thumb up a restaurant, this will add a new category to user's food preference" do
+    $redis.del("1gXKzs-1EPxJ7gkHW6SDyg")
+    $redis.hdel(@user_new.id.to_s, "Bubble Tea")
+    get '/business/1gXKzs-1EPxJ7gkHW6SDyg'
+    expect(response).to have_http_status(200)
+    get '/like/1gXKzs-1EPxJ7gkHW6SDyg'
+    expect(response).to have_http_status(302)
   end
 
   it "check thumb up a restaurant, pre-cached in Redis" do
