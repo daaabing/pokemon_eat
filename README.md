@@ -1,10 +1,5 @@
 # Pokemon Eat - Smoothen your daily food decisions
 
-## How Recommendation Works
-At the very start of our project, we see that user food preference is a constantly changing data set, and it should be fast to read and write with flexible structure.
-So we implement the user food preference structure
-
-
 ### Core Package Versions 
   1. ruby --version == 2.6.6
   2. rails --version == 6.0.3.4
