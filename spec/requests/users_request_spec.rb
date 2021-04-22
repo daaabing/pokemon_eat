@@ -50,7 +50,7 @@ RSpec.describe "User Sign Up", type: :request do
     user_id = User.find_by(email:'testsignup0@gmail.com').id.to_s
     get '/question'
     expect(response.body).to include "Pick Up Some Food"
-    post '/question_update', :params => {:id => user_id, :food_preference => "korean food", :commit => "Submit" }
+    post '/question_update', :params => {:id => user_id, :Korean => "1", :commit => "Submit" }
     expect(response).to have_http_status(302)
     get '/user'
     expect(response.body).to include "New York"
@@ -401,17 +401,37 @@ RSpec.describe "register events and thumb up restaurants", type: :request do
     get '/home'
   end
 
-  it "check thumb up" do
+  it "check thumb up a restaurant, pre-cached in Redis" do
     get '/business/H4jJ7XB3CetIr1pg56CczQ'
     expect(response).to have_http_status(200)
+    get '/like/H4jJ7XB3CetIr1pg56CczQ'
+    business_json = $redis.get("H4jJ7XB3CetIr1pg56CczQ")
+    business = JSON.parse(business_json)
+    expect(response).to have_http_status(302)
+  end
+
+  it "check thumb up a restaurant, requesting from Yelp" do
+    get '/business/H4jJ7XB3CetIr1pg56CczQ'
+    expect(response).to have_http_status(200)
+    $redis.del("H4jJ7XB3CetIr1pg56CczQ")
     get '/like/H4jJ7XB3CetIr1pg56CczQ'
     expect(response).to have_http_status(302)
   end
 
-  it "events" do
+  it "check book an event, pre-cached in Redis" do
     get '/event/new-york-yelps-10th-burstday'
     expect(response).to have_http_status(200)
     get '/book/new-york-yelps-10th-burstday'
+    expect(response).to have_http_status(302)
+  end
+
+  it "check book an event, requesting from Yelp" do
+    $redis.del("new-york-yelps-10th-burstday")
+    get '/event/new-york-yelps-10th-burstday'
+    expect(response).to have_http_status(200)
+    get '/book/new-york-yelps-10th-burstday'
+    event_json = $redis.get("new-york-yelps-10th-burstday")
+    event = JSON.parse(event_json)
     expect(response).to have_http_status(302)
   end
 
@@ -469,5 +489,8 @@ RSpec.describe "follow users", type: :request do
     get '/other_user/' + @user_new1.id.to_s
     expect(response.body).to include "Rui"
   end
-
 end
+
+
+
+

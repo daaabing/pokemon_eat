@@ -391,12 +391,12 @@ class UsersController < ApplicationController
       business = redis_get_business(business_id)
       if business != nil #This business_id was cached before.
         return business
-      else
-        url = "#{@@API_HOST}#{@@SEARCH_PATH}#{business_id}"    #Calling Yelp business search end point
-        response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
-        business = JSON.parse(response.body)
-        redis_set_business(business_id, business)
-        return business
+      # else
+      #   url = "#{@@API_HOST}#{@@SEARCH_PATH}#{business_id}"    #Calling Yelp business search end point
+      #   response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
+      #   business = JSON.parse(response.body)
+      #   redis_set_business(business_id, business)
+      #   return business
       end
     end
 
@@ -421,11 +421,11 @@ class UsersController < ApplicationController
       return events
     end
 
-    def redis_set_business(business_id, business)
-      if business.include?("error") == false
-        $redis.set(business_id, business.to_json)
-      end
-    end
+    # def redis_set_business(business_id, business)
+    #   if business.include?("error") == false
+    #     $redis.set(business_id, business.to_json)
+    #   end
+    # end
 
     def redis_get_business(business_id)
       if $redis.exists?(business_id)
