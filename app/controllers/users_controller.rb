@@ -283,8 +283,8 @@ class UsersController < ApplicationController
   def question_update
     #Right after user successfully signed up, he will be directed to a simple food question page
     #so that we can store his food preference.
-    #He can edit his food preference in the future on his user profile page.
     @user = load_user
+    #People can choose one of the following food type to init his food preference
     pre_food_preference = ["Chinese", "Korean", "Sushi", "Japanese", "Pizza", "Seafood"]
     pre_food_preference.each do |p|
       if params.has_key?(p) == true
@@ -307,7 +307,7 @@ class UsersController < ApplicationController
     @reviews.each do |r|
       r.append(yelp_business_detail(r[1])["name"])
     end
-    #Liked Restaurant panel
+    #Liked Restaurant Panel
     @liked_res_ids = Like.get_user_res(@user.id)
     @liked_res = []
     @liked_res_ids.each do |liked_res_id|
@@ -391,12 +391,6 @@ class UsersController < ApplicationController
       business = redis_get_business(business_id)
       if business != nil #This business_id was cached before.
         return business
-      # else
-      #   url = "#{@@API_HOST}#{@@SEARCH_PATH}#{business_id}"    #Calling Yelp business search end point
-      #   response = HTTP.auth("Bearer #{@@API_KEY}").get(url)
-      #   business = JSON.parse(response.body)
-      #   redis_set_business(business_id, business)
-      #   return business
       end
     end
 
@@ -421,11 +415,7 @@ class UsersController < ApplicationController
       return events
     end
 
-    # def redis_set_business(business_id, business)
-    #   if business.include?("error") == false
-    #     $redis.set(business_id, business.to_json)
-    #   end
-    # end
+    
 
     def redis_get_business(business_id)
       if $redis.exists?(business_id)

@@ -76,6 +76,9 @@ class BusinessesController < ApplicationController
   end
 
   def like_res
+    #User can "thumbs up" a restaurant, this leads to the following changes:
+    #1. User will be able to view the restaurant he liked.
+    #2. User will update his food preference accordingly
     @user = load_user
     @business_id = params[:business_id]
     Like.like_this_res(@business_id, @user.id)
@@ -86,6 +89,7 @@ class BusinessesController < ApplicationController
   end
 
   def book_event
+    #User will be able to see the events he booked
     @user = load_user
     @event_id = params[:event_id]
     BookedEvent.book_this_event(@event_id, @user.id)
